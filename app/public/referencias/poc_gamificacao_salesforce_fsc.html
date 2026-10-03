@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>POC Gamificação Salesforce — Sinistro Auto</title>
+<style>
+:root{
+  --sf:#0176d3; --sf2:#0b5cab; --ink:#181818; --muted:#5f6a7d; --line:#d8dde6;
+  --bg:#f3f3f3; --white:#fff; --soft:#f7f9fb; --good:#2e844a; --warn:#fe9339; --bad:#ba0517;
+  --radius:12px; --shadow:0 2px 7px rgba(0,0,0,.10);
+}
+*{box-sizing:border-box} body{margin:0;font-family:Arial,Segoe UI,sans-serif;background:var(--bg);color:var(--ink)}
+.app{min-height:100vh}
+.global{height:48px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 18px;gap:16px}
+.logo{width:34px;height:24px;background:var(--sf);border-radius:18px 18px 12px 12px;color:#fff;display:grid;place-items:center;font-size:10px;font-weight:bold}
+.appname{font-size:15px;font-weight:700}.search{flex:1;max-width:560px}
+.search input{width:100%;height:32px;border:1px solid #c9cdd3;border-radius:6px;padding:0 12px;background:#fff}
+.actions{margin-left:auto;display:flex;gap:12px;color:#48607a;font-size:13px}
+.navbar{height:42px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 18px;gap:4px}
+.navitem{padding:11px 14px 9px;font-size:13px;color:#3e4b5b;cursor:pointer;border-bottom:3px solid transparent}
+.navitem.active{color:var(--sf2);font-weight:700;border-bottom-color:var(--sf)}
+.container{padding:18px;max-width:1500px;margin:auto}
+.page{display:none}.page.active{display:block}
+.pagehead{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
+.breadcrumb{font-size:12px;color:#6b7788;margin-bottom:5px}.title{font-size:22px;font-weight:700}
+.subtitle{font-size:13px;color:var(--muted);margin-top:4px}
+.btn{border:1px solid #c9cdd3;background:#fff;color:var(--sf2);border-radius:4px;padding:8px 13px;font-weight:700;font-size:12px;cursor:pointer}
+.btn.primary{background:var(--sf);border-color:var(--sf);color:#fff}
+.grid{display:grid;grid-template-columns:1fr 330px;gap:14px}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 1px 2px rgba(0,0,0,.04);overflow:hidden}
+.cardhead{padding:13px 15px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+.cardtitle{font-size:15px;font-weight:700}.cardbody{padding:15px}
+.hero{display:grid;grid-template-columns:1.6fr .8fr .8fr;gap:12px;margin-bottom:14px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:16px}
+.kpilabel{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
+.kpivalue{font-size:27px;font-weight:700;margin:6px 0}.kpihint{font-size:12px;color:var(--muted)}
+.progress{height:8px;background:#eef1f5;border-radius:8px;overflow:hidden;margin-top:12px}.progress span{display:block;height:100%;background:var(--sf);width:68%}
+.table{width:100%;border-collapse:collapse;font-size:13px}
+.table th{background:#f3f3f3;text-align:left;padding:9px;border-bottom:1px solid var(--line);color:#445468;font-size:12px}
+.table td{padding:10px 9px;border-bottom:1px solid #eef0f3;vertical-align:middle}
+.table tr:hover td{background:#f8fbfe}.link{color:var(--sf2);font-weight:700;cursor:pointer}
+.badge{display:inline-block;padding:4px 8px;border-radius:99px;font-size:11px;font-weight:700;background:#eef4fb;color:var(--sf2)}
+.badge.good{background:#e8f5ed;color:#22683b}.badge.warn{background:#fff3e7;color:#8a4b08}.badge.bad{background:#fdeaea;color:#8d1723}
+.priority{width:28px;height:28px;border-radius:50%;background:#eef4fb;color:var(--sf2);display:grid;place-items:center;font-weight:bold}
+.next{background:#f6fafe;border:1px solid #cfe3f7;border-left:4px solid var(--sf);border-radius:8px;padding:14px}
+.next b{color:#123b63}.next .why{font-size:12px;color:var(--muted);margin-top:4px}
+.mission{display:flex;gap:14px;align-items:center}.ring{width:72px;height:72px;border-radius:50%;background:conic-gradient(var(--sf) 0 68%,#e6edf5 68%);position:relative;flex:none}
+.ring:after{content:"68%";position:absolute;inset:8px;background:#fff;border-radius:50%;display:grid;place-items:center;font-size:15px;font-weight:bold;color:var(--sf2)}
+.score{font-size:32px;font-weight:700;color:var(--sf2)}.score small{font-size:12px;color:var(--muted);font-weight:400}
+.rulemini{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #eef0f3;font-size:12px}
+.rulemini:last-child{border-bottom:0}.pts{font-weight:700;color:var(--good)}
+.casegrid{display:grid;grid-template-columns:1fr 350px;gap:14px}
+.record{background:#fff;border:1px solid var(--line);border-radius:var(--radius)}
+.recordtop{padding:16px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between}
+.recordtitle{display:flex;gap:12px;align-items:center}.caseicon{width:38px;height:38px;border-radius:6px;background:#eef4fb;color:var(--sf);display:grid;place-items:center;font-weight:700}
+.fields{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:15px}
+.field label{font-size:11px;color:var(--muted);display:block}.field div{font-size:13px;margin-top:4px}
+.gameline{margin:0 15px 15px;padding:14px;background:#f6fafe;border:1px solid #cfe3f7;border-radius:8px}
+.gametop{display:flex;justify-content:space-between;align-items:center}.gametitle{font-size:14px;font-weight:700;color:#123b63}
+.gameitems{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.gameitem{background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px}.gameitem b{font-size:13px}.gameitem span{font-size:11px;color:var(--muted);display:block;margin-top:5px}
+.tabs{display:flex;border-bottom:1px solid var(--line);background:#fff}.tab{padding:11px 15px;font-size:12px;cursor:pointer;border-bottom:3px solid transparent}.tab.active{color:var(--sf2);font-weight:700;border-bottom-color:var(--sf)}
+.activity{padding:15px}.activityrow{padding:10px 0;border-bottom:1px solid #eef0f3;font-size:13px}
+.teamgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.profile{display:flex;align-items:center;gap:18px}.avatar{width:54px;height:54px;background:#dfeaf6;border-radius:50%;display:grid;place-items:center;color:var(--sf2);font-weight:bold}
+.statline{display:flex;gap:20px;margin-top:12px}.stat b{display:block;font-size:22px}.stat span{font-size:11px;color:var(--muted)}
+.badges{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}.seal{border:1px solid #cfe3f7;background:#f7fbff;border-radius:8px;padding:9px 11px;font-size:12px;color:#123b63}
+.teamprogress{padding:12px 0;border-bottom:1px solid #eef0f3}.teamprogress:last-child{border-bottom:0}.teamprogress .row{display:flex;justify-content:space-between;font-size:12px}.teamprogress .progress{height:7px}
+.rulesintro{max-width:850px;margin-bottom:14px}.rules{display:grid;grid-template-columns:1fr 1fr;gap:14px}.rulecard{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:16px}.rulecard h3{margin:0 0 10px;font-size:16px}.rule{display:flex;justify-content:space-between;gap:20px;padding:11px 0;border-bottom:1px solid #eef0f3;font-size:13px}.rule:last-child{border-bottom:0}.rule strong{white-space:nowrap;color:var(--sf2)}
+.note{margin-top:14px;padding:12px 14px;background:#fff8e8;border:1px solid #f1d8a4;border-radius:8px;color:#5d4413;font-size:12px}
+.arch{margin-top:14px;padding:14px;background:#f7f9fb;border:1px dashed #b8c4d2;border-radius:8px;font-size:12px;color:#4d5d70}
+@media(max-width:1000px){.grid,.casegrid,.teamgrid,.rules{grid-template-columns:1fr}.hero{grid-template-columns:1fr}.fields{grid-template-columns:1fr 1fr}.gameitems{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="global">
+    <div class="logo">SF</div><div class="appname">Gestão de Sinistro Auto</div>
+    <div class="search"><input placeholder="Pesquisar nesta lista..."/></div>
+    <div class="actions"><span>Ajuda</span><span>Configuração</span><span>Analista Demo ▾</span></div>
+  </div>
+  <div class="navbar">
+    <div class="navitem active" data-page="inicio">Início</div>
+    <div class="navitem" data-page="caso">Caso</div>
+    <div class="navitem" data-page="desempenho">Meu desempenho</div>
+    <div class="navitem" data-page="regras">Regras do jogo</div>
+  </div>
+
+  <main class="container">
+
+    <section class="page active" id="inicio">
+      <div class="pagehead">
+        <div><div class="breadcrumb">Início</div><div class="title">Painel do analista</div><div class="subtitle">Prioridades, prazo e progresso do dia.</div></div>
+        <button class="btn">Atualizar</button>
+      </div>
+
+      <div class="hero">
+        <div class="kpi">
+          <div class="kpilabel">Missão do dia</div>
+          <div class="kpivalue">Avançar 12 casos prioritários</div>
+          <div class="kpihint">8 de 12 concluídos</div>
+          <div class="progress"><span style="width:67%"></span></div>
+        </div>
+        <div class="kpi"><div class="kpilabel">Pontos hoje</div><div class="kpivalue">85</div><div class="kpihint">+20 desde a manhã</div></div>
+        <div class="kpi"><div class="kpilabel">Sequência</div><div class="kpivalue">4 dias</div><div class="kpihint">cumprindo o prazo-alvo</div></div>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <div class="cardhead"><div class="cardtitle">Minha fila priorizada</div><button class="btn">Ver todos</button></div>
+          <div class="cardbody" style="padding:0">
+            <table class="table">
+              <thead><tr><th></th><th>Caso</th><th>Próxima ação</th><th>Prazo</th><th>Situação</th></tr></thead>
+              <tbody>
+                <tr><td><div class="priority">1</div></td><td><span class="link goto-case">000238172</span><br><small>Colisão</small></td><td>Analisar orçamento</td><td>Hoje, 15:30</td><td><span class="badge warn">Prioridade alta</span></td></tr>
+                <tr><td><div class="priority">2</div></td><td><span class="link">000239541</span><br><small>Colisão</small></td><td>Retornar cliente</td><td>Hoje, 16:00</td><td><span class="badge warn">Atenção</span></td></tr>
+                <tr><td><div class="priority">3</div></td><td><span class="link">000240013</span><br><small>Colisão</small></td><td>Tratar peça pendente</td><td>Hoje, 17:30</td><td><span class="badge">Em andamento</span></td></tr>
+                <tr><td><div class="priority">4</div></td><td><span class="link">000237784</span><br><small>Dano material</small></td><td>Validar documentos</td><td>Amanhã, 10:00</td><td><span class="badge good">No prazo</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div style="display:grid;gap:14px">
+          <div class="card">
+            <div class="cardhead"><div class="cardtitle">Próxima melhor ação</div></div>
+            <div class="cardbody">
+              <div class="next"><b>Caso 000238172</b><div style="margin-top:8px">Analisar orçamento da oficina</div><div class="why">Motivo: vistoria concluída e prazo próximo.</div></div>
+              <button class="btn primary goto-case" style="margin-top:12px;width:100%">Abrir caso</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="cardhead"><div class="cardtitle">Meu progresso</div></div>
+            <div class="cardbody mission">
+              <div class="ring"></div><div><div class="score">420 <small>pontos na semana</small></div><div style="margin-top:7px"><span class="badge good">Guardião do prazo</span></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="caso">
+      <div class="pagehead">
+        <div><div class="breadcrumb">Casos / 000238172</div><div class="title">Caso 000238172</div><div class="subtitle">Colisão • Segurado • Em análise</div></div>
+        <div><button class="btn">Editar</button> <button class="btn primary">Concluir próxima ação</button></div>
+      </div>
+
+      <div class="casegrid">
+        <div class="record">
+          <div class="recordtop"><div class="recordtitle"><div class="caseicon">C</div><div><b>Caso 000238172</b><div class="subtitle">Sinistro Auto</div></div></div><span class="badge warn">Prazo hoje, 15:30</span></div>
+          <div class="fields">
+            <div class="field"><label>Cliente</label><div>Cliente exemplo</div></div>
+            <div class="field"><label>Veículo</label><div>Modelo exemplo 2024</div></div>
+            <div class="field"><label>Oficina</label><div>Oficina credenciada</div></div>
+            <div class="field"><label>Etapa</label><div>Análise de orçamento</div></div>
+            <div class="field"><label>Última movimentação</label><div>Hoje, 11:08</div></div>
+            <div class="field"><label>Responsável</label><div>Analista Demo</div></div>
+          </div>
+
+          <div class="gameline">
+            <div class="gametop"><div class="gametitle">Gamificação desta próxima ação</div><span class="badge">Regra ativa</span></div>
+            <div class="gameitems">
+              <div class="gameitem"><b>+10 pontos</b><span>Por atuar na prioridade recomendada</span></div>
+              <div class="gameitem"><b>+5 pontos</b><span>Se concluir dentro do prazo</span></div>
+              <div class="gameitem"><b>Qualidade obrigatória</b><span>Sem retrabalho nos próximos 3 dias úteis</span></div>
+            </div>
+          </div>
+
+          <div class="tabs"><div class="tab active">Resumo</div><div class="tab">Atividades</div><div class="tab">Histórico</div><div class="tab">Relacionados</div></div>
+          <div class="activity">
+            <div class="next"><b>Próxima ação recomendada</b><div style="margin-top:5px">Analisar o orçamento recebido e registrar a decisão.</div><div class="why">Essa ação mantém o caso no fluxo esperado e evita ultrapassar o prazo.</div></div>
+            <div class="activityrow"><b>11:08</b> • Vistoria concluída</div>
+            <div class="activityrow"><b>10:20</b> • Orçamento recebido da oficina</div>
+            <div class="activityrow"><b>Ontem</b> • Cliente atualizado sobre andamento</div>
+          </div>
+        </div>
+
+        <div style="display:grid;gap:14px;align-content:start">
+          <div class="card">
+            <div class="cardhead"><div class="cardtitle">Impacto no meu progresso</div></div>
+            <div class="cardbody">
+              <div class="score">15 <small>pontos possíveis</small></div>
+              <div class="rulemini"><span>Prioridade correta</span><span class="pts">+10</span></div>
+              <div class="rulemini"><span>Dentro do prazo</span><span class="pts">+5</span></div>
+              <div class="rulemini"><span>Retrabalho</span><span style="color:var(--bad);font-weight:700">anula bônus</span></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="cardhead"><div class="cardtitle">Conquistas relacionadas</div></div>
+            <div class="cardbody"><div class="badges"><span class="seal">Guardião do prazo</span><span class="seal">Fluxo em dia</span><span class="seal">Qualidade</span></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="desempenho">
+      <div class="pagehead"><div><div class="breadcrumb">Gamificação</div><div class="title">Meu desempenho e equipe</div><div class="subtitle">Acompanhamento simples, sem ranking geral.</div></div><button class="btn">Esta semana ▾</button></div>
+      <div class="teamgrid">
+        <div class="card">
+          <div class="cardhead"><div class="cardtitle">Meu desempenho</div></div>
+          <div class="cardbody">
+            <div class="profile"><div class="avatar">AD</div><div><b>Analista Demo</b><div class="subtitle">Sinistro Auto</div></div></div>
+            <div class="statline">
+              <div class="stat"><b>420</b><span>pontos</span></div>
+              <div class="stat"><b>4 dias</b><span>sequência</span></div>
+              <div class="stat"><b>92%</b><span>ações no prazo</span></div>
+            </div>
+            <div class="badges"><span class="seal">Guardião do prazo</span><span class="seal">Qualidade</span><span class="seal">Colaboração</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="cardhead"><div class="cardtitle">Missão da equipe</div></div>
+          <div class="cardbody">
+            <div class="teamprogress"><div class="row"><b>Reduzir casos acima do prazo</b><span>71%</span></div><div class="progress"><span style="width:71%"></span></div></div>
+            <div class="teamprogress"><div class="row"><b>Atuar nas prioridades recomendadas</b><span>84%</span></div><div class="progress"><span style="width:84%"></span></div></div>
+            <div class="teamprogress"><div class="row"><b>Manter qualidade</b><span>96%</span></div><div class="progress"><span style="width:96%"></span></div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="cardhead"><div class="cardtitle">Evolução pessoal</div></div>
+          <div class="cardbody">
+            <div class="kpilabel">Comparação com minha média das últimas 4 semanas</div>
+            <div class="kpivalue" style="color:var(--good)">+12%</div>
+            <div class="kpihint">Melhora em ações concluídas dentro do prazo.</div>
+            <div class="progress"><span style="width:78%"></span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="cardhead"><div class="cardtitle">Reconhecimentos recentes</div></div>
+          <div class="cardbody">
+            <div class="activityrow"><b>Guardião do prazo</b><br><small>5 dias consecutivos com prioridades no prazo.</small></div>
+            <div class="activityrow"><b>Colaboração</b><br><small>3 apoios registrados em casos complexos.</small></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="regras">
+      <div class="pagehead"><div><div class="breadcrumb">Gamificação</div><div class="title">Regras do jogo</div><div class="subtitle">Critérios simples, transparentes e auditáveis.</div></div><button class="btn">Versão 1.0</button></div>
+      <div class="rulesintro">
+        <div class="next"><b>Objetivo</b><div style="margin-top:6px">Direcionar o analista para o caso certo, no momento certo, preservando qualidade e colaboração.</div></div>
+      </div>
+      <div class="rules">
+        <div class="rulecard">
+          <h3>Como ganhar pontos</h3>
+          <div class="rule"><span>Atuar na prioridade recomendada</span><strong>+10</strong></div>
+          <div class="rule"><span>Concluir a próxima ação dentro do prazo</span><strong>+5</strong></div>
+          <div class="rule"><span>Resolver sem gerar novo contato evitável</span><strong>+5</strong></div>
+          <div class="rule"><span>Ajudar em caso complexo reconhecido pelo líder</span><strong>+3</strong></div>
+        </div>
+        <div class="rulecard">
+          <h3>Regras de qualidade</h3>
+          <div class="rule"><span>Retrabalho por erro operacional</span><strong style="color:var(--bad)">anula bônus</strong></div>
+          <div class="rule"><span>Reabertura atribuída à ação anterior</span><strong style="color:var(--bad)">-10</strong></div>
+          <div class="rule"><span>Caso fora da prioridade sem justificativa</span><strong>0</strong></div>
+          <div class="rule"><span>Qualidade abaixo da régua mínima</span><strong style="color:var(--bad)">sem pontuação</strong></div>
+        </div>
+        <div class="rulecard">
+          <h3>Conquistas</h3>
+          <div class="rule"><span>Guardião do prazo</span><strong>5 dias</strong></div>
+          <div class="rule"><span>Qualidade</span><strong>20 ações</strong></div>
+          <div class="rule"><span>Colaboração</span><strong>5 apoios</strong></div>
+          <div class="rule"><span>Fluxo em dia</span><strong>sem pendência crítica</strong></div>
+        </div>
+        <div class="rulecard">
+          <h3>Como o time participa</h3>
+          <div class="rule"><span>Missões coletivas</span><strong>sem ranking</strong></div>
+          <div class="rule"><span>Evolução individual</span><strong>vs. própria média</strong></div>
+          <div class="rule"><span>Reconhecimento</span><strong>qualidade + prazo</strong></div>
+          <div class="rule"><span>Transparência</span><strong>regras visíveis</strong></div>
+        </div>
+      </div>
+      <div class="note"><b>Importante:</b> a pontuação não substitui metas, gestão de desempenho ou critérios formais de avaliação. Ela apenas reforça comportamentos operacionais desejados durante a POC.</div>
+      <div class="arch"><b>Implementação POC sugerida:</b> 1 LWC de resumo de gamificação + 1 LWC de impacto no Caso + 1 LWC de desempenho + 1 página simples de regras. Persistência pode começar com um objeto customizado de eventos/pontos e Custom Metadata para as regras. A fila principal pode continuar usando List View ou lightning-datatable.</div>
+    </section>
+
+  </main>
+</div>
+<script>
+const nav=[...document.querySelectorAll('.navitem')];
+const pages=[...document.querySelectorAll('.page')];
+function go(id){
+  nav.forEach(n=>n.classList.toggle('active',n.dataset.page===id));
+  pages.forEach(p=>p.classList.toggle('active',p.id===id));
+  window.scrollTo(0,0);
+}
+nav.forEach(n=>n.onclick=()=>go(n.dataset.page));
+document.querySelectorAll('.goto-case').forEach(x=>x.onclick=()=>go('caso'));
+</script>
+</body>
+</html>
