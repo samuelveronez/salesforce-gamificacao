@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Gamificação no Salesforce FSC — Blueprint da POC</title>
+<style>
+:root{
+  --sf:#0176d3;--sf2:#0b5cab;--sf3:#032d60;--ink:#181818;--muted:#5f6b7a;
+  --bg:#f3f3f3;--white:#fff;--line:#d8dde6;--soft:#f7f9fb;--softblue:#eef6ff;
+  --green:#2e844a;--orange:#a96404;--red:#ba0517;--purple:#7526c5;
+  --shadow:0 2px 8px rgba(0,0,0,.09);--radius:12px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Arial,Segoe UI,sans-serif;background:var(--bg);color:var(--ink)}
+.topbar{height:52px;background:white;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 18px;position:sticky;top:0;z-index:50}
+.cloud{width:38px;height:26px;border-radius:18px;background:var(--sf);color:#fff;display:grid;place-items:center;font-size:10px;font-weight:bold;margin-right:12px}
+.brand{font-size:16px;font-weight:700;color:var(--sf3)}
+.topmeta{margin-left:auto;font-size:12px;color:var(--muted)}
+.tabs{position:sticky;top:52px;z-index:40;background:white;border-bottom:1px solid var(--line);display:flex;padding:0 18px;overflow:auto}
+.tab{padding:13px 15px 11px;font-size:13px;color:#445267;border-bottom:3px solid transparent;cursor:pointer;white-space:nowrap}
+.tab.active{color:var(--sf2);font-weight:700;border-bottom-color:var(--sf)}
+.page{display:none;max-width:1500px;margin:auto;padding:20px}.page.active{display:block}
+.pagehead{background:white;border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;margin-bottom:16px}
+.kicker{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--sf2);font-weight:700}
+h1{font-size:28px;line-height:1.15;margin:5px 0 7px;color:var(--sf3)}
+h2{font-size:20px;margin:0;color:var(--sf3)}
+h3{font-size:15px;margin:0;color:var(--sf3)}
+p{color:var(--muted);line-height:1.45}
+.lead{font-size:15px;max-width:1000px;margin:5px 0 0}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px}
+.chip{background:white;border:1px solid var(--line);padding:7px 10px;border-radius:999px;font-size:11px;color:#445267}
+.chip.blue{background:var(--softblue);color:var(--sf2);border-color:#b9d9f7;font-weight:700}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.card{background:white;border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 1px 2px rgba(0,0,0,.04);overflow:hidden}
+.cardhead{padding:13px 15px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+.cardbody{padding:15px}
+.badge{padding:4px 7px;border-radius:999px;font-size:10px;font-weight:700;background:#eef4fb;color:var(--sf2);display:inline-block}
+.badge.green{background:#e8f5ed;color:#22683b}.badge.orange{background:#fff3e7;color:#8a4b08}.badge.purple{background:#f2eafe;color:#653399}
+.summary{display:grid;grid-template-columns:1.3fr .7fr .7fr;gap:12px;margin-bottom:14px}
+.summary .cardbody b{display:block;font-size:24px;color:var(--sf3);margin-top:4px}.summary small{color:var(--muted)}
+.section{margin-top:16px}.sectiontitle{display:flex;align-items:center;gap:10px;margin:0 0 10px}
+.num{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--sf);color:#fff;font-weight:700;font-size:12px}
+.epic{border-left:5px solid var(--purple)}
+.issue{border:1px solid var(--line);border-radius:10px;background:white;margin:9px 0;overflow:hidden}
+.issueTop{padding:12px 14px;display:flex;align-items:center;gap:9px;cursor:pointer}
+.issueKey{font-size:11px;color:var(--sf2);font-weight:700}.issueType{font-size:10px;padding:3px 6px;border-radius:4px;background:#eaf4ff;color:var(--sf2);font-weight:700}
+.issueType.enabler{background:#f2eafe;color:#653399}.issueTitle{font-size:13px;font-weight:700;flex:1;color:var(--sf3)}
+.sp{font-size:11px;color:#52657a;font-weight:700}
+.chev{font-size:12px;color:#75869a}.issueBody{display:none;border-top:1px solid var(--line);padding:14px;background:#fbfcfd}
+.issue.open .issueBody{display:block}.issue.open .chev{transform:rotate(90deg)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:18px}.label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:700;margin:5px 0 7px}
+.ul{margin:0;padding-left:18px;color:#445267;font-size:12px;line-height:1.55}
+.accept{background:#f6fafe;border:1px solid #cfe3f7;border-radius:8px;padding:10px;margin-top:8px;font-size:12px;color:#35475b}
+.bdd{font-family:Consolas,monospace;background:#f7f7f7;border-left:3px solid var(--sf);padding:10px;font-size:11px;line-height:1.6;white-space:pre-wrap;margin-top:8px}
+.qa{border-left:3px solid var(--green)}
+.table{width:100%;border-collapse:collapse;font-size:12px;background:white}
+.table th{text-align:left;padding:9px;background:#f3f3f3;border-bottom:1px solid var(--line);color:#445267}.table td{padding:10px 9px;border-bottom:1px solid #edf0f3;vertical-align:top}
+.techmap{display:grid;grid-template-columns:260px 1fr;gap:14px}
+.side{background:white;border:1px solid var(--line);border-radius:var(--radius);padding:9px;height:max-content;position:sticky;top:115px}
+.side a{display:block;padding:9px 10px;border-radius:6px;color:#445267;text-decoration:none;font-size:12px}.side a:hover{background:var(--softblue);color:var(--sf2)}
+.arch{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-items:stretch}
+.node{background:white;border:1px solid var(--line);border-radius:10px;padding:14px;position:relative}
+.node:not(:last-child):after{content:"→";position:absolute;right:-17px;top:43%;color:#88a2bd;font-weight:bold}
+.node .ico{width:34px;height:34px;border-radius:8px;background:var(--softblue);color:var(--sf);display:grid;place-items:center;margin-bottom:9px;font-weight:bold}.node p{font-size:11px;margin:5px 0}
+.callout{padding:12px 14px;border-radius:8px;border:1px solid #cfe3f7;background:#f6fafe;font-size:12px;color:#35475b;margin:10px 0}.callout.warn{background:#fff8e8;border-color:#f1d8a4;color:#5f4717}
+.code{font-family:Consolas,monospace;background:#0f1e2e;color:#d8e7f7;padding:13px;border-radius:8px;font-size:11px;line-height:1.55;overflow:auto}
+.estgrid{display:grid;grid-template-columns:360px 1fr;gap:14px}.formcard{background:white;border:1px solid var(--line);border-radius:var(--radius);padding:15px}
+.row{display:grid;grid-template-columns:1fr 100px;gap:10px;align-items:center;margin:9px 0;font-size:12px}.row input,.row select{width:100%;padding:7px;border:1px solid #c9cdd3;border-radius:5px;text-align:right}
+.estcards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}.estcard{background:white;border:1px solid var(--line);border-radius:10px;padding:14px}.estcard span{display:block;font-size:10px;color:var(--muted);text-transform:uppercase}.estcard b{font-size:24px;color:var(--sf3);display:block;margin-top:5px}
+.barstack{height:20px;border-radius:6px;overflow:hidden;display:flex;margin:12px 0;background:#eef1f4}.seg{height:100%;min-width:1px}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:10px;color:#52657a}.dot{width:8px;height:8px;border-radius:2px;display:inline-block;margin-right:4px}
+.business{display:grid;grid-template-columns:1.1fr .9fr;gap:14px}.thesis{font-size:22px;font-weight:700;line-height:1.25;color:var(--sf3);margin-bottom:8px}
+.hypo{display:grid;grid-template-columns:1fr auto;gap:12px;padding:12px 0;border-bottom:1px solid #edf0f3}.hypo:last-child{border-bottom:0}.hypo b{font-size:13px;color:var(--sf3)}.hypo p{font-size:11px;margin:4px 0 0}.impact{font-size:11px;font-weight:700;color:var(--green)}
+.scorebox{background:linear-gradient(135deg,#032d60,#0b5cab);color:white;border-radius:12px;padding:18px}.scorebox .big{font-size:48px;font-weight:700}.scorebox p{color:#d8e7f7;font-size:12px}.scoregrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.scoregrid label{font-size:10px;color:#d8e7f7}.scoregrid input{width:100%;padding:7px;border-radius:5px;border:0;margin-top:4px}
+.decision{margin-top:12px;padding:13px;border-radius:8px;background:white;color:var(--sf3);font-size:13px;font-weight:700}
+.sources a{color:var(--sf2);text-decoration:none}.sources li{font-size:11px;color:#52657a;margin:8px 0}
+@media(max-width:1000px){.grid2,.grid3,.summary,.business,.estgrid,.techmap{grid-template-columns:1fr}.arch{grid-template-columns:1fr 1fr}.node:after{display:none}.estcards{grid-template-columns:1fr 1fr}.side{position:relative;top:auto}.cols{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="cloud">SF</div><div class="brand">Gamificação no Salesforce FSC — Blueprint da POC</div><div class="topmeta">Produto • Negócio • Tecnologia • QA</div></div>
+<div class="tabs">
+  <div class="tab active" data-page="prd">1. PRD & Backlog</div>
+  <div class="tab" data-page="tecnico">2. Implementação técnica</div>
+  <div class="tab" data-page="estimativa">3. Estimativa de esforço</div>
+  <div class="tab" data-page="business">4. Tese de ganhos</div>
+</div>
+
+<section class="page active" id="prd">
+  <div class="pagehead">
+    <div class="kicker">Parte 1 • Time ágil / negócio / QA</div>
+    <h1>PRD simplificado + backlog Jira-like</h1>
+    <p class="lead">Uma POC pequena, integrada à rotina do analista, com regras transparentes e sem criar uma plataforma paralela. O objetivo não é “jogar”; é reforçar prioridade, prazo, qualidade e colaboração.</p>
+  </div>
+
+  <div class="summary">
+    <div class="card"><div class="cardbody"><small>ÉPICO</small><b>GAM-1 • Gamificação no Sinistro Auto</b><p style="font-size:12px">Direcionar comportamento operacional usando missões, pontos, progresso e reconhecimento dentro do Salesforce.</p></div></div>
+    <div class="card"><div class="cardbody"><small>ESCOPO POC</small><b>7 histórias</b><p style="font-size:12px">Experiência + regras + medição.</p></div></div>
+    <div class="card"><div class="cardbody"><small>ENABLERS</small><b>3 técnicos</b><p style="font-size:12px">Configuração, persistência e segurança.</p></div></div>
+  </div>
+
+  <div class="toolbar"><span class="chip blue">POC</span><span class="chip">Sem ranking geral</span><span class="chip">Prazo em português</span><span class="chip">Qualidade como gate</span><span class="chip">Baixa manutenção</span></div>
+
+  <div class="card epic">
+    <div class="cardhead"><div><span class="badge purple">ÉPICO</span> <b>GAM-1 • Gamificação no Sinistro Auto</b></div><span class="badge">Objetivo: reduzir prazo</span></div>
+    <div class="cardbody">
+      <div class="cols">
+        <div><div class="label">Problema</div><p style="font-size:12px;margin-top:0">O analista tem múltiplos casos e eventos competindo por atenção. Sem feedback imediato, pode atuar no caso mais fácil ou reagir ao volume, em vez de seguir a prioridade operacional.</p></div>
+        <div><div class="label">Hipótese</div><p style="font-size:12px;margin-top:0">Se o Salesforce tornar a prioridade visível e reconhecer ações corretas dentro do prazo e com qualidade, aumentamos a aderência à fila priorizada e reduzimos atraso e retrabalho.</p></div>
+      </div>
+      <div class="accept"><b>Métricas de sucesso da POC:</b> % de ações realizadas dentro do prazo; aderência à fila priorizada; retrabalho/reabertura; tempo médio até próxima ação; percepção do analista e líder.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sectiontitle"><div class="num">A</div><h2>Histórias de usuário</h2></div>
+
+    <div class="issue open">
+      <div class="issueTop"><span class="issueType">HISTÓRIA</span><span class="issueKey">GAM-2</span><span class="issueTitle">Painel inicial com missão, progresso e fila priorizada</span><span class="sp">5 SP</span><span class="chev">▶</span></div>
+      <div class="issueBody">
+        <div class="cols"><div><div class="label">História</div><p style="font-size:12px">Como analista, quero visualizar minha missão do dia, progresso e próximos casos prioritários para saber onde concentrar meu esforço.</p><div class="label">Critérios de aceite</div><ul class="ul"><li>Exibir missão ativa, meta e realizado.</li><li>Exibir até 5 casos priorizados com motivo e prazo.</li><li>Exibir pontos do dia e sequência atual.</li><li>Não exibir ranking geral de pessoas.</li></ul></div><div><div class="label">BDD principal</div><div class="bdd">Cenário: analista possui missão ativa
+Dado que existe uma missão válida para o usuário
+E existem casos elegíveis ordenados por prioridade
+Quando o analista acessar a página inicial
+Então deve visualizar a missão e seu progresso
+E deve visualizar a fila priorizada
+E cada caso deve apresentar prazo e próxima ação.</div><div class="label">QA</div><div class="accept qa">Validar estados: sem missão, missão concluída, fila vazia, erro de serviço, usuário sem permissão e mudança de prioridade.</div></div></div>
+      </div>
+    </div>
+
+    <div class="issue">
+      <div class="issueTop"><span class="issueType">HISTÓRIA</span><span class="issueKey">GAM-3</span><span class="issueTitle">Bloco de gamificação na página do Caso</span><span class="sp">3 SP</span><span class="chev">▶</span></div>
+      <div class="issueBody"><div class="cols"><div><div class="label">História</div><p style="font-size:12px">Como analista, quero entender quantos pontos uma ação pode gerar e quais condições preciso cumprir antes de executá-la.</p><div class="label">Critérios</div><ul class="ul"><li>Mostrar pontos possíveis da ação atual.</li><li>Explicar motivo da pontuação.</li><li>Exibir prazo sem usar o termo SLA.</li><li>Mostrar condição de qualidade.</li></ul></div><div><div class="label">BDD</div><div class="bdd">Cenário: caso é prioridade recomendada
+Dado que o caso está elegível para pontuação
+Quando a página do caso for aberta
+Então o componente deve mostrar os pontos possíveis
+E a condição de prazo
+E o critério de qualidade aplicável.</div></div></div></div>
+    </div>
+
+    <div class="issue">
+      <div class="issueTop"><span class="issueType">HISTÓRIA</span><span class="issueKey">GAM-4</span><span class="issueTitle">Meu desempenho e conquistas</span><span class="sp">3 SP</span><span class="chev">▶</span></div>
+      <div class="issueBody"><div class="cols"><div><div class="label">Critérios</div><ul class="ul"><li>Pontos da semana.</li><li>Sequência de dias cumprindo prazo.</li><li>Conquistas obtidas.</li><li>Evolução contra a própria média.</li></ul></div><div><div class="label">QA</div><div class="accept qa">Garantir que um usuário veja somente seus próprios dados, salvo perfis de liderança autorizados.</div></div></div></div>
+    </div>
+
+    <div class="issue">
+      <div class="issueTop"><span class="issueType">HISTÓRIA</span><span class="issueKey">GAM-5</span><span class="issueTitle">Missão e progresso da equipe</span><span class="sp">3 SP</span><span class="chev">▶</span></div>
+      <div class="issueBody"><ul class="ul"><li>Exibir meta coletiva e progresso.</li><li>Não ordenar analistas por pontuação.</li><li>Líder pode visualizar evolução agregada.</li><li>Analista visualiza resultado do time sem expor desempenho individual de terceiros.</li></ul></div>
+    </div>
+
+    <div class="issue">
+      <div class="issueTop"><span class="issueType">HISTÓRIA</span><span class="issueKey">GAM-6</span><span class="issueTitle">Página Regras do Jogo</span><span class="sp">2 SP</span><span class="chev">▶</span></div>
+      <div class="issueBody"><ul class="ul"><li>Listar regras ativas e pontuação.</li><li>Explicar qualidade, prazo e exceções.</li><li>Exibir versão/vigência da regra.</li><li>Conteúdo deve vir de configuração, não de texto fixo no LWC.</li></ul></div>
+    </div>
+
+    <div class="issue">
+      <div class="issueTop"><span class="issueType">HISTÓRIA</span><span class="issueKey">GAM-7</span><span class="issueTitle">Registrar eventos e calcular pontos</span><span class="sp">5 SP</span><span class="chev">▶</span></div>
+      <div class="issueBody"><div class="cols"><div><ul class="ul"><li>Registrar evento elegível apenas uma vez.</li><li>Aplicar regra vigente no momento do evento.</li><li>Registrar origem, caso, usuário e data.</li><li>Permitir estorno/correção auditável.</li></ul></div><div><div class="bdd">Cenário: ação elegível é concluída
+Dado que a regra está ativa
+E o evento ainda não foi pontuado
+Quando a ação for confirmada
+Então deve ser criado um evento de pontuação
+E a pontuação deve ser calculada pela regra vigente
+E uma nova execução do mesmo evento não deve duplicar pontos.</div></div></div></div>
+    </div>
+
+    <div class="issue">
+      <div class="issueTop"><span class="issueType">HISTÓRIA</span><span class="issueKey">GAM-8</span><span class="issueTitle">Aplicar quality gate e estorno por retrabalho</span><span class="sp">5 SP</span><span class="chev">▶</span></div>
+      <div class="issueBody"><ul class="ul"><li>Eventos sujeitos a qualidade ficam pendentes ou com bônus separado.</li><li>Retrabalho identificado dentro da janela configurada pode anular bônus.</li><li>Estorno deve preservar trilha de auditoria.</li><li>Regra e janela devem ser parametrizáveis.</li></ul></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sectiontitle"><div class="num">B</div><h2>Enablers técnicos</h2></div>
+    <div class="grid3">
+      <div class="card"><div class="cardbody"><span class="issueType enabler">ENABLER</span><h3 style="margin-top:10px">GAM-9 • Configuração das regras</h3><p style="font-size:12px">Criar Custom Metadata para regra, vigência, evento, pontos, janela de qualidade e status.</p><span class="badge purple">3 SP</span></div></div>
+      <div class="card"><div class="cardbody"><span class="issueType enabler">ENABLER</span><h3 style="margin-top:10px">GAM-10 • Modelo de eventos</h3><p style="font-size:12px">Objeto simples para registrar evento, usuário, caso, regra aplicada, pontos e estorno.</p><span class="badge purple">3 SP</span></div></div>
+      <div class="card"><div class="cardbody"><span class="issueType enabler">ENABLER</span><h3 style="margin-top:10px">GAM-11 • Segurança e observabilidade</h3><p style="font-size:12px">Permission Set, visibilidade, logs de erro e indicadores mínimos de execução.</p><span class="badge purple">2 SP</span></div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sectiontitle"><div class="num">C</div><h2>Definition of Done da POC</h2></div>
+    <table class="table"><tr><th>Dimensão</th><th>Condição</th></tr>
+      <tr><td>Negócio</td><td>Critérios validados por operação; regra explicável em linguagem simples.</td></tr>
+      <tr><td>Desenvolvimento</td><td>Sem hardcode de pontos; tratamento de erro; idempotência no evento de pontuação.</td></tr>
+      <tr><td>QA</td><td>BDD automatizável, cenários negativos, permissão, duplicidade, regressão do Caso.</td></tr>
+      <tr><td>Dados</td><td>Evento auditável e conciliável com Caso e usuário.</td></tr>
+      <tr><td>Homologação</td><td>PO + operação validam fluxo ponta a ponta em sandbox/homologação.</td></tr>
+    </table>
+  </div>
+</section>
+
+<section class="page" id="tecnico">
+  <div class="pagehead">
+    <div class="kicker">Parte 2 • Tech Leads / Devs / Arquitetura</div>
+    <h1>Como aplicar no Salesforce FSC com baixo acoplamento</h1>
+    <p class="lead">A POC deve usar componentes base do Lightning, regras em configuração e um registro simples de eventos. O Caso continua sendo o centro da operação; gamificação entra como camada complementar.</p>
+  </div>
+
+  <div class="techmap">
+    <nav class="side">
+      <a href="#arquitetura">Arquitetura mínima</a><a href="#config">Onde configurar</a><a href="#lwc">LWCs</a><a href="#dados">Dados</a><a href="#automacao">Automação</a><a href="#seguranca">Segurança</a><a href="#deploy">Deploy</a>
+    </nav>
+    <div>
+      <div id="arquitetura" class="section">
+        <div class="sectiontitle"><div class="num">1</div><h2>Arquitetura mínima</h2></div>
+        <div class="arch">
+          <div class="node"><div class="ico">UI</div><h3>Lightning App / Record Page</h3><p>Home do analista, página do Caso e página de desempenho.</p></div>
+          <div class="node"><div class="ico">LWC</div><h3>3–4 componentes</h3><p>Resumo, impacto no Caso, desempenho e regras.</p></div>
+          <div class="node"><div class="ico">CFG</div><h3>Custom Metadata</h3><p>Regras, pontos, vigência e quality gate.</p></div>
+          <div class="node"><div class="ico">DB</div><h3>Evento de Gamificação</h3><p>Registro auditável de pontos e estornos.</p></div>
+        </div>
+        <div class="callout"><b>Princípio:</b> manter o motor simples. Nada de engine genérica de incentivos na POC. Cada evento conhecido chama um serviço único de pontuação.</div>
+      </div>
+
+      <div id="config" class="section">
+        <div class="sectiontitle"><div class="num">2</div><h2>Onde configurar</h2></div>
+        <table class="table">
+          <tr><th>Necessidade</th><th>Salesforce</th><th>POC recomendada</th></tr>
+          <tr><td>Página inicial</td><td>Lightning App Builder</td><td>Adicionar LWC <b>gamificacaoResumo</b> + lista/tabela priorizada já existente ou LWC fino.</td></tr>
+          <tr><td>Página do Caso</td><td>Lightning Record Page do objeto Case</td><td>Adicionar <b>gamificacaoCaso</b> em região lateral ou acima das abas.</td></tr>
+          <tr><td>Desempenho</td><td>Custom App Page</td><td>Página simples com <b>gamificacaoDesempenho</b>.</td></tr>
+          <tr><td>Regras</td><td>Custom App Page ou aba</td><td>LWC somente leitura lendo Custom Metadata.</td></tr>
+          <tr><td>Regras de pontos</td><td>Setup → Custom Metadata Types</td><td>Tipo <b>Regra_Gamificacao__mdt</b>.</td></tr>
+          <tr><td>Eventos/pontos</td><td>Custom Object</td><td><b>Evento_Gamificacao__c</b>.</td></tr>
+          <tr><td>Acesso</td><td>Permission Set</td><td><b>Gamificacao_POC</b> + permissão de líder.</td></tr>
+        </table>
+      </div>
+
+      <div id="lwc" class="section">
+        <div class="sectiontitle"><div class="num">3</div><h2>Componentes LWC</h2></div>
+        <div class="grid2">
+          <div class="card"><div class="cardbody"><h3>c-gamificacao-resumo</h3><p style="font-size:12px">Missão, pontos, sequência e mini progresso.</p><div class="code">&lt;lightning-card title="Meu progresso"&gt;
+  &lt;lightning-progress-bar value={progresso}&gt;
+  &lt;/lightning-progress-bar&gt;
+&lt;/lightning-card&gt;</div></div></div>
+          <div class="card"><div class="cardbody"><h3>c-gamificacao-caso</h3><p style="font-size:12px">Recebe recordId do Case e consulta regra aplicável + pontos possíveis.</p><div class="code">@api recordId;
+@wire(getGamificacaoCaso,{ caseId:'$recordId' })
+gamificacao;</div></div></div>
+          <div class="card"><div class="cardbody"><h3>c-gamificacao-desempenho</h3><p style="font-size:12px">Agrega eventos do usuário/time e mostra evolução sem ranking.</p></div></div>
+          <div class="card"><div class="cardbody"><h3>c-gamificacao-regras</h3><p style="font-size:12px">Lê configuração e traduz em linguagem de negócio. Idealmente sem texto duplicado no código.</p></div></div>
+        </div>
+      </div>
+
+      <div id="dados" class="section">
+        <div class="sectiontitle"><div class="num">4</div><h2>Modelo de dados mínimo</h2></div>
+        <div class="grid2">
+          <div class="card"><div class="cardhead"><h3>Regra_Gamificacao__mdt</h3><span class="badge purple">Configuração</span></div><div class="cardbody"><ul class="ul"><li>DeveloperName</li><li>Evento__c</li><li>Pontos_Base__c</li><li>Bonus_Prazo__c</li><li>Usa_Quality_Gate__c</li><li>Janela_Qualidade_Dias__c</li><li>Data_Inicio__c / Data_Fim__c</li><li>Ativa__c</li><li>Texto_Explicativo__c</li></ul></div></div>
+          <div class="card"><div class="cardhead"><h3>Evento_Gamificacao__c</h3><span class="badge">Dado operacional</span></div><div class="cardbody"><ul class="ul"><li>Usuario__c</li><li>Caso__c</li><li>Tipo_Evento__c</li><li>Regra__c / versão aplicada</li><li>Pontos__c</li><li>Status__c: pendente, confirmado, estornado</li><li>Chave_Idempotencia__c (única)</li><li>Data_Evento__c</li><li>Motivo_Estorno__c</li></ul></div></div>
+        </div>
+        <div class="callout warn"><b>Evitar na POC:</b> objeto de “perfil do jogador”, catálogo complexo de selos, engine genérica de campanhas, múltiplos objetos de missão e marketplace de recompensas. Esses elementos aumentam manutenção antes de provar ganho operacional.</div>
+      </div>
+
+      <div id="automacao" class="section">
+        <div class="sectiontitle"><div class="num">5</div><h2>Automação e cálculo</h2></div>
+        <table class="table">
+          <tr><th>Evento</th><th>Gatilho sugerido</th><th>Ação</th></tr>
+          <tr><td>Ação prioritária concluída</td><td>Flow record-triggered ou ponto já existente no processo</td><td>Chamar serviço de pontuação com Case + usuário + tipo de evento.</td></tr>
+          <tr><td>Concluiu dentro do prazo</td><td>Mesmo evento</td><td>Comparar timestamp com campo de prazo e aplicar bônus.</td></tr>
+          <tr><td>Retrabalho/reabertura</td><td>Flow ou evento conhecido de retorno</td><td>Buscar evento anterior elegível e gerar estorno.</td></tr>
+          <tr><td>Missão coletiva</td><td>Consulta agregada</td><td>Calcular em leitura; evitar persistir progresso a cada caso na POC.</td></tr>
+        </table>
+        <div class="callout"><b>Decisão técnica importante:</b> se a operação já possui um serviço/regra de priorização, a gamificação deve consumir esse resultado. Não duplicar a lógica de prioridade dentro do motor de pontos.</div>
+      </div>
+
+      <div id="seguranca" class="section">
+        <div class="sectiontitle"><div class="num">6</div><h2>Segurança e qualidade técnica</h2></div>
+        <div class="grid3">
+          <div class="card"><div class="cardbody"><h3>Permissões</h3><p style="font-size:12px">Permission Set para POC; líder recebe leitura agregada adicional.</p></div></div>
+          <div class="card"><div class="cardbody"><h3>Idempotência</h3><p style="font-size:12px">Chave única impede pontuação duplicada em reprocessamento.</p></div></div>
+          <div class="card"><div class="cardbody"><h3>Auditoria</h3><p style="font-size:12px">Estorno cria evento ou preserva registro original; não apagar histórico.</p></div></div>
+        </div>
+      </div>
+
+      <div id="deploy" class="section">
+        <div class="sectiontitle"><div class="num">7</div><h2>Sequência de implementação</h2></div>
+        <table class="table"><tr><th>Ordem</th><th>Pacote</th><th>Dependência</th></tr>
+          <tr><td>1</td><td>Custom Metadata + Permission Set</td><td>Nenhuma</td></tr>
+          <tr><td>2</td><td>Evento_Gamificacao__c + serviço Apex</td><td>Regras</td></tr>
+          <tr><td>3</td><td>Flows/eventos de integração</td><td>Serviço</td></tr>
+          <tr><td>4</td><td>LWCs</td><td>Serviços de leitura</td></tr>
+          <tr><td>5</td><td>Lightning Pages / App Page</td><td>LWCs</td></tr>
+          <tr><td>6</td><td>Testes regressivos + dados piloto</td><td>Fluxo completo</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="section sources">
+    <div class="sectiontitle"><div class="num">F</div><h2>Referências Salesforce usadas</h2></div>
+    <div class="card"><div class="cardbody"><ul>
+      <li><a href="https://developer.salesforce.com/docs/platform/lightning-component-reference/guide/lightning-datatable" target="_blank">Lightning Datatable</a></li>
+      <li><a href="https://developer.salesforce.com/docs/platform/lightning-component-reference/guide/lightning-progress-bar" target="_blank">Lightning Progress Bar</a></li>
+      <li><a href="https://developer.salesforce.com/docs/platform/lightning-component-reference/guide/lightning-card.html" target="_blank">Lightning Card</a></li>
+      <li><a href="https://developer.salesforce.com/docs/platform/lwc/guide/base-components-all.html" target="_blank">Lightning Base Components</a></li>
+      <li><a href="https://developer.salesforce.com/docs/platform/salesforce-cli-reference/guide/cli_reference_cmdt.html" target="_blank">Custom Metadata Types / CLI</a></li>
+    </ul></div></div>
+  </div>
+</section>
+
+<section class="page" id="estimativa">
+  <div class="pagehead">
+    <div class="kicker">Parte 3 • Estimativa ponta a ponta</div>
+    <h1>Quanto esforço a POC consome?</h1>
+    <p class="lead">Estimador parametrizável desde escrita e validação das histórias até deploy. Os números abaixo são ponto de partida — altere conforme a velocidade real do time.</p>
+  </div>
+
+  <div class="estgrid">
+    <div class="formcard">
+      <h2 style="font-size:17px;margin-bottom:12px">Premissas</h2>
+      <div class="row"><label>Histórias funcionais</label><input id="stories" type="number" value="7" min="1"></div>
+      <div class="row"><label>Enablers</label><input id="enablers" type="number" value="3" min="0"></div>
+      <div class="row"><label>Horas negócio / item</label><input id="biz" type="number" value="3" step=".5"></div>
+      <div class="row"><label>Horas refino técnico / item</label><input id="refine" type="number" value="1.5" step=".5"></div>
+      <div class="row"><label>Horas dev / SP</label><input id="dev" type="number" value="5" step=".5"></div>
+      <div class="row"><label>Horas QA / SP</label><input id="qa" type="number" value="2.2" step=".1"></div>
+      <div class="row"><label>% correção de bugs</label><input id="bugs" type="number" value="18"></div>
+      <div class="row"><label>Horas homologação / item</label><input id="uat" type="number" value="1.2" step=".1"></div>
+      <div class="row"><label>Horas deploy / release</label><input id="deployh" type="number" value="10"></div>
+      <div class="row"><label>SP totais estimados</label><input id="sp" type="number" value="34"></div>
+      <div class="row"><label>Capacidade dev+QA / sprint (h)</label><input id="capacity" type="number" value="160"></div>
+    </div>
+
+    <div>
+      <div class="estcards">
+        <div class="estcard"><span>Esforço total</span><b id="totalH">0 h</b></div>
+        <div class="estcard"><span>Dev + QA</span><b id="buildH">0 h</b></div>
+        <div class="estcard"><span>Negócio + refino</span><b id="prepH">0 h</b></div>
+        <div class="estcard"><span>Sprints equivalentes</span><b id="sprints">0</b></div>
+      </div>
+      <div class="card"><div class="cardhead"><h3>Distribuição do esforço</h3></div><div class="cardbody">
+        <div class="barstack" id="barstack"></div><div class="legend" id="legend"></div>
+        <table class="table" style="margin-top:14px">
+          <tr><th>Etapa</th><th>Fórmula</th><th>Horas</th><th>%</th></tr>
+          <tbody id="estRows"></tbody>
+        </table>
+      </div></div>
+
+      <div class="callout warn"><b>Leitura de capacidade:</b> “sprints equivalentes” considera apenas horas dev+QA contra a capacidade informada. Negócio, refinamento, homologação e deploy consomem calendário e agenda, mas não necessariamente a mesma capacidade da squad.</div>
+    </div>
+  </div>
+</section>
+
+<section class="page" id="business">
+  <div class="pagehead">
+    <div class="kicker">Parte 4 • Priorização e business case</div>
+    <h1>Tese de ganho versus esforço</h1>
+    <p class="lead">A POC só faz sentido agora se puder alterar comportamento com pouco acoplamento e gerar sinal mensurável antes de competir com features core.</p>
+  </div>
+
+  <div class="business">
+    <div>
+      <div class="card"><div class="cardhead"><h3>Tese</h3><span class="badge green">POC enxuta</span></div><div class="cardbody">
+        <div class="thesis">“Uma camada leve de feedback pode aumentar a aderência à prioridade e ao prazo sem alterar o fluxo core.”</div>
+        <p style="font-size:12px">O maior valor potencial não está nos pontos. Está em tornar a prioridade visível, reforçar execução correta e produzir feedback operacional em tempo quase imediato.</p>
+      </div></div>
+
+      <div class="card" style="margin-top:14px"><div class="cardhead"><h3>Hipóteses de ganho</h3></div><div class="cardbody">
+        <div class="hypo"><div><b>1. Mais aderência à fila priorizada</b><p>Menos escolha de casos fáceis e maior foco no gargalo real.</p></div><div class="impact">Impacto alto</div></div>
+        <div class="hypo"><div><b>2. Redução de ações fora do prazo</b><p>Feedback imediato e progresso visível reforçam consistência.</p></div><div class="impact">Impacto alto</div></div>
+        <div class="hypo"><div><b>3. Menos retrabalho</b><p>Quality gate impede premiar velocidade sem qualidade.</p></div><div class="impact">Impacto médio</div></div>
+        <div class="hypo"><div><b>4. Melhor gestão por exceção</b><p>Líder enxerga evolução e gargalos sem depender só de cobrança manual.</p></div><div class="impact">Impacto médio</div></div>
+        <div class="hypo"><div><b>5. Aprendizado operacional</b><p>Eventos de pontuação também criam trilha útil para entender comportamento.</p></div><div class="impact">Impacto médio</div></div>
+      </div></div>
+    </div>
+
+    <div>
+      <div class="scorebox">
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:.08em">Score de priorização</div>
+        <div class="big" id="priorityScore">0.0</div>
+        <p>Modelo simples: (Impacto × Confiança × Alcance × Urgência) ÷ Esforço.</p>
+        <div class="scoregrid">
+          <div><label>Impacto (1–5)</label><input id="impact" type="number" min="1" max="5" value="4"></div>
+          <div><label>Confiança (0–1)</label><input id="confidence" type="number" min="0" max="1" step=".1" value=".6"></div>
+          <div><label>Alcance (1–5)</label><input id="reach" type="number" min="1" max="5" value="4"></div>
+          <div><label>Urgência (1–5)</label><input id="urgency" type="number" min="1" max="5" value="3"></div>
+          <div><label>Esforço relativo (1–10)</label><input id="effort" type="number" min="1" max="10" value="5"></div>
+        </div>
+        <div class="decision" id="decision">—</div>
+      </div>
+
+      <div class="card" style="margin-top:14px"><div class="cardhead"><h3>Quando priorizar agora</h3></div><div class="cardbody">
+        <ul class="ul"><li>A fila priorizada já existe ou está suficientemente definida.</li><li>Os campos de prazo são confiáveis.</li><li>Há um piloto pequeno com liderança disposta a testar.</li><li>A implementação cabe sem deslocar uma entrega core crítica.</li><li>Existe baseline para comparar antes/depois.</li></ul>
+      </div></div>
+
+      <div class="card" style="margin-top:14px"><div class="cardhead"><h3>Quando adiar</h3></div><div class="cardbody">
+        <ul class="ul"><li>Prioridade ainda é subjetiva ou muda sem regra clara.</li><li>Não há dado confiável de prazo ou retrabalho.</li><li>Precisaria criar um motor genérico de gamificação antes do piloto.</li><li>A squad está consumida por integrações ou features core indispensáveis.</li></ul>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sectiontitle"><div class="num">R</div><h2>Recomendação de recorte para decisão</h2></div>
+    <div class="grid3">
+      <div class="card"><div class="cardbody"><span class="badge green">MVP 1</span><h3 style="margin-top:10px">Direção + feedback</h3><p style="font-size:12px">Home + bloco no Caso + regras. Sem estorno automático sofisticado.</p><b style="color:var(--sf3)">Menor esforço</b></div></div>
+      <div class="card"><div class="cardbody"><span class="badge">MVP 2</span><h3 style="margin-top:10px">Medição real</h3><p style="font-size:12px">Adicionar eventos persistidos, desempenho e missão coletiva.</p><b style="color:var(--sf3)">Prova de negócio</b></div></div>
+      <div class="card"><div class="cardbody"><span class="badge orange">Só depois</span><h3 style="margin-top:10px">Escala</h3><p style="font-size:12px">Selos avançados, campanhas, parametrização completa e analytics mais ricos.</p><b style="color:var(--sf3)">Após evidência</b></div></div>
+    </div>
+  </div>
+</section>
+
+<script>
+const tabs=[...document.querySelectorAll('.tab')], pages=[...document.querySelectorAll('.page')];
+tabs.forEach(t=>t.onclick=()=>{tabs.forEach(x=>x.classList.remove('active'));t.classList.add('active');pages.forEach(p=>p.classList.toggle('active',p.id===t.dataset.page));window.scrollTo(0,0)});
+document.querySelectorAll('.issueTop').forEach(x=>x.onclick=()=>x.parentElement.classList.toggle('open'));
+
+const ids=['stories','enablers','biz','refine','dev','qa','bugs','uat','deployh','sp','capacity'];
+const colors=['#0176d3','#0b5cab','#2e844a','#a96404','#7526c5','#ba0517'];
+function calc(){
+  const v={}; ids.forEach(id=>v[id]=parseFloat(document.getElementById(id).value)||0);
+  const items=v.stories+v.enablers;
+  const parts=[
+    ['Escrita/validação',items*v.biz],
+    ['Refino técnico',items*v.refine],
+    ['Desenvolvimento',v.sp*v.dev],
+    ['Teste QA',v.sp*v.qa],
+    ['Correção de bugs',(v.sp*v.dev+v.sp*v.qa)*(v.bugs/100)],
+    ['Homologação',items*v.uat],
+    ['Deploy',v.deployh]
+  ];
+  const total=parts.reduce((a,b)=>a+b[1],0);
+  const build=parts[2][1]+parts[3][1]+parts[4][1];
+  const prep=parts[0][1]+parts[1][1];
+  document.getElementById('totalH').textContent=Math.round(total)+' h';
+  document.getElementById('buildH').textContent=Math.round(build)+' h';
+  document.getElementById('prepH').textContent=Math.round(prep)+' h';
+  document.getElementById('sprints').textContent=(build/Math.max(v.capacity,1)).toFixed(1);
+  const stack=document.getElementById('barstack'), legend=document.getElementById('legend'), rows=document.getElementById('estRows');
+  stack.innerHTML='';legend.innerHTML='';rows.innerHTML='';
+  parts.forEach((p,i)=>{
+    const pct=total?p[1]/total*100:0;
+    stack.innerHTML+=`<div class="seg" style="width:${pct}%;background:${colors[i%colors.length]}"></div>`;
+    legend.innerHTML+=`<span><i class="dot" style="background:${colors[i%colors.length]}"></i>${p[0]}</span>`;
+    rows.innerHTML+=`<tr><td>${p[0]}</td><td>${i===0?items+' × '+v.biz:i===1?items+' × '+v.refine:i===2?v.sp+' SP × '+v.dev:i===3?v.sp+' SP × '+v.qa:i===4?v.bugs+'% de Dev+QA':i===5?items+' × '+v.uat:'fixo'}</td><td>${p[1].toFixed(1)}</td><td>${pct.toFixed(0)}%</td></tr>`;
+  });
+}
+ids.forEach(id=>document.getElementById(id).addEventListener('input',calc));calc();
+
+const scoreIds=['impact','confidence','reach','urgency','effort'];
+function score(){
+  const g=id=>parseFloat(document.getElementById(id).value)||0;
+  const s=(g('impact')*g('confidence')*g('reach')*g('urgency'))/Math.max(g('effort'),.1);
+  document.getElementById('priorityScore').textContent=s.toFixed(1);
+  let msg=s>=7?'Boa candidata a POC agora, se não deslocar entrega core crítica.':s>=4?'Vale discovery técnico curto e comparação explícita com itens core.':'Hipótese ainda fraca para competir com backlog core.';
+  document.getElementById('decision').textContent=msg;
+}
+scoreIds.forEach(id=>document.getElementById(id).addEventListener('input',score));score();
+</script>
+</body></html>
