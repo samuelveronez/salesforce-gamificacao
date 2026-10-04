@@ -44,6 +44,6 @@ return <><header className="global"><span className="brand">GSA</span><span clas
 function Experience(){
  const [mode,setMode]=useState(()=>new URLSearchParams(location.search).get('versao')==='operacional'?'operacional':'gamificacao');
  function change(next:string){setMode(next);history.replaceState(null,'',location.pathname+'?versao='+next);}
- return <><div className="experience-switch" role="group" aria-label="Versão da experiência"><strong>Experiência</strong><button aria-pressed={mode==='gamificacao'} onClick={()=>change('gamificacao')}>Com gamificação</button><button aria-pressed={mode==='operacional'} onClick={()=>change('operacional')}>Sem gamificação</button></div>{mode==='operacional'?<Operational/>:<App/>}</>;
+ return <><div className="experience-switch" role="group" aria-label="Versão da experiência"><strong>Experiência</strong><button aria-pressed={mode==='gamificacao'} onClick={()=>change('gamificacao')}>Com gamificação</button><button aria-pressed={mode==='operacional'} onClick={()=>change('operacional')}>Sem gamificação</button><a className="theses-link" href={`${import.meta.env.BASE_URL}teses-gsa.html`}>Teses de valor ↗</a></div>{mode==='operacional'?<Operational/>:<App/>}</>;
 }
 createRoot(document.getElementById('root')!).render(<Experience/>);
