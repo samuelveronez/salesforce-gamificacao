@@ -276,3 +276,22 @@ Base: ESCOPO-GSA.md local, ESCOPO-APLICACAO.md, app/README.md e telas de app/src
 
 [Escopo da aplicação](../ESCOPO-APLICACAO.md) · [Roteiro do protótipo](../app/README.md)
 
+
+## Atualização — FTE por especialidade e retorno do investimento
+
+Estrutura informada: analistas tradicionais; liquidadores para perda total e roubo/furto, com pagamento e documentação de transferência; N2 técnico para acordos, reparo à revelia, desacordo de mão de obra e reparo mal executado; Fale com o analista para parte das conversas do corretor. Ratear capacidade de pessoas compartilhadas.
+
+O simulador do site separa atividades que permanecem (menos minutos) de atividades eliminadas (zero ou esforço residual). Tempos restantes excluem o esforço das atividades eliminadas. Os quatro ganhos originais somam 600 horas/mês e usam 132 horas produtivas/FTE. Custos, Capex, conversões, eliminação e calendário são ilustrativos.
+
+- FTE necessário = horas de demanda / horas produtivas por FTE. Cobre apenas atividades modeladas, não o quadro total.
+- Horas liberadas = volume × cobertura × (antes − depois) / 60.
+- Economia operacional = FTE liberado × custo evitável/FTE × conversão financeira × rampa. Capacidade realocada sem redução de custo fica fora do ROI.
+- Tecnologia = custos retirados/contratações evitadas − novos custos incrementais. Considerar convivência até desativação efetiva.
+- Outras teses começam zeradas: pagamentos indevidos evitados, recuperação incremental líquida e custos externos evitados, sem repetir mão de obra.
+- Economia mensal líquida = operação realizável + tecnologia evitada + outras economias − novos custos recorrentes.
+- Ano = soma de 12 meses; cinco anos = soma de 60 meses, com cronograma e rampa.
+- Investimento inicial = Capex + desembolso adicional não incluído nele. ROI de cinco anos = (economia líquida de 60 meses − investimento inicial) / investimento inicial.
+- Payback usa recuperação mantida até o mês 60. VPL desconta fluxos mensais pela taxa anual equivalente. Valores iniciais: R$ 3 milhões de Capex, zero adicional e 10% de desconto, apenas demonstrativos.
+- Não inclui inflação, crescimento, impostos, depreciação ou valor residual. Validar taxa, custos e conversão com Finanças. Exportação CSV inclui premissas e 60 meses. Edições ficam só no navegador e são perdidas ao recarregar.
+
+Referência metodológica geral: [HM Treasury — Green Book 2026](https://www.gov.uk/government/publications/the-green-book-appraisal-and-evaluation-in-central-government/the-green-book-2026), sem uso de benchmark ou taxa corporativa.
