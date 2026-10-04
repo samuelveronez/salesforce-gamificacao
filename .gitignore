@@ -7,3 +7,4 @@ dist/
 !.env.example
 /site-publicacao/
 /site-publicacao.tar.gz
+/pages-publicacao/
