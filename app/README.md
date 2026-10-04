@@ -33,3 +33,7 @@ O cenário começa com 12 de 18 prioridades concluídas e 420 pontos confirmados
 ## Fontes
 
 Materiais originais na pasta superior, preservados, e cópias locais em `public/referencias/`. A pesquisa contém marcadores de citação sem os links bibliográficos originais.
+
+## Versão operacional
+
+O seletor no topo alterna entre Com gamificação e Sem gamificação. A versão operacional contém início, carteira, detalhe de sinistro e gestor, com registro de ação e revisão de qualidade sem pontos, missões, selos ou reconhecimento. Os dados de cada versão são independentes. O parâmetro `?versao=operacional` abre diretamente a versão sem gamificação.

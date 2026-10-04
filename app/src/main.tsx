@@ -3,6 +3,7 @@ import {createRoot} from 'react-dom/client';
 import {LayoutGrid,Search,House,BriefcaseBusiness,Target,ChartNoAxesCombined,BookOpen,ChevronRight,Check,Clock,ShieldCheck,Users,Flame,Trophy,ArrowUpRight,RotateCcw,X,Car,CircleCheck,FileText,ExternalLink} from 'lucide-react';
 import '@salesforce-ux/design-system/assets/styles/salesforce-lightning-design-system.css';
 import './style.css';
+import Operational from './Operational';
 import {seed,stages,score,type Case} from './data';
 type Page='inicio'|'carteira'|'missoes'|'gestor'|'regras'|'referencias';
 const links=[['inicio','Início',House],['carteira','Minha carteira',BriefcaseBusiness],['missoes','Missões e conquistas',Target],['gestor','Visão do gestor',ChartNoAxesCombined],['regras','Regras',BookOpen],['referencias','Referências',FileText]] as const;
@@ -40,4 +41,9 @@ return <><header className="global"><span className="brand">GSA</span><span clas
 {toast&&<div className="toast" role="status"><CircleCheck size={20}/>{toast}<button aria-label="Fechar aviso" onClick={()=>setToast('')}><X size={17}/></button></div>}
 {(modal||reset)&&<div className="modal-overlay" onClick={()=>{setModal(false);setReset(false);}}><section role="dialog" aria-modal="true" aria-labelledby="dialog-title" className="modal" onClick={e=>e.stopPropagation()}><div className="card-head"><h2 id="dialog-title">{reset?'Reiniciar demonstração':'Concluir próxima ação'}</h2><button aria-label="Fechar" onClick={()=>{setModal(false);setReset(false);}}><X size={19}/></button></div><div className="card-body">{reset?<p>A carteira, as missões e a pontuação voltarão ao cenário inicial de demonstração.</p>:<><span className="pill blue">{current?.id}</span><h3 className="modal-action">{current?.action}</h3><label className="form-label">Decisão / ação realizada<textarea autoFocus rows={4} value={note} onChange={e=>setNote(e.target.value)} placeholder="Ex.: orçamento analisado e reparo autorizado. Oficina e segurado atualizados."/></label><label className="checkbox"><input type="checkbox" checked={onTime} onChange={e=>setOnTime(e.target.checked)}/> Ação realizada dentro do SLA</label><div className="quality-note"><ShieldCheck size={20}/><p>{current&&fmt(score(current,!!isPriority,onTime))} pontos provisórios. A validação de qualidade confirma o reconhecimento.</p></div></>}</div><div className="modal-footer"><button className="button" onClick={()=>{setModal(false);setReset(false);}}>Cancelar</button><button className="button primary" disabled={!reset&&!note.trim()} onClick={()=>{if(reset){persist(seed);go('inicio');setFilter('Todos');setReset(false);notify('Demonstração reiniciada.');}else complete();}}>{reset?'Reiniciar':'Registrar ação'}</button></div></section></div>}</>;
 }
-createRoot(document.getElementById('root')!).render(<App/>);
+function Experience(){
+ const [mode,setMode]=useState(()=>new URLSearchParams(location.search).get('versao')==='operacional'?'operacional':'gamificacao');
+ function change(next:string){setMode(next);history.replaceState(null,'',location.pathname+'?versao='+next);}
+ return <><div className="experience-switch" role="group" aria-label="Versão da experiência"><strong>Experiência</strong><button aria-pressed={mode==='gamificacao'} onClick={()=>change('gamificacao')}>Com gamificação</button><button aria-pressed={mode==='operacional'} onClick={()=>change('operacional')}>Sem gamificação</button></div>{mode==='operacional'?<Operational/>:<App/>}</>;
+}
+createRoot(document.getElementById('root')!).render(<Experience/>);
