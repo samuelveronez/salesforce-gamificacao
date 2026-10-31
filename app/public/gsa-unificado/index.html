@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GSA Unificado</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#181818;--ink2:#3E3E3C;--muted:#5C5C5C;--line:#DDDBDA;--line2:#ECEBEA;--bg:#F3F3F3;--card:#FFFFFF;--blue:#0B5CAB;--blue-d:#06386B;--blue-l:#E5F0FB;--navy:#0B2545;--warn:#8C4B02;--warn-bg:#FEF1E1;--bad:#8E030F;--bad-bg:#FDE7E5;--ok:#1E6B35;--ok-bg:#E3F3E8;--orange:#B86200;--purple:#5A2D91;--purple-bg:#EEE6FA}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 Inter,system-ui,sans-serif}
+a{color:var(--blue)}a:hover{color:var(--blue-d)}
+button,select,input,textarea{font:inherit}
+.topbar{background:var(--navy);color:#F6F7F9;display:flex;gap:10px 16px;align-items:center;flex-wrap:wrap;padding:8px 16px;font-size:13px}
+.topbar strong{font-weight:700}.topbar a{color:#8FC1F2}
+.topbar .grow{flex:1}
+.switch{display:inline-flex;align-items:center;gap:8px;cursor:pointer;min-height:32px;color:#F6F7F9}
+.switch input{width:36px;height:20px;appearance:none;background:#3D5A80;border-radius:10px;position:relative;cursor:pointer;margin:0;flex:none}
+.switch input::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .15s}
+.switch input:checked{background:#4A9BE8}.switch input:checked::after{left:18px}
+.switch input:focus-visible{outline:2px solid #fff;outline-offset:2px}
+header.app{background:var(--card);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:8px 16px;flex-wrap:wrap}
+.logo{width:34px;height:34px;border-radius:8px;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex:none}
+.appname{display:flex;flex-direction:column}.appname b{font-size:15px}.appname span{font-size:12px;color:var(--muted)}
+.search{flex:1 1 260px;max-width:520px;margin:0 auto}
+.search input{width:100%;height:40px;border:1px solid #C9C9C9;border-radius:6px;padding:0 12px;background:#fff}
+.who{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink2)}
+.avatar{width:34px;height:34px;border-radius:50%;background:var(--blue-l);color:var(--blue);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px}
+nav.roles{background:var(--card);border-bottom:1px solid var(--line);display:flex;gap:2px;padding:0 16px;overflow-x:auto;align-items:center}
+nav.roles .lbl{font-size:12px;color:var(--muted);padding-right:6px;white-space:nowrap}
+nav.roles button{height:44px;padding:0 12px;border:none;border-bottom:3px solid transparent;background:none;color:var(--ink2);cursor:pointer;white-space:nowrap}
+nav.roles button[aria-current="page"]{color:var(--blue);border-bottom-color:var(--blue);font-weight:600}
+main{padding:20px 24px 48px;max-width:1440px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.head{display:flex;gap:16px;align-items:flex-end;flex-wrap:wrap}
+.head .t{flex:1 1 360px;display:flex;flex-direction:column;gap:2px}
+.eyebrow{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px}
+h1{margin:0;font-size:22px}h2{margin:0;font-size:16px}h3{margin:0;font-size:14px}
+.sub{font-size:13px;color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px 18px;display:flex;flex-direction:column;gap:12px;position:relative;min-width:0}
+.card.hl{border:2px solid var(--blue)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(180px,100%),1fr));gap:12px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px 16px;display:flex;flex-direction:column;gap:4px;position:relative}
+.kpi span{font-size:13px;color:var(--muted)}.kpi b{font-size:26px;letter-spacing:-.5px}.kpi small{font-size:12px;color:var(--muted)}
+.kpi small.w{color:var(--warn);font-weight:600}
+.cols{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+.cols>.main{flex:999 1 620px;min-width:0;display:flex;flex-direction:column;gap:16px}
+.cols>.side{flex:1 1 320px;min-width:0;display:flex;flex-direction:column;gap:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:16px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;background:var(--bg);color:var(--ink2);font-weight:600;padding:9px 10px;white-space:nowrap}
+td{padding:9px 10px;border-bottom:1px solid var(--line2);vertical-align:top}
+.link{background:none;border:none;color:var(--blue);font-weight:600;cursor:pointer;padding:0;text-align:left}
+.link:hover{text-decoration:underline}
+.btn{height:36px;padding:0 14px;border:1px solid #C9C9C9;background:#fff;color:var(--blue);border-radius:6px;font-weight:600;cursor:pointer;white-space:nowrap}
+.btn.p{background:var(--blue);border-color:var(--blue);color:#fff}
+.btn.sm{height:32px;padding:0 10px;font-size:13px}
+.btn:focus-visible,.link:focus-visible,nav.roles button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.pill{display:inline-flex;align-items:center;font-size:11px;font-weight:700;padding:3px 8px;border-radius:10px;white-space:nowrap}
+.p1{background:var(--bad-bg);color:var(--bad)}.p2{background:var(--warn-bg);color:var(--warn)}.p3{background:var(--bg);color:var(--ink2)}
+.tb{background:var(--blue-l);color:var(--blue)}.tg{background:var(--ok-bg);color:var(--ok)}.tp{background:var(--purple-bg);color:var(--purple)}
+.bar{display:flex;height:8px;border-radius:3px;overflow:hidden;background:var(--line2);gap:1px}
+.bar i{display:block;height:100%}
+.c-sla{background:#0B5CAB}.c-cli{background:#B86200}.c-val{background:#4E8A8A}
+.legend{display:flex;gap:6px 16px;flex-wrap:wrap;font-size:12px;color:var(--ink2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:10px;height:10px;border-radius:2px;display:inline-block}
+.list>div{padding:10px 0;border-top:1px solid var(--line2);display:flex;flex-direction:column;gap:3px}
+.list>div:first-child{border-top:none}
+.meter{height:8px;background:var(--line2);border-radius:4px;overflow:hidden}.meter i{display:block;height:100%;background:var(--blue)}
+.meter i.over{background:var(--orange)}
+.path{display:flex;gap:4px;overflow-x:auto}
+.path div{clip-path:polygon(0 0,calc(100% - 12px) 0,100% 50%,calc(100% - 12px) 100%,0 100%,12px 50%);padding:9px 20px 9px 24px;min-width:120px;flex:1 0 120px;text-align:center;font-size:13px;font-weight:600;background:var(--line2);color:var(--ink2)}
+.path .d{background:#2E844A;color:#fff}.path .c{background:var(--blue);color:#fff}
+.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(170px,100%),1fr));gap:10px}
+.flow .st{border:1px solid var(--line);border-top:4px solid var(--blue);border-radius:8px;padding:12px;display:flex;flex-direction:column;gap:6px}
+.flow .st.w{border-top-color:var(--orange)}
+.flow .st b{font-size:24px}
+.alert{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:6px;background:var(--warn-bg);color:#5A3100;font-size:13px}
+.empty{padding:18px;text-align:center;color:var(--muted);font-size:13px;border:1px dashed var(--line);border-radius:8px}
+/* Como construir */
+.tier{display:none;position:absolute;top:-10px;right:10px;font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px;text-decoration:none;border:1px solid;background:#fff;z-index:2;white-space:nowrap}
+body.show-build .tier{display:inline-block}
+body.show-build .card,body.show-build .kpi{outline:1px dashed #9AA5B1;outline-offset:3px}
+.tier.nat{color:var(--ok);border-color:var(--ok)}.tier.cfg{color:var(--blue);border-color:var(--blue)}.tier.lwc{color:var(--purple);border-color:var(--purple)}.tier.int{color:var(--warn);border-color:var(--orange)}
+.tier.inl{position:static}
+.buildkey{display:none}body.show-build .buildkey{display:flex}
+/* Reconhecimento */
+.recon{display:none!important}body.show-recon .recon{display:flex!important}
+body.show-recon span.recon{display:inline-flex!important}
+/* modal */
+.ov{position:fixed;inset:0;background:rgba(8,20,40,.45);display:flex;align-items:center;justify-content:center;padding:16px;z-index:10}
+.modal{background:#fff;border-radius:10px;max-width:520px;width:100%;padding:20px;display:flex;flex-direction:column;gap:12px;max-height:90vh;overflow:auto}
+.modal label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--ink2)}
+.modal select,.modal textarea,.modal input{border:1px solid #C9C9C9;border-radius:6px;padding:8px 10px;background:#fff}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:10px 16px;border-radius:8px;font-size:13px;z-index:11;max-width:calc(100% - 32px)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media (max-width:600px){main{padding:16px 12px 40px}.topbar .grow{display:none}}
+</style>
+</head>
+<body>
+<div class="topbar">
+<strong>POC · GSA Unificado</strong>
+<span style="color:#C9D6E6">Um papel, uma régua, uma jornada. Dados fictícios.</span>
+<span class="grow"></span>
+<label class="switch"><input type="checkbox" id="tg-build"> Como construir</label>
+<label class="switch"><input type="checkbox" id="tg-recon"> Reconhecimento</label>
+<a href="prd.html">PRD ↗</a>
+<a href="/">Voltar às POCs</a>
+</div>
+<header class="app">
+<div class="logo">GSA</div>
+<div class="appname"><b>Gestão de Sinistro Auto</b><span>Console unificado</span></div>
+<div class="search"><label class="sr" for="q">Buscar sinistro</label><input id="q" type="search" placeholder="Buscar sinistro pelo número"></div>
+<div class="who"><span id="who-name"></span><span class="avatar" id="who-av"></span></div>
+</header>
+<nav class="roles" aria-label="Visão por papel" id="roles"></nav>
+<div class="buildkey" style="background:#fff;border-bottom:1px solid var(--line);padding:8px 16px;gap:8px 16px;flex-wrap:wrap;font-size:12px;align-items:center">
+<b>Como construir cada bloco:</b>
+<span class="pill tg">Nativo</span><span>painel, relatório, lista, página do caso</span>
+<span class="pill tb">Configuração</span><span>campos, fórmula, Flow, ação rápida</span>
+<span class="pill tp">LWC</span><span>componente novo na página</span>
+<span class="pill p2">Integração</span><span>dado de outro sistema</span>
+<a href="prd.html#mapa">Ver o mapa de features</a>
+</div>
+<main id="main"></main>
+<div id="modal"></div>
+<div id="toast" class="toast" role="status" hidden></div>
+
+<script>
+(function(){
+'use strict';
+var STAGES=['Aviso','Análise','Vistoria','Regulação & Orçamento','Reparo','Entrega'];
+var ROLES=[
+ {id:'diretoria',label:'Diretoria',who:'Diretoria de sinistro',av:'DS'},
+ {id:'mesa',label:'Mesa central',who:'Coordenação da mesa',av:'MC'},
+ {id:'lideranca',label:'Supervisor',who:'Supervisor · Regulação RJ',av:'SV'},
+ {id:'analista',label:'Analista',who:'A. Rocha · Análise SP',av:'AR'},
+ {id:'regulador',label:'Regulador',who:'M. Duarte · Regulação RJ',av:'MD'},
+ {id:'parceiros',label:'Oficinas e peças',who:'Gestão de oficinas e peças',av:'OP'}
+];
+var SEED=[
+ {id:'2026-0051230',seg:'Paulo Mendes',veic:'Hatch 1.0 · 2023',etapa:1,acao:'Analisar cobertura',motivo:'Segundo contato do segurado; prazo da etapa venceu ontem.',sla:40,cli:35,val:12,papel:'analista',dono:'A. Rocha',reg:'SP',prazo:'Venceu há 1 dia',venc:true},
+ {id:'2026-0051004',seg:'Renata Alves',veic:'SUV 1.3 · 2024',etapa:1,acao:'Conferir documentos recebidos',motivo:'Documentos chegaram hoje às 9h; liberam a vistoria.',sla:37,cli:17,val:16,papel:'analista',dono:'A. Rocha',reg:'SP',prazo:'Vence hoje, 16h',venc:false},
+ {id:'2026-0050871',seg:'Jorge Lima',veic:'Sedã 1.6 · 2021',etapa:1,acao:'Conferir documentos',motivo:'Prazo da etapa venceu hoje.',sla:40,cli:17,val:15,papel:'analista',dono:'A. Rocha',reg:'SP',prazo:'Venceu hoje',venc:true},
+ {id:'2026-0051377',seg:'Ana Ribeiro',veic:'Hatch 1.0 · 2022',etapa:1,acao:'Analisar cobertura',motivo:'Reclamação registrada no app.',sla:34,cli:17,val:13,papel:'analista',dono:'A. Rocha',reg:'SP',prazo:'Vence amanhã',venc:false},
+ {id:'2026-0051512',seg:'Carlos Dias',veic:'Picape 2.0 · 2023',etapa:1,acao:'Avaliar possível perda total',motivo:'Reserva alta: perda total provável.',sla:30,cli:0,val:25,papel:'analista',dono:'A. Rocha',reg:'SP',prazo:'Vence em 2 dias',venc:false},
+ {id:'2026-0049120',seg:'Marta Souza',veic:'Hatch 1.0 · 2020',etapa:1,acao:'Concluir análise após documento',motivo:'Documento do veículo pendente.',sla:40,cli:17,val:10,papel:'analista',dono:'A. Rocha',reg:'SP',prazo:'Venceu há 3 dias',venc:true,trava:{time:'Segurado',motivo:'Documento do veículo pendente',dias:6}},
+ {id:'2026-0051833',seg:'Luís Costa',veic:'Sedã 1.0 · 2019',etapa:0,acao:'Validar aviso',motivo:'Aviso recebido pelo app ontem.',sla:20,cli:0,val:13,papel:'analista',dono:'A. Rocha',reg:'SP',prazo:'Vence em 4 dias',venc:false},
+ {id:'2026-0051740',seg:'Beatriz Nunes',veic:'SUV 2.0 · 2024',etapa:2,acao:'Realizar vistoria agendada · 10:00',motivo:'Oficina Bom Retiro, Tijuca. Cliente aguarda liberação.',sla:33,cli:17,val:25,papel:'regulador',dono:'M. Duarte',reg:'RJ',prazo:'Hoje, 10:00',venc:false,tipo:'Vistoria'},
+ {id:'2026-0047312',seg:'Fábio Rocha',veic:'Hatch 1.6 · 2022',etapa:3,acao:'Aprovar orçamento complementar',motivo:'Oficina pediu complemento há 4 dias.',sla:40,cli:17,val:20,papel:'regulador',dono:'M. Duarte',reg:'RJ',prazo:'Venceu ontem',venc:true,tipo:'Orçamento'},
+ {id:'2026-0048213',seg:'Sônia Freitas',veic:'Hatch 1.0 · 2022',etapa:3,acao:'Resolver divergência de R$ 1.450 com a oficina',motivo:'Pedido da oficina acima do valor regulado.',sla:40,cli:17,val:24,papel:'regulador',dono:'M. Duarte',reg:'RJ',prazo:'Venceu há 6 dias',venc:true,tipo:'Orçamento',trava:{time:'Peças',motivo:'Para-choque sem estoque no fornecedor',dias:6}},
+ {id:'2026-0049021',seg:'Diego Prado',veic:'Sedã 2.0 · 2023',etapa:3,acao:'Elaborar orçamento · fotos recebidas',motivo:'Vistoria concluída; fotos e laudo anexados.',sla:28,cli:0,val:21,papel:'regulador',dono:'M. Duarte',reg:'RJ',prazo:'Vence amanhã',venc:false,tipo:'Orçamento'},
+ {id:'2026-0051802',seg:'Helena Cruz',veic:'Hatch 1.3 · 2021',etapa:2,acao:'Vistoria agendada · 13:30',motivo:'Centro Automotivo Norte, Méier.',sla:25,cli:0,val:20,papel:'regulador',dono:'M. Duarte',reg:'RJ',prazo:'Hoje, 13:30',venc:false,tipo:'Vistoria'},
+ {id:'2026-0047790',seg:'Rui Antunes',veic:'Sedã 1.6 · 2020',etapa:2,acao:'Agendar vistoria',motivo:'Nenhum regulador com agenda na Zona Oeste.',sla:40,cli:35,val:10,papel:'regulador',dono:'L. Prado',reg:'RJ',prazo:'Venceu há 17 dias',venc:true,tipo:'Vistoria',trava:{time:'Field Service',motivo:'Agenda da região lotada até 05/11',dias:17},escalado:'Segurado ligou duas vezes; 17 dias sem vistoria.'},
+ {id:'2026-0046120',seg:'Clara Moura',veic:'SUV 1.6 · 2022',etapa:4,acao:'Acompanhar reparo',motivo:'Procon aberto ontem; 31 dias em reparo.',sla:40,cli:35,val:19,papel:'parceiros',dono:'R. Tavares · consultor',reg:'RJ',prazo:'Venceu há 9 dias',venc:true,oficina:'Funilaria Estrela',trava:{time:'Peças',motivo:'Para-choque sem previsão no fornecedor',dias:12}}
+];
+var TIER={nat:'Nativo',cfg:'Configuração',lwc:'LWC',int:'Integração'};
+var KEY='gsa-unificado-v1';
+var S=load();
+function fresh(){return {role:'analista',caseId:null,recon:false,build:false,cases:JSON.parse(JSON.stringify(SEED)).map(function(c){c.hist=c.hist||[{q:'Aviso registrado',w:'Aviso & Análise'}];c.status='aberto';return c;}),log:[],team:{moved:0},points:{pend:[],conf:420}};}
+function load(){var s=null;try{s=JSON.parse(localStorage.getItem(KEY)||'null');}catch(e){}
+ if(!s||!Array.isArray(s.cases)||s.cases.length!==SEED.length)s=fresh();
+ var p=new URLSearchParams(location.search).get('papel');if(p&&ROLES.some(function(r){return r.id===p;}))s.role=p;
+ s.caseId=null;return s;}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function score(c){return c.sla+c.cli+c.val;}
+function pr(c){var s=score(c);return s>=70?'P1':(s>=40?'P2':'P3');}
+function badge(c){var p=pr(c);return '<span class="pill '+p.toLowerCase()+'">'+p+' · '+score(c)+'</span>';}
+function tier(k,f){return '<a class="tier '+k+'" href="prd.html#'+f+'" title="Ver no PRD">'+f+' · '+TIER[k]+'</a>';}
+function bar(c){return '<div class="bar" role="img" aria-label="SLA '+c.sla+', cliente '+c.cli+', valor '+c.val+'"><i class="c-sla" style="width:'+c.sla+'%"></i><i class="c-cli" style="width:'+c.cli+'%"></i><i class="c-val" style="width:'+c.val+'%"></i></div>';}
+function byId(id){return S.cases.filter(function(c){return c.id===id;})[0];}
+function open(papel){return S.cases.filter(function(c){return c.status==='aberto'&&(!papel||c.papel===papel);});}
+function queue(papel){return open(papel).filter(function(c){return !c.trava;}).sort(function(a,b){return score(b)-score(a);});}
+function blocked(papel){return open(papel).filter(function(c){return c.trava;});}
+function exceptions(){return open().filter(function(c){return !c.mesaOk&&c.escalado||!c.mesaOk&&(c.trava&&c.trava.dias>=3)||c.cli===35;}).map(function(c){
+ var t=c.escalado?'Escalado':(c.cli===35?'Cliente crítico':'Travado entre times');return {c:c,tipo:t};}).sort(function(a,b){return score(b.c)-score(a.c);});}
+function toast(m){var t=document.getElementById('toast');t.textContent=m;t.hidden=false;clearTimeout(toast._t);toast._t=setTimeout(function(){t.hidden=true;},3200);}
+function kpi(l,v,n,w,t){return '<div class="kpi">'+(t||'')+'<span>'+l+'</span><b>'+v+'</b><small'+(w?' class="w"':'')+'>'+n+'</small></div>';}
+function legend(){return '<div class="legend"><span><i class="c-sla"></i>SLA (até 40)</span><span><i class="c-cli"></i>Cliente (até 35)</span><span><i class="c-val"></i>Valor (até 25)</span></div>';}
+
+/* ---------- Visões ---------- */
+function vAnalista(papel){
+ var q=queue(papel),b=blocked(papel),top=q[0],isReg=papel==='regulador';
+ var h='<div class="head"><div class="t"><span class="eyebrow">'+(isReg?'Regulador · meu dia':'Analista · minha carteira')+'</span><h1>'+(isReg?'Qual vistoria e qual orçamento faço primeiro?':'O que eu trato agora?')+'</h1><span class="sub">'+(isReg?'Agenda de vistorias e orçamentos na mesma fila, pela mesma régua.':'Sua carteira ordenada pelo score. O motivo de cada posição aparece na tela.')+'</span></div></div>';
+ var done=S.cases.filter(function(c){return c.papel===papel&&c.status==='concluido';}).length;
+ h+='<div class="kpis">'+kpi('Para tratar',q.length,'Sem trava',false,tier('lwc','F03'))+kpi('P1',q.filter(function(c){return pr(c)==='P1';}).length,'Tratar primeiro')+kpi('Travados',b.length,'Fora da conta de produtividade',b.length>0,tier('cfg','F04'))+kpi('Concluídos hoje',done,'Nesta demonstração')+'</div>';
+ h+='<div class="cols"><div class="main">';
+ if(top){h+='<section class="card hl">'+tier('lwc','F03')+'<div class="row"><div style="display:flex;flex-direction:column;gap:4px;min-width:0"><span class="eyebrow" style="color:var(--blue);font-weight:700">Próximo a tratar</span><div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><h2 style="font-size:20px">Sinistro '+top.id+'</h2>'+badge(top)+'<span class="pill tg recon">+10 se tratar agora</span></div><span class="sub">'+esc(top.acao)+' · '+esc(top.seg)+' (fictício)</span></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" data-act="travar" data-id="'+top.id+'">Registrar trava</button><button class="btn p" data-open="'+top.id+'">Tratar agora</button></div></div>';
+  h+='<div style="display:flex;flex-direction:column;gap:6px;position:relative">'+tier('cfg','F01')+'<b style="font-size:13px">Por que este é o primeiro</b>'+bar(top)+legend()+'<span class="sub">'+esc(top.motivo)+' Prazo: '+esc(top.prazo)+'.</span></div></section>';}
+ else h+='<div class="empty">Nenhum sinistro sem trava na sua fila.</div>';
+ h+='<section class="card">'+tier('lwc','F03')+'<div class="row"><h2>Minha fila</h2><span class="sub">Ordenada pelo score · a mesma régua para todos os papéis</span></div><div class="tw"><table><thead><tr><th>#</th><th>Sinistro</th>'+(isReg?'<th>Tipo</th>':'')+'<th>Score</th><th style="min-width:140px">Composição</th><th>Próxima ação</th><th>Prazo</th></tr></thead><tbody>';
+ q.forEach(function(c,i){h+='<tr><td>'+(i+1)+'</td><td><button class="link" data-open="'+c.id+'">'+c.id+'</button></td>'+(isReg?'<td>'+esc(c.tipo)+'</td>':'')+'<td>'+badge(c)+'</td><td>'+bar(c)+'</td><td>'+esc(c.acao)+'</td><td style="'+(c.venc?'color:var(--bad);font-weight:700':'')+'">'+esc(c.prazo)+'</td></tr>';});
+ h+='</tbody></table></div>'+(q.length?'':'<div class="empty">Fila vazia.</div>')+'</section></div><div class="side">';
+ h+='<section class="card">'+tier('cfg','F04')+'<h2>Meus travados</h2><span class="sub">Esperando outro time. Com 3 dias úteis, sobem sozinhos para a mesa central.</span><div class="list">';
+ b.forEach(function(c){h+='<div><div class="row"><button class="link" data-open="'+c.id+'">'+c.id+'</button><span class="sub">há '+c.trava.dias+' dias</span></div><span>Aguarda <b>'+esc(c.trava.time)+'</b>: '+esc(c.trava.motivo)+'</span>'+(c.escalado?'<span class="pill tb" style="align-self:flex-start">Na mesa central</span>':(c.trava.dias>=3?'<span class="pill p2" style="align-self:flex-start">Subiu para a mesa central</span>':''))+'</div>';});
+ h+='</div>'+(b.length?'':'<div class="empty">Nada travado.</div>')+'</section>';
+ if(isReg)h+='<section class="card">'+tier('nat','F09')+'<h2>Agenda de hoje</h2><span class="sub">Vem do Field Service, na mesma org.</span><div class="list"><div><b>10:00 · Oficina Bom Retiro, Tijuca</b><span class="sub">2026-0051740 · vistoria de colisão</span></div><div><b>13:30 · Centro Automotivo Norte, Méier</b><span class="sub">2026-0051802 · lateral e para-lama</span></div></div></section>';
+ h+='<section class="card recon">'+tier('lwc','F13')+'<h2>Reconhecimento da semana</h2><div class="row"><span>Pontos confirmados</span><b>'+S.points.conf+'</b></div><div class="row"><span>Aguardando qualidade</span><b>'+S.points.pend.reduce(function(s,p){return s+p.pts;},0)+'</b></div><span class="sub">+10 por tratar o primeiro da fila e +5 dentro do prazo. Os pontos só valem depois da revisão de qualidade do supervisor.</span></section>';
+ h+='</div></div>';return h;}
+
+function vMesa(){
+ var ex=exceptions(),cap=[{t:'Reguladores de orçamento RJ',w:'118% de carga há 3 dias'},{t:'Auto Center Vila Nova',w:'Fila em 112% da capacidade'}];
+ var h='<div class="head"><div class="t"><span class="eyebrow">Mesa central</span><h1>Exceções que nenhum time destrava sozinho</h1><span class="sub">Cliente crítico, travado entre times há 3 dias ou mais, escalados e capacidade estourada.</span></div><div class="pill tb" style="font-size:12px;padding:6px 10px">Ritual diário · 09:30 · 15 min</div></div>';
+ h+='<div class="kpis">'+kpi('Exceções abertas',ex.length+cap.length,'Nesta demonstração',false,tier('lwc','F06'))+kpi('Escaladas',ex.filter(function(e){return e.tipo==='Escalado';}).length,'Pedidas pela operação')+kpi('Cliente crítico',ex.filter(function(e){return e.tipo==='Cliente crítico';}).length,'Ouvidoria, Procon ou segundo contato',true)+kpi('Decisões hoje',S.log.length,'Registradas no sinistro',false,tier('cfg','F06'))+'</div>';
+ h+='<div class="cols"><div class="main"><section class="card">'+tier('lwc','F06')+'<div class="row"><h2>Fila de exceções</h2><span class="sub">Ordenada pelo score</span></div><div class="list">';
+ ex.forEach(function(e){var c=e.c;h+='<div><div class="row"><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="pill '+(e.tipo==='Cliente crítico'?'p1':(e.tipo==='Escalado'?'tp':'tb'))+'">'+e.tipo+'</span>'+badge(c)+'<button class="link" data-open="'+c.id+'">Sinistro '+c.id+'</button></div><button class="btn sm p" data-act="decidir" data-id="'+c.id+'">Decidir</button></div><span>'+esc(c.escalado||(c.trava?('Aguarda '+c.trava.time+': '+c.trava.motivo):c.motivo))+'</span><span class="sub">Etapa: '+STAGES[c.etapa]+' · Dono: '+esc(c.dono)+(c.trava?' · travado há '+c.trava.dias+' dias':'')+'</span></div>';});
+ cap.forEach(function(k){h+='<div><div class="row"><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="pill tp">Capacidade</span><b>'+k.t+'</b></div><button class="btn sm" data-role="lideranca">Ver carga</button></div><span>'+k.w+'</span></div>';});
+ h+='</div></section></div><div class="side"><section class="card">'+tier('cfg','F06')+'<h2>Decisões de hoje</h2><div class="list">';
+ if(!S.log.length)h+='<div><span class="sub">Nenhuma decisão registrada ainda. Use "Decidir" numa exceção.</span></div>';
+ S.log.slice().reverse().forEach(function(l){h+='<div><b>'+esc(l.d)+' · '+l.id+'</b><span class="sub">'+esc(l.n)+'</span></div>';});
+ h+='</div></section><section class="card">'+tier('nat','F07')+'<h2>Quem trava quem</h2><div class="list">';
+ var m={};open().forEach(function(c){if(c.trava){m[c.trava.time]=(m[c.trava.time]||0)+1;}});
+ Object.keys(m).forEach(function(k){h+='<div class="row" style="flex-direction:row"><span><b>'+esc(k)+'</b> segura</span><b>'+m[k]+'</b></div>';});
+ if(!Object.keys(m).length)h+='<div><span class="sub">Nenhuma trava aberta.</span></div>';
+ h+='</div></section></div></div>';return h;}
+
+function vLideranca(){
+ var base=[['M. Duarte',46],['L. Prado',44],['C. Lemos',43],['A. Siqueira',41],['T. Moura',40],['J. Barros',36],['F. Ramos',27],['B. Lins',25]];
+ var mv=S.team.moved;base[0][1]-=mv;base[6][1]+=mv;
+ var pend=S.cases.filter(function(c){return c.status==='concluido'&&c.pendQ;});
+ var h='<div class="head"><div class="t"><span class="eyebrow">Supervisor · Reguladores de orçamento RJ</span><h1>Meu time dá conta hoje?</h1><span class="sub">Capacidade planejada de 35 sinistros por pessoa. Travados não contam na produtividade.</span></div></div>';
+ var tot=base.reduce(function(s,p){return s+p[1];},0);
+ h+='<div class="kpis">'+kpi('Carteira (8 de 26)',tot,'Capacidade: 280',tot>280,tier('nat','F07'))+kpi('Carga média',Math.round(tot/280*100)+'%','Acima de 100% sobe para a mesa',tot>280)+kpi('Travas do time',blocked('regulador').length,'Ver abaixo')+kpi('Decisões da mesa',S.log.length,'Que afetam o time')+'</div>';
+ h+='<div class="cols"><div class="main"><section class="card">'+tier('lwc','F08')+'<div class="row"><h2>Carga por pessoa</h2><span class="sub">Só P2 e P3 são movidos; P1 fica com quem começou</span></div><div class="tw"><table><thead><tr><th>Regulador</th><th>Carteira</th><th style="min-width:180px">Carga</th></tr></thead><tbody>';
+ base.forEach(function(p){var l=Math.round(p[1]/35*100);h+='<tr><td><b>'+p[0]+'</b></td><td>'+p[1]+'</td><td><div style="display:flex;gap:8px;align-items:center"><div class="meter" style="flex:1"><i class="'+(l>100?'over':'')+'" style="width:'+Math.min(l,100)+'%"></i></div><span style="min-width:40px;text-align:right;font-weight:600;'+(l>100?'color:var(--warn)':'')+'">'+l+'%</span></div></td></tr>';});
+ h+='</tbody></table></div></section>';
+ h+='<section class="card recon">'+tier('lwc','F13')+'<h2>Revisão de qualidade</h2><span class="sub">Confirma os pontos de reconhecimento da operação.</span><div class="list">';
+ if(!S.points.pend.length)h+='<div><span class="sub">Nenhuma ação aguardando revisão. Conclua uma ação na visão do analista.</span></div>';
+ S.points.pend.forEach(function(p,i){h+='<div class="row" style="flex-direction:row"><span><b>'+p.id+'</b> · '+p.pts+' pontos provisórios</span><button class="btn sm" data-act="validar" data-i="'+i+'">Validar qualidade</button></div>';});
+ h+='</div></section></div><div class="side"><section class="card">'+tier('lwc','F08')+'<h2>Sugestão de redistribuição</h2>';
+ if(mv)h+='<div class="alert" style="background:var(--ok-bg);color:var(--ok)">Aplicado: '+mv+' casos P2/P3 de M. Duarte para F. Ramos.</div>';
+ else h+='<span>Mover 8 casos P2/P3 de M. Duarte (131%) para F. Ramos (77%).</span><button class="btn p" data-act="redistribuir" style="align-self:flex-start">Aplicar</button>';
+ h+='</section><section class="card">'+tier('cfg','F04')+'<h2>Travas do time</h2><div class="list">';
+ blocked('regulador').forEach(function(c){h+='<div><button class="link" data-open="'+c.id+'">'+c.id+'</button><span>Aguarda <b>'+esc(c.trava.time)+'</b> há '+c.trava.dias+' dias</span></div>';});
+ if(!blocked('regulador').length)h+='<div><span class="sub">Sem travas.</span></div>';
+ h+='</div></section></div></div>';return h;}
+
+function vDiretoria(){
+ var ex=exceptions();
+ var flow=[['Aviso & Análise','5.230','8%',false],['Vistoria','2.640','14%',false],['Regulação & Orçamento','4.120','22%',true],['Reparo · peças','6.430','19%',false],['Entrega','1.180','6%',false]];
+ var h='<div class="head"><div class="t"><span class="eyebrow">Diretoria de sinistro</span><h1>O estoque está saudável e onde está o risco?</h1><span class="sub">Números do estoque ilustrativos. Exceções vêm da mesa central desta demonstração.</span></div></div>';
+ h+='<div class="kpis">'+kpi('Estoque ativo','18.420','Ilustrativo',false,tier('nat','F07'))+kpi('Fora do SLA','15,8%','2.914 sinistros',true)+kpi('Tempo médio de regulação','6,8 dias','Meta: 6,0 dias',true)+kpi('Exceções na mesa',ex.length+2,'Ao vivo nesta demonstração',false,tier('lwc','F06'))+'</div>';
+ h+='<section class="card">'+tier('nat','F02')+'<div class="row"><h2>Fluxo do estoque por etapa</h2><span class="legend"><span><i style="background:var(--blue)"></i>Dentro do esperado</span><span><i style="background:var(--orange)"></i>20% ou mais fora do SLA</span></span></div><div class="flow">';
+ flow.forEach(function(f){h+='<div class="st'+(f[3]?' w':'')+'"><span class="sub">'+f[0]+'</span><b>'+f[1]+'</b><span style="font-size:12px">'+f[2]+' fora do SLA</span></div>';});
+ h+='</div></section><div class="grid"><section class="card">'+tier('lwc','F06')+'<h2>Principais exceções</h2><div class="list">';
+ ex.slice(0,4).forEach(function(e){h+='<div><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="pill '+(e.tipo==='Cliente crítico'?'p1':'tb')+'">'+e.tipo+'</span><button class="link" data-open="'+e.c.id+'">'+e.c.id+'</button></div><span class="sub">'+STAGES[e.c.etapa]+' · '+esc(e.c.trava?('aguarda '+e.c.trava.time):e.c.motivo)+'</span></div>';});
+ h+='</div><button class="btn" data-role="mesa" style="align-self:flex-start">Abrir a mesa central</button></section><section class="card">'+tier('nat','F15')+'<h2>Medição de valor</h2><span class="sub">Indicadores das teses de valor, a acompanhar desde o piloto.</span><div class="list"><div><b>P90 aviso até liquidação, por natureza</b><span class="sub">Prazo</span></div><div><b>Minutos de trabalho ativo por sinistro</b><span class="sub">Capacidade</span></div><div><b>Retrabalho e reabertura</b><span class="sub">Qualidade</span></div><div><b>Contatos do cliente por sinistro</b><span class="sub">Experiência</span></div></div></section></div>';
+ return h;}
+
+function vParceiros(){
+ var shops=[['Funilaria Estrela',124,6.1],['Auto Center Vila Nova',112,7.8],['Oficina Bom Retiro',105,8.4],['Reparadora Atlântica',88,8.9],['Garage Lagoa',64,9.2]];
+ var parts=[['Para-choque dianteiro',64,'Sem estoque · prev. 03/11','Fornecedor D · 18 em estoque'],['Farol esquerdo',38,'Estoque baixo','Fornecedor A · 6 em estoque'],['Grade frontal',22,'Consulta manual','Sem alternativo cadastrado']];
+ var waiting=blocked().filter(function(c){return c.trava.time==='Peças';});
+ var h='<div class="head"><div class="t"><span class="eyebrow">Gestão de oficinas e peças</span><h1>Minha rede está cheia, e o que segura o reparo?</h1><span class="sub">Fila e qualidade das oficinas e peças críticas, com os sinistros que dependem delas.</span></div></div>';
+ h+='<div class="grid"><section class="card">'+tier('int','F11')+'<h2>Oficinas da carteira</h2><div class="tw"><table><thead><tr><th>Oficina</th><th style="min-width:150px">Ocupação</th><th>Qualidade</th></tr></thead><tbody>';
+ shops.forEach(function(s){h+='<tr><td><b>'+s[0]+'</b></td><td><div style="display:flex;gap:8px;align-items:center"><div class="meter" style="flex:1"><i class="'+(s[1]>100?'over':'')+'" style="width:'+Math.min(s[1],100)+'%"></i></div><span style="min-width:40px;text-align:right;font-weight:600;'+(s[1]>100?'color:var(--warn)':'')+'">'+s[1]+'%</span></div></td><td><span class="pill '+(s[2]<7?'p2':(s[2]>=8.5?'tg':'p3'))+'">'+String(s[2]).replace('.',',')+'</span></td></tr>';});
+ h+='</tbody></table></div></section><section class="card">'+tier('int','F12')+'<h2>Peças críticas</h2><div class="list">';
+ parts.forEach(function(p){h+='<div><div class="row" style="flex-direction:row"><b>'+p[0]+'</b><span><b>'+p[1]+'</b> reparos</span></div><span class="sub">Principal: '+p[2]+'</span><span style="color:'+(p[3].indexOf('Fornecedor')===0?'var(--ok)':'var(--muted)')+';font-weight:600;font-size:13px">'+p[3]+'</span></div>';});
+ h+='</div></section></div><section class="card">'+tier('cfg','F04')+'<h2>Sinistros parados por peça</h2><div class="list">';
+ waiting.forEach(function(c){h+='<div><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">'+badge(c)+'<button class="link" data-open="'+c.id+'">'+c.id+'</button></div><span>'+esc(c.trava.motivo)+' · há '+c.trava.dias+' dias</span></div>';});
+ if(!waiting.length)h+='<div><span class="sub">Nenhum sinistro parado por peça.</span></div>';
+ h+='</div></section>';return h;}
+
+function vCaso(c){
+ var h='<div><button class="link" data-back="1">← Voltar</button></div>';
+ h+='<section class="card">'+tier('nat','F02')+'<div class="row"><div style="display:flex;flex-direction:column;gap:2px"><span class="eyebrow">Sinistro 360 · '+STAGES[c.etapa]+'</span><div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><h1>'+c.id+'</h1>'+badge(c)+(c.status==='concluido'?'<span class="pill tg">Ação concluída</span>':'')+(c.trava?'<span class="pill p2">Travado: '+esc(c.trava.time)+'</span>':'')+(c.escalado?'<span class="pill tp">Na mesa central</span>':'')+'</div><span class="sub">'+esc(c.seg)+' (fictício) · '+esc(c.veic)+' · '+esc(c.reg)+' · Dono: '+esc(c.dono)+'</span></div>';
+ if(c.status==='aberto')h+='<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">'+tier('cfg','F05').replace('class="tier ','class="tier inl ')+'<button class="btn" data-act="escalar" data-id="'+c.id+'">Escalar</button><button class="btn" data-act="travar" data-id="'+c.id+'">'+(c.trava?'Atualizar trava':'Registrar trava')+'</button><button class="btn p" data-act="concluir" data-id="'+c.id+'">Concluir próxima ação</button></div>';
+ h+='</div><div class="path">';STAGES.forEach(function(s,i){h+='<div class="'+(i<c.etapa?'d':(i===c.etapa?'c':''))+'">'+s+'</div>';});h+='</div></section>';
+ h+='<div class="cols"><div class="main"><section class="card hl">'+tier('cfg','F01')+'<h2>Próxima ação: '+esc(c.acao)+'</h2><span>'+esc(c.motivo)+' Prazo: <b>'+esc(c.prazo)+'</b>.</span>'+bar(c)+legend()+'</section><div class="grid">';
+ var cards=[['Aviso e análise','nat','F02',[['Cobertura','Compreensiva'],['Natureza','Colisão'],['Origem','Aplicativo']]],
+  ['Vistoria','nat','F09',[['Status',c.etapa>2?'Concluída':(c.trava&&c.trava.time==='Field Service'?'Sem agenda':'Agendada')],['Origem','Field Service, mesma org']]],
+  ['Regulação e orçamento','int','F10',[['Status',c.etapa>3?'Aprovado':(c.etapa===3?'Em análise':'Não iniciado')],['Detalhe','Abre no sistema de orçamento']]],
+  ['Oficina','int','F11',[['Oficina',c.oficina||'Auto Center Vila Nova'],['Fila da oficina','85% da capacidade']]],
+  ['Peças','int','F12',[['Situação',c.trava&&c.trava.time==='Peças'?'Sem estoque no principal':'Sem pendência'],['Alternativo',c.trava&&c.trava.time==='Peças'?'Fornecedor D · em estoque':'—']]]];
+ cards.forEach(function(k){h+='<section class="card">'+tier(k[1],k[2])+'<h3>'+k[0]+'</h3><div class="list">';k[3].forEach(function(f){h+='<div><span class="sub">'+f[0]+'</span><b style="font-size:13px">'+esc(f[1])+'</b></div>';});h+='</div></section>';});
+ h+='</div></div><div class="side"><section class="card">'+tier('int','F14')+'<h2>Linha do tempo</h2><div class="list">';
+ c.hist.slice().reverse().forEach(function(e){h+='<div><b style="font-size:13px">'+esc(e.q)+'</b><span class="sub">'+esc(e.w)+'</span></div>';});
+ h+='</div></section></div></div>';return h;}
+
+/* ---------- Ações ---------- */
+function modal(html){document.getElementById('modal').innerHTML='<div class="ov" data-close="1"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="mt">'+html+'</div></div>';var f=document.querySelector('.modal textarea,.modal select,.modal input');if(f)f.focus();}
+function closeModal(){document.getElementById('modal').innerHTML='';}
+function act(a,el){var c=byId(el.getAttribute('data-id'));
+ if(a==='concluir')modal('<h2 id="mt">Concluir: '+esc(c.acao)+'</h2><label>Decisão registrada<textarea id="f-n" rows="3" placeholder="Ex.: cobertura confirmada, vistoria liberada."></textarea></label><span class="sub recon">Reconhecimento: '+(queue(c.papel)[0]===c?'+10 por tratar o primeiro da fila':'sem bônus de prioridade')+(c.venc?'':' · +5 dentro do prazo')+'</span><div class="row" style="justify-content:flex-end"><button class="btn" data-close="1">Cancelar</button><button class="btn p" data-do="concluir" data-id="'+c.id+'">Registrar</button></div>');
+ if(a==='travar')modal('<h2 id="mt">Registrar trava</h2><label>Quem precisa agir<select id="f-t"><option>Segurado</option><option>Field Service</option><option>Regulação</option><option>Oficina</option><option>Peças</option></select></label><label>Motivo<input id="f-n" placeholder="Ex.: laudo de vistoria pendente"></label><span class="sub">O caso sai da sua conta de produtividade. Com 3 dias úteis, sobe para a mesa central.</span><div class="row" style="justify-content:flex-end"><button class="btn" data-close="1">Cancelar</button><button class="btn p" data-do="travar" data-id="'+c.id+'">Registrar</button></div>');
+ if(a==='escalar')modal('<h2 id="mt">Escalar para a mesa central</h2><label>O que você precisa<textarea id="f-n" rows="3" placeholder="Ex.: regulador de outra área para a vistoria."></textarea></label><span class="sub">A mesa central decide em até 1 dia útil e a decisão fica registrada no sinistro.</span><div class="row" style="justify-content:flex-end"><button class="btn" data-close="1">Cancelar</button><button class="btn p" data-do="escalar" data-id="'+c.id+'">Escalar</button></div>');
+ if(a==='decidir')modal('<h2 id="mt">Decisão da mesa · '+c.id+'</h2><label>Decisão<select id="f-t"><option>Time dono age primeiro</option><option>Mover para outra regional</option><option>Autorizar fornecedor alternativo</option><option>Elevar para P1 com dono único</option></select></label><label>Motivo registrado<input id="f-n" placeholder="Ex.: Sul a 82% de carga"></label><span class="sub">A trava e a escalação são encerradas e o caso volta para a fila do dono.</span><div class="row" style="justify-content:flex-end"><button class="btn" data-close="1">Cancelar</button><button class="btn p" data-do="decidir" data-id="'+c.id+'">Registrar decisão</button></div>');
+ if(a==='redistribuir'){S.team.moved=8;S.log.push({id:'Equipe RJ',d:'Redistribuição pelo supervisor',n:'8 casos P2/P3 de M. Duarte para F. Ramos'});save();render();toast('Redistribuição aplicada.');}
+ if(a==='validar'){var i=+el.getAttribute('data-i'),p=S.points.pend.splice(i,1)[0];S.points.conf+=p.pts;save();render();toast('Qualidade validada: '+p.pts+' pontos confirmados.');}
+}
+function doIt(a,el){var c=byId(el.getAttribute('data-id')),n=(document.getElementById('f-n')||{}).value||'',t=(document.getElementById('f-t')||{}).value||'';n=n.trim();
+ if(a==='concluir'){if(!n){toast('Escreva a decisão antes de registrar.');return;}var first=queue(c.papel)[0]===c;var pts=(first?10:0)+(c.venc?0:5);c.status='concluido';c.etapa=Math.min(5,c.etapa+1);c.hist.push({q:'Ação concluída: '+c.acao,w:n});if(S.recon&&pts)S.points.pend.push({id:c.id,pts:pts});closeModal();S.caseId=null;save();render();toast('Ação registrada. O sinistro avançou para '+STAGES[c.etapa]+'.');}
+ if(a==='travar'){c.trava={time:t,motivo:n||'Sem motivo informado',dias:0};c.hist.push({q:'Trava registrada: aguarda '+t,w:n||'Sem motivo informado'});closeModal();save();render();toast('Trava registrada. O caso saiu da sua fila.');}
+ if(a==='escalar'){if(!n){toast('Descreva o que você precisa.');return;}c.escalado=n;c.mesaOk=false;c.hist.push({q:'Escalado para a mesa central',w:n});closeModal();save();render();toast('Escalado. Troque para "Mesa central" para ver o caso lá.');}
+ if(a==='decidir'){c.trava=null;c.escalado=null;c.mesaOk=true;c.hist.push({q:'Decisão da mesa central: '+t,w:n||'Sem motivo informado'});S.log.push({id:c.id,d:t,n:n||'Sem motivo informado'});closeModal();save();render();toast('Decisão registrada no sinistro.');}
+}
+
+/* ---------- Render ---------- */
+function render(){
+ var r=ROLES.filter(function(x){return x.id===S.role;})[0];
+ document.getElementById('who-name').textContent=r.who;document.getElementById('who-av').textContent=r.av;
+ document.getElementById('roles').innerHTML='<span class="lbl">Visão</span>'+ROLES.map(function(x){return '<button data-role="'+x.id+'"'+(x.id===S.role?' aria-current="page"':'')+'>'+x.label+'</button>';}).join('')+'<button data-act="reset" style="margin-left:auto;color:var(--muted)">Reiniciar demonstração</button>';
+ document.body.classList.toggle('show-build',S.build);document.body.classList.toggle('show-recon',S.recon);
+ document.getElementById('tg-build').checked=S.build;document.getElementById('tg-recon').checked=S.recon;
+ var c=S.caseId&&byId(S.caseId),h;
+ if(c)h=vCaso(c);
+ else if(S.role==='analista')h=vAnalista('analista');
+ else if(S.role==='regulador')h=vAnalista('regulador');
+ else if(S.role==='mesa')h=vMesa();
+ else if(S.role==='lideranca')h=vLideranca();
+ else if(S.role==='diretoria')h=vDiretoria();
+ else h=vParceiros();
+ document.getElementById('main').innerHTML=h;}
+
+document.addEventListener('click',function(e){var el=e.target.closest('[data-role],[data-open],[data-act],[data-do],[data-close],[data-back]');if(!el)return;
+ if(el.hasAttribute('data-close')&&e.target!==el&&!e.target.hasAttribute('data-close'))return;
+ if(el.hasAttribute('data-role')){S.role=el.getAttribute('data-role');S.caseId=null;save();render();window.scrollTo(0,0);}
+ else if(el.hasAttribute('data-open')){S.caseId=el.getAttribute('data-open');render();window.scrollTo(0,0);}
+ else if(el.hasAttribute('data-back')){S.caseId=null;render();}
+ else if(el.hasAttribute('data-do'))doIt(el.getAttribute('data-do'),el);
+ else if(el.hasAttribute('data-close'))closeModal();
+ else if(el.getAttribute('data-act')==='reset'){var keep={build:S.build,recon:S.recon,role:S.role};S=fresh();S.build=keep.build;S.recon=keep.recon;S.role=keep.role;save();render();toast('Demonstração reiniciada.');}
+ else act(el.getAttribute('data-act'),el);});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&document.querySelector('.ov'))closeModal();});
+document.getElementById('tg-build').addEventListener('change',function(e){S.build=e.target.checked;save();render();});
+document.getElementById('tg-recon').addEventListener('change',function(e){S.recon=e.target.checked;save();render();});
+document.getElementById('q').addEventListener('keydown',function(e){if(e.key!=='Enter')return;var v=e.target.value.trim();var c=S.cases.filter(function(x){return x.id.indexOf(v)>=0;})[0];if(c&&v){S.caseId=c.id;render();}else toast('Nenhum sinistro encontrado.');});
+render();
+})();
+</script>
+</body>
+</html>
