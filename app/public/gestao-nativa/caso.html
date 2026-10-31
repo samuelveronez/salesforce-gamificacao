@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Caso 2026-0047790</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F3F3F3}
+a{color:#0B5CAB}a:hover{color:#06386B}
+</style>
+</head>
+<body>
+<div style="background: #0B2545; color: #F6F7F9; font-family: Inter, system-ui, sans-serif; font-size: 13px; padding: 8px 16px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center"><strong>POC · Gestão de vistorias só com recursos nativos da Salesforce</strong><span style="color: #C9D6E6">Painel → relatório → lista → caso, sem tela nova. Dados fictícios.</span><a href="/" style="color: #8FC1F2; margin-left: auto">Voltar às POCs</a></div>
+<div style="font-family: Inter, system-ui, sans-serif; color: #181818; background: #F3F3F3; min-height: 100vh; font-size: 14px">
+
+<header style="background: #FFFFFF; border-bottom: 1px solid #DDDBDA; display: flex; align-items: center; gap: 12px; padding: 6px 16px; flex-wrap: wrap">
+<button aria-label="Iniciador de aplicativos" style="width: 44px; height: 44px; border: none; background: transparent; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #5C5C5C">
+<svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><circle cx="4" cy="4" r="1.7"></circle><circle cx="10" cy="4" r="1.7"></circle><circle cx="16" cy="4" r="1.7"></circle><circle cx="4" cy="10" r="1.7"></circle><circle cx="10" cy="10" r="1.7"></circle><circle cx="16" cy="10" r="1.7"></circle><circle cx="4" cy="16" r="1.7"></circle><circle cx="10" cy="16" r="1.7"></circle><circle cx="16" cy="16" r="1.7"></circle></svg>
+</button>
+<span style="font-weight: 700; font-size: 16px">Sinistro Auto</span>
+<div style="flex: 1 1 280px; max-width: 520px; margin: 0 auto; position: relative; display: flex; align-items: center">
+<label for="busca" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Pesquisar</label>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5C5C5C" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="position: absolute; left: 12px"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.3-4.3"></path></svg>
+<input id="busca" type="search" placeholder="Pesquisar..." style="width: 100%; height: 40px; border: 1px solid #C9C9C9; border-radius: 6px; padding: 0 12px 0 38px; font: inherit; font-size: 14px; box-sizing: border-box; background: #FFFFFF">
+</div>
+<div style="width: 34px; height: 34px; border-radius: 50%; background: #E5F0FB; color: #0B5CAB; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px">LP</div>
+</header>
+
+<nav aria-label="Navegação do aplicativo" style="background: #FFFFFF; border-bottom: 1px solid #DDDBDA; padding: 0 16px; display: flex; gap: 2px; overflow-x: auto">
+<a href="#" style="padding: 0 14px; height: 44px; display: flex; align-items: center; font-size: 14px; color: #3E3E3C; border-bottom: 3px solid transparent; text-decoration: none; white-space: nowrap; box-sizing: border-box">Início</a>
+<a href="lista-casos.html" aria-current="page" style="padding: 0 14px; height: 44px; display: flex; align-items: center; font-size: 14px; font-weight: 600; color: #0B5CAB; border-bottom: 3px solid #0B5CAB; text-decoration: none; white-space: nowrap; box-sizing: border-box">Casos</a>
+<a href="relatorio.html" style="padding: 0 14px; height: 44px; display: flex; align-items: center; font-size: 14px; color: #3E3E3C; border-bottom: 3px solid transparent; text-decoration: none; white-space: nowrap; box-sizing: border-box">Relatórios</a>
+<a href="index.html" style="padding: 0 14px; height: 44px; display: flex; align-items: center; font-size: 14px; color: #3E3E3C; border-bottom: 3px solid transparent; text-decoration: none; white-space: nowrap; box-sizing: border-box">Painéis</a>
+<a href="escalacoes.html" style="padding: 0 14px; height: 44px; display: flex; align-items: center; font-size: 14px; color: #3E3E3C; border-bottom: 3px solid transparent; text-decoration: none; white-space: nowrap; box-sizing: border-box">Tarefas</a>
+</nav>
+
+<main style="padding: 16px 24px 40px; display: flex; flex-direction: column; gap: 12px; box-sizing: border-box">
+
+<section style="background: #FFFFFF; border: 1px solid #DDDBDA; border-radius: 8px; display: flex; flex-direction: column">
+<div style="padding: 14px 20px; display: flex; gap: 14px; align-items: center; flex-wrap: wrap">
+<div style="width: 40px; height: 40px; border-radius: 8px; background: #E5A23C; display: flex; align-items: center; justify-content: center; flex: none">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"></rect><path d="M9 5V3h6v2"></path></svg>
+</div>
+<div style="flex: 1 1 280px; display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 12px; color: #5C5C5C">Caso</span>
+<h1 style="margin: 0; font-size: 20px; font-weight: 700">2026-0047790</h1>
+</div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+<button style="height: 36px; padding: 0 14px; border: 1px solid #C9C9C9; background: #FFFFFF; color: #0B5CAB; border-radius: 6px; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer">Seguir</button>
+<button style="height: 36px; padding: 0 14px; border: 1px solid #C9C9C9; background: #FFFFFF; color: #0B5CAB; border-radius: 6px; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer">Alterar proprietário</button>
+<button style="height: 36px; padding: 0 14px; border: 1px solid #C9C9C9; background: #FFFFFF; color: #0B5CAB; border-radius: 6px; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer">Editar</button>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px 20px; padding: 10px 20px 14px; border-top: 1px solid #ECEBEA">
+
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 12px; color: #5C5C5C">Status</span>
+<span style="font-size: 13px; font-weight: 600">Em andamento</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 12px; color: #5C5C5C">Etapa</span>
+<span style="font-size: 13px; font-weight: 600">Vistoria</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 12px; color: #5C5C5C">Status da vistoria</span>
+<span style="font-size: 13px; font-weight: 600">Sem agendamento</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 12px; color: #5C5C5C">Dias de atraso</span>
+<span style="font-size: 13px; font-weight: 700; color: #8E030F">17</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 12px; color: #5C5C5C">Proprietário do caso</span>
+<span style="font-size: 13px; font-weight: 600">L. Prado</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 12px; color: #5C5C5C">Última modificação</span>
+<span style="font-size: 13px; font-weight: 600">26/10/2026 09:12</span>
+</div>
+
+</div>
+</section>
+
+<section aria-label="Caminho do caso" style="background: #FFFFFF; border: 1px solid #DDDBDA; border-radius: 8px; padding: 12px 16px; display: flex; gap: 4px; overflow-x: auto">
+
+<div style="clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%, 12px 50%); padding: 10px 20px 10px 24px; min-width: 120px; flex: 1 0 120px; text-align: center; font-size: 13px; font-weight: 600; box-sizing: border-box; background: #2E844A; color: #FFFFFF">Aviso</div>
+
+<div style="clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%, 12px 50%); padding: 10px 20px 10px 24px; min-width: 120px; flex: 1 0 120px; text-align: center; font-size: 13px; font-weight: 600; box-sizing: border-box; background: #2E844A; color: #FFFFFF">Análise</div>
+
+<div style="clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%, 12px 50%); padding: 10px 20px 10px 24px; min-width: 120px; flex: 1 0 120px; text-align: center; font-size: 13px; font-weight: 600; box-sizing: border-box; background: #0B5CAB; color: #FFFFFF">Vistoria</div>
+
+<div style="clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%, 12px 50%); padding: 10px 20px 10px 24px; min-width: 120px; flex: 1 0 120px; text-align: center; font-size: 13px; font-weight: 600; box-sizing: border-box; background: #ECEBEA; color: #3E3E3C">Regulação</div>
+
+<div style="clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%, 12px 50%); padding: 10px 20px 10px 24px; min-width: 120px; flex: 1 0 120px; text-align: center; font-size: 13px; font-weight: 600; box-sizing: border-box; background: #ECEBEA; color: #3E3E3C">Reparo</div>
+
+<div style="clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%, 12px 50%); padding: 10px 20px 10px 24px; min-width: 120px; flex: 1 0 120px; text-align: center; font-size: 13px; font-weight: 600; box-sizing: border-box; background: #ECEBEA; color: #3E3E3C">Encerrado</div>
+
+</section>
+
+<div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start">
+
+<section style="flex: 1 1 300px; min-width: 0; background: #FFFFFF; border: 1px solid #DDDBDA; border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px">
+<h2 style="margin: 0 0 8px; font-size: 14px; font-weight: 700">Detalhes</h2>
+
+<div style="display: flex; flex-direction: column; gap: 2px; padding: 6px 0; border-bottom: 1px solid #ECEBEA">
+<span style="font-size: 12px; color: #5C5C5C">Segurado</span>
+<span style="font-size: 13px">Paulo Mendes (fictício)</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 2px; padding: 6px 0; border-bottom: 1px solid #ECEBEA">
+<span style="font-size: 12px; color: #5C5C5C">Placa</span>
+<span style="font-size: 13px">RKD7C05</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 2px; padding: 6px 0; border-bottom: 1px solid #ECEBEA">
+<span style="font-size: 12px; color: #5C5C5C">Tipo de sinistro</span>
+<span style="font-size: 13px">Colisão</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 2px; padding: 6px 0; border-bottom: 1px solid #ECEBEA">
+<span style="font-size: 12px; color: #5C5C5C">Regional</span>
+<span style="font-size: 13px">RJ · Zona Oeste</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 2px; padding: 6px 0; border-bottom: 1px solid #ECEBEA">
+<span style="font-size: 12px; color: #5C5C5C">Data de abertura</span>
+<span style="font-size: 13px">09/10/2026</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 2px; padding: 6px 0; border-bottom: 1px solid #ECEBEA">
+<span style="font-size: 12px; color: #5C5C5C">Data prevista da vistoria</span>
+<span style="font-size: 13px">13/10/2026</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 2px; padding: 6px 0; border-bottom: 1px solid #ECEBEA">
+<span style="font-size: 12px; color: #5C5C5C">Local da vistoria</span>
+<span style="font-size: 13px">Domicílio do segurado</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 2px; padding: 6px 0; border-bottom: 1px solid #ECEBEA">
+<span style="font-size: 12px; color: #5C5C5C">Origem do aviso</span>
+<span style="font-size: 13px">Aplicativo</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 2px; padding: 6px 0; border-bottom: 1px solid #ECEBEA">
+<span style="font-size: 12px; color: #5C5C5C">Prioridade</span>
+<span style="font-size: 13px">Alta</span>
+</div>
+
+</section>
+
+<section style="flex: 2 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+<div style="background: #FFFFFF; border: 1px solid #DDDBDA; border-radius: 8px; display: flex; flex-direction: column">
+<div role="tablist" aria-label="Atividade" style="display: flex; gap: 2px; border-bottom: 1px solid #DDDBDA; padding: 0 12px; overflow-x: auto">
+<button role="tab" aria-selected="true" style="height: 44px; padding: 0 12px; border: none; border-bottom: 3px solid #0B5CAB; background: transparent; font: inherit; font-size: 13px; font-weight: 600; color: #0B5CAB; cursor: pointer; white-space: nowrap">Nova tarefa</button>
+<button role="tab" aria-selected="false" style="height: 44px; padding: 0 12px; border: none; border-bottom: 3px solid transparent; background: transparent; font: inherit; font-size: 13px; color: #3E3E3C; cursor: pointer; white-space: nowrap">Registrar chamada</button>
+<button role="tab" aria-selected="false" style="height: 44px; padding: 0 12px; border: none; border-bottom: 3px solid transparent; background: transparent; font: inherit; font-size: 13px; color: #3E3E3C; cursor: pointer; white-space: nowrap">E-mail</button>
+<button role="tab" aria-selected="false" style="height: 44px; padding: 0 12px; border: none; border-bottom: 3px solid transparent; background: transparent; font: inherit; font-size: 13px; color: #3E3E3C; cursor: pointer; white-space: nowrap">Chatter</button>
+</div>
+<div style="padding: 14px 16px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<label for="t-assunto" style="font-size: 12px; color: #3E3E3C">Assunto</label>
+<input id="t-assunto" value="Pedido de ajuda: vistoria sem regulador disponível na região" style="height: 36px; border: 1px solid #C9C9C9; border-radius: 6px; padding: 0 10px; font: inherit; font-size: 13px; box-sizing: border-box">
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<label for="t-quem" style="font-size: 12px; color: #3E3E3C">Atribuído a</label>
+<input id="t-quem" value="Supervisor de Vistoria RJ" style="height: 36px; border: 1px solid #C9C9C9; border-radius: 6px; padding: 0 10px; font: inherit; font-size: 13px; box-sizing: border-box">
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<label for="t-venc" style="font-size: 12px; color: #3E3E3C">Data de vencimento</label>
+<input id="t-venc" value="31/10/2026" style="height: 36px; border: 1px solid #C9C9C9; border-radius: 6px; padding: 0 10px; font: inherit; font-size: 13px; box-sizing: border-box">
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<label for="t-prio" style="font-size: 12px; color: #3E3E3C">Prioridade</label>
+<select id="t-prio" style="height: 36px; border: 1px solid #C9C9C9; border-radius: 6px; padding: 0 10px; font: inherit; font-size: 13px; background: #FFFFFF"><option>Alta</option><option>Normal</option></select>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<label for="t-coment" style="font-size: 12px; color: #3E3E3C">Comentários</label>
+<textarea id="t-coment" rows="2" style="border: 1px solid #C9C9C9; border-radius: 6px; padding: 8px 10px; font: inherit; font-size: 13px; resize: vertical">Agenda da Zona Oeste lotada até 05/11. Preciso de regulador de outra área ou vistoria por imagem.</textarea>
+</div>
+<button style="align-self: flex-end; height: 36px; padding: 0 16px; border: 1px solid #0B5CAB; background: #0B5CAB; color: #FFFFFF; border-radius: 6px; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer">Salvar</button>
+</div>
+</div>
+
+<div style="background: #FFFFFF; border: 1px solid #DDDBDA; border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px">
+<h2 style="margin: 0 0 6px; font-size: 14px; font-weight: 700">Atividades e Chatter</h2>
+
+<div style="display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 10px; padding: 10px 0; border-top: 1px solid #ECEBEA">
+<span style="width: 28px; height: 28px; border-radius: 50%; background: #2E844A; color: #FFFFFF; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center">T</span>
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 13px; font-weight: 600">Tarefa: Pedido de ajuda: vistoria sem regulador na região</span>
+<span style="font-size: 13px; color: #3E3E3C">Atribuída a Supervisor de Vistoria RJ · vence 31/10/2026</span>
+<span style="font-size: 12px; color: #5C5C5C">Agora</span>
+</div>
+</div>
+
+<div style="display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 10px; padding: 10px 0; border-top: 1px solid #ECEBEA">
+<span style="width: 28px; height: 28px; border-radius: 50%; background: #0B5CAB; color: #FFFFFF; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center">C</span>
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 13px; font-weight: 600">L. Prado publicou no Chatter</span>
+<span style="font-size: 13px; color: #3E3E3C">@Mesa central Vistoria: caso com 17 dias de atraso, segurado ligou duas vezes.</span>
+<span style="font-size: 12px; color: #5C5C5C">26/10/2026 09:12</span>
+</div>
+</div>
+
+<div style="display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 10px; padding: 10px 0; border-top: 1px solid #ECEBEA">
+<span style="width: 28px; height: 28px; border-radius: 50%; background: #5C5C5C; color: #FFFFFF; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center">L</span>
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 13px; font-weight: 600">Chamada registrada</span>
+<span style="font-size: 13px; color: #3E3E3C">Segurado informou disponibilidade só à tarde.</span>
+<span style="font-size: 12px; color: #5C5C5C">22/10/2026 15:40</span>
+</div>
+</div>
+
+<div style="display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 10px; padding: 10px 0; border-top: 1px solid #ECEBEA">
+<span style="width: 28px; height: 28px; border-radius: 50%; background: #5C5C5C; color: #FFFFFF; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center">H</span>
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 13px; font-weight: 600">Histórico: Status da vistoria alterado</span>
+<span style="font-size: 13px; color: #3E3E3C">De Agendada para Sem agendamento</span>
+<span style="font-size: 12px; color: #5C5C5C">20/10/2026 08:05</span>
+</div>
+</div>
+
+<a href="escalacoes.html" style="font-size: 12px; text-decoration: none; padding-top: 6px; min-height: 24px; display: flex; align-items: center">Ver todas as escalações abertas</a>
+</div>
+</section>
+
+<section style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+
+<div style="background: #FFFFFF; border: 1px solid #DDDBDA; border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px">
+<h2 style="margin: 0; font-size: 14px; font-weight: 700">Compromissos de serviço (1)</h2>
+<span style="font-size: 13px; font-weight: 600; color: #0B5CAB">SA-0091233</span>
+<span style="font-size: 12px; color: #3E3E3C">Status: Nenhum · sem técnico atribuído</span>
+<span style="font-size: 12px; color: #3E3E3C">Território: RJ Zona Oeste</span>
+<a href="#" style="font-size: 12px; text-decoration: none; border-top: 1px solid #ECEBEA; padding-top: 6px; min-height: 24px; display: flex; align-items: center">Visualizar todos</a>
+</div>
+
+<div style="background: #FFFFFF; border: 1px solid #DDDBDA; border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px">
+<h2 style="margin: 0; font-size: 14px; font-weight: 700">Ordens de trabalho (1)</h2>
+<span style="font-size: 13px; font-weight: 600; color: #0B5CAB">OT-0058812 · Vistoria de sinistro</span>
+<span style="font-size: 12px; color: #3E3E3C">Status: Novo</span>
+<span style="font-size: 12px; color: #3E3E3C">Criada em 09/10/2026</span>
+<a href="#" style="font-size: 12px; text-decoration: none; border-top: 1px solid #ECEBEA; padding-top: 6px; min-height: 24px; display: flex; align-items: center">Visualizar todos</a>
+</div>
+
+<div style="background: #FFFFFF; border: 1px solid #DDDBDA; border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px">
+<h2 style="margin: 0; font-size: 14px; font-weight: 700">Histórico do caso (6)</h2>
+<span style="font-size: 13px; font-weight: 600; color: #0B5CAB">Status da vistoria: Agendada → Sem agendamento</span>
+<span style="font-size: 12px; color: #3E3E3C">20/10/2026 · alterado por Integração</span>
+<span style="font-size: 12px; color: #3E3E3C">Proprietário: Fila Vistoria RJ → L. Prado</span>
+<a href="#" style="font-size: 12px; text-decoration: none; border-top: 1px solid #ECEBEA; padding-top: 6px; min-height: 24px; display: flex; align-items: center">Visualizar todos</a>
+</div>
+
+</section>
+
+</div>
+</main>
+</div>
+</body>
+</html>

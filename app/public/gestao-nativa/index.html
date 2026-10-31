@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel Vistorias em atraso</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F3F3F3}
+a{color:#0B5CAB}a:hover{color:#06386B}
+</style>
+</head>
+<body>
+<div style="background: #0B2545; color: #F6F7F9; font-family: Inter, system-ui, sans-serif; font-size: 13px; padding: 8px 16px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center"><strong>POC · Gestão de vistorias só com recursos nativos da Salesforce</strong><span style="color: #C9D6E6">Painel → relatório → lista → caso, sem tela nova. Dados fictícios.</span><a href="/" style="color: #8FC1F2; margin-left: auto">Voltar às POCs</a></div>
+<div style="font-family: Inter, system-ui, sans-serif; color: #181818; background: #F3F3F3; min-height: 100vh; font-size: 14px">
+
+<header style="background: #FFFFFF; border-bottom: 1px solid #DDDBDA; display: flex; align-items: center; gap: 12px; padding: 6px 16px; flex-wrap: wrap">
+<button aria-label="Iniciador de aplicativos" style="width: 44px; height: 44px; border: none; background: transparent; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #5C5C5C">
+<svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><circle cx="4" cy="4" r="1.7"></circle><circle cx="10" cy="4" r="1.7"></circle><circle cx="16" cy="4" r="1.7"></circle><circle cx="4" cy="10" r="1.7"></circle><circle cx="10" cy="10" r="1.7"></circle><circle cx="16" cy="10" r="1.7"></circle><circle cx="4" cy="16" r="1.7"></circle><circle cx="10" cy="16" r="1.7"></circle><circle cx="16" cy="16" r="1.7"></circle></svg>
+</button>
+<span style="font-weight: 700; font-size: 16px">Sinistro Auto</span>
+<div style="flex: 1 1 280px; max-width: 520px; margin: 0 auto; position: relative; display: flex; align-items: center">
+<label for="busca" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Pesquisar</label>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5C5C5C" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="position: absolute; left: 12px"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.3-4.3"></path></svg>
+<input id="busca" type="search" placeholder="Pesquisar..." style="width: 100%; height: 40px; border: 1px solid #C9C9C9; border-radius: 6px; padding: 0 12px 0 38px; font: inherit; font-size: 14px; box-sizing: border-box; background: #FFFFFF">
+</div>
+<div style="width: 34px; height: 34px; border-radius: 50%; background: #E5F0FB; color: #0B5CAB; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px">GV</div>
+</header>
+
+<nav aria-label="Navegação do aplicativo" style="background: #FFFFFF; border-bottom: 1px solid #DDDBDA; padding: 0 16px; display: flex; gap: 2px; overflow-x: auto">
+<a href="#" style="padding: 0 14px; height: 44px; display: flex; align-items: center; font-size: 14px; color: #3E3E3C; border-bottom: 3px solid transparent; text-decoration: none; white-space: nowrap; box-sizing: border-box">Início</a>
+<a href="lista-casos.html" style="padding: 0 14px; height: 44px; display: flex; align-items: center; font-size: 14px; color: #3E3E3C; border-bottom: 3px solid transparent; text-decoration: none; white-space: nowrap; box-sizing: border-box">Casos</a>
+<a href="relatorio.html" style="padding: 0 14px; height: 44px; display: flex; align-items: center; font-size: 14px; color: #3E3E3C; border-bottom: 3px solid transparent; text-decoration: none; white-space: nowrap; box-sizing: border-box">Relatórios</a>
+<a href="index.html" aria-current="page" style="padding: 0 14px; height: 44px; display: flex; align-items: center; font-size: 14px; font-weight: 600; color: #0B5CAB; border-bottom: 3px solid #0B5CAB; text-decoration: none; white-space: nowrap; box-sizing: border-box">Painéis</a>
+<a href="escalacoes.html" style="padding: 0 14px; height: 44px; display: flex; align-items: center; font-size: 14px; color: #3E3E3C; border-bottom: 3px solid transparent; text-decoration: none; white-space: nowrap; box-sizing: border-box">Tarefas</a>
+</nav>
+
+<main style="padding: 16px 24px 40px; display: flex; flex-direction: column; gap: 16px; box-sizing: border-box">
+
+<section style="background: #FFFFFF; border: 1px solid #DDDBDA; border-radius: 8px; padding: 14px 20px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap">
+<div style="flex: 1 1 360px; display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 12px; color: #5C5C5C">Painel</span>
+<h1 style="margin: 0; font-size: 20px; font-weight: 700">Vistorias em atraso</h1>
+<span style="font-size: 12px; color: #5C5C5C">A partir de hoje às 07:45 · Exibindo como Gerente de Vistoria · Dados fictícios de protótipo</span>
+</div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+<button style="height: 36px; padding: 0 14px; border: 1px solid #C9C9C9; background: #FFFFFF; color: #0B5CAB; border-radius: 6px; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer">Atualizar</button>
+<button style="height: 36px; padding: 0 14px; border: 1px solid #C9C9C9; background: #FFFFFF; color: #0B5CAB; border-radius: 6px; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer">Inscrever-se</button>
+<button style="height: 36px; padding: 0 14px; border: 1px solid #C9C9C9; background: #FFFFFF; color: #0B5CAB; border-radius: 6px; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer">Editar</button>
+</div>
+</div>
+<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end; border-top: 1px solid #ECEBEA; padding-top: 12px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<label for="pf-regional" style="font-size: 12px; color: #5C5C5C">Regional</label>
+<select id="pf-regional" style="height: 36px; min-width: 160px; border: 1px solid #C9C9C9; border-radius: 6px; padding: 0 10px; font: inherit; font-size: 13px; background: #FFFFFF"><option>Todas</option><option>SP</option><option>RJ</option><option>Sul</option><option>Nordeste</option><option>Centro-Oeste</option></select>
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<label for="pf-regulador" style="font-size: 12px; color: #5C5C5C">Regulador</label>
+<select id="pf-regulador" style="height: 36px; min-width: 160px; border: 1px solid #C9C9C9; border-radius: 6px; padding: 0 10px; font: inherit; font-size: 13px; background: #FFFFFF"><option>Todos</option><option>L. Prado</option><option>C. Lemos</option><option>R. Antunes</option></select>
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<label for="pf-status" style="font-size: 12px; color: #5C5C5C">Status da vistoria</label>
+<select id="pf-status" style="height: 36px; min-width: 180px; border: 1px solid #C9C9C9; border-radius: 6px; padding: 0 10px; font: inherit; font-size: 13px; background: #FFFFFF"><option>Todos</option><option>Sem agendamento</option><option>Agendada</option><option>Laudo pendente</option></select>
+</div>
+</div>
+</section>
+
+<section aria-label="Indicadores" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px">
+
+<div style="background: #FFFFFF; border: 1px solid #DDDBDA; border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 13px; font-weight: 600; color: #3E3E3C">Vistorias em aberto</span>
+<span style="font-size: 32px; font-weight: 700; letter-spacing: -0.5px; color: #181818">2.640</span>
+<span style="font-size: 12px; color: #5C5C5C">Etapa de vistoria</span>
+<a href="relatorio.html" style="font-size: 12px; text-decoration: none; border-top: 1px solid #ECEBEA; padding-top: 8px; margin-top: 4px; min-height: 24px; display: flex; align-items: center">Ver relatório (Vistorias em aberto)</a>
+</div>
+
+<div style="background: #FFFFFF; border: 1px solid #DDDBDA; border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 13px; font-weight: 600; color: #3E3E3C">Em atraso</span>
+<span style="font-size: 32px; font-weight: 700; letter-spacing: -0.5px; color: #181818">370</span>
+<span style="font-size: 12px; color: #8C4B02; font-weight: 600">14% das vistorias em aberto</span>
+<a href="relatorio.html" style="font-size: 12px; text-decoration: none; border-top: 1px solid #ECEBEA; padding-top: 8px; margin-top: 4px; min-height: 24px; display: flex; align-items: center">Ver relatório (Vistorias em atraso)</a>
+</div>
+
+<div style="background: #FFFFFF; border: 1px solid #DDDBDA; border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 13px; font-weight: 600; color: #3E3E3C">Atraso acima de 5 dias</span>
+<span style="font-size: 32px; font-weight: 700; letter-spacing: -0.5px; color: #181818">96</span>
+<span style="font-size: 12px; color: #8C4B02; font-weight: 600">26% das atrasadas</span>
+<a href="relatorio.html" style="font-size: 12px; text-decoration: none; border-top: 1px solid #ECEBEA; padding-top: 8px; margin-top: 4px; min-height: 24px; display: flex; align-items: center">Ver relatório (Vistorias em atraso)</a>
+</div>
+
+<div style="background: #FFFFFF; border: 1px solid #DDDBDA; border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 13px; font-weight: 600; color: #3E3E3C">Em atraso e sem movimento há 48h</span>
+<span style="font-size: 32px; font-weight: 700; letter-spacing: -0.5px; color: #181818">158</span>
+<span style="font-size: 12px; color: #8C4B02; font-weight: 600">Ninguém mexeu no caso em 2 dias</span>
+<a href="lista-casos.html" style="font-size: 12px; text-decoration: none; border-top: 1px solid #ECEBEA; padding-top: 8px; margin-top: 4px; min-height: 24px; display: flex; align-items: center">Ver lista de casos</a>
+</div>
+
+<div style="background: #FFFFFF; border: 1px solid #DDDBDA; border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 13px; font-weight: 600; color: #3E3E3C">Escalações abertas</span>
+<span style="font-size: 32px; font-weight: 700; letter-spacing: -0.5px; color: #181818">41</span>
+<span style="font-size: 12px; color: #8C4B02; font-weight: 600">9 com prazo vencido</span>
+<a href="escalacoes.html" style="font-size: 12px; text-decoration: none; border-top: 1px solid #ECEBEA; padding-top: 8px; margin-top: 4px; min-height: 24px; display: flex; align-items: center">Ver relatório (Escalações abertas)</a>
+</div>
+
+</section>
+
+<section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 12px">
+
+<div style="background: #FFFFFF; border: 1px solid #DDDBDA; border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 12px">
+<h2 style="margin: 0; font-size: 14px; font-weight: 700">Em atraso por regional</h2>
+<div role="img" aria-label="Vistorias em atraso por regional: SP 128, RJ 104, Sul 56, Nordeste 48, Centro-Oeste 34" style="display: flex; align-items: flex-end; gap: 16px; height: 210px; padding: 0 8px; border-bottom: 1px solid #C9C9C9">
+
+<div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 6px; height: 100%">
+<span style="font-size: 12px; font-weight: 600">128</span>
+<div style="width: 100%; max-width: 44px; background: #0B5CAB; border-radius: 3px 3px 0 0; height: 170px"></div>
+</div>
+
+<div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 6px; height: 100%">
+<span style="font-size: 12px; font-weight: 600">104</span>
+<div style="width: 100%; max-width: 44px; background: #0B5CAB; border-radius: 3px 3px 0 0; height: 138px"></div>
+</div>
+
+<div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 6px; height: 100%">
+<span style="font-size: 12px; font-weight: 600">56</span>
+<div style="width: 100%; max-width: 44px; background: #0B5CAB; border-radius: 3px 3px 0 0; height: 74px"></div>
+</div>
+
+<div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 6px; height: 100%">
+<span style="font-size: 12px; font-weight: 600">48</span>
+<div style="width: 100%; max-width: 44px; background: #0B5CAB; border-radius: 3px 3px 0 0; height: 64px"></div>
+</div>
+
+<div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 6px; height: 100%">
+<span style="font-size: 12px; font-weight: 600">34</span>
+<div style="width: 100%; max-width: 44px; background: #0B5CAB; border-radius: 3px 3px 0 0; height: 45px"></div>
+</div>
+
+</div>
+<div style="display: flex; gap: 16px; padding: 0 8px">
+
+<span style="flex: 1; text-align: center; font-size: 12px; color: #3E3E3C">SP</span>
+
+<span style="flex: 1; text-align: center; font-size: 12px; color: #3E3E3C">RJ</span>
+
+<span style="flex: 1; text-align: center; font-size: 12px; color: #3E3E3C">Sul</span>
+
+<span style="flex: 1; text-align: center; font-size: 12px; color: #3E3E3C">Nordeste</span>
+
+<span style="flex: 1; text-align: center; font-size: 12px; color: #3E3E3C">Centro-Oeste</span>
+
+</div>
+<a href="relatorio.html" style="font-size: 12px; text-decoration: none; border-top: 1px solid #ECEBEA; padding-top: 8px; min-height: 24px; display: flex; align-items: center">Ver relatório (Vistorias em atraso)</a>
+</div>
+
+<div style="background: #FFFFFF; border: 1px solid #DDDBDA; border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 12px">
+<h2 style="margin: 0; font-size: 14px; font-weight: 700">Em atraso por faixa de dias</h2>
+<div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap">
+<svg width="170" height="170" viewBox="0 0 170 170" role="img" aria-label="370 vistorias em atraso: 1 a 2 dias 142, 3 a 5 dias 132, 6 a 10 dias 68, mais de 10 dias 28">
+<g transform="rotate(-90 85 85)" fill="none" stroke-width="26">
+<circle cx="85" cy="85" r="60" stroke="#9CC3EE" stroke-dasharray="144.7 376.99" stroke-dashoffset="0"></circle>
+<circle cx="85" cy="85" r="60" stroke="#4A8DD4" stroke-dasharray="134.5 376.99" stroke-dashoffset="-144.7"></circle>
+<circle cx="85" cy="85" r="60" stroke="#0B5CAB" stroke-dasharray="69.3 376.99" stroke-dashoffset="-279.2"></circle>
+<circle cx="85" cy="85" r="60" stroke="#B86200" stroke-dasharray="28.5 376.99" stroke-dashoffset="-348.5"></circle>
+</g>
+<text x="85" y="82" text-anchor="middle" font-size="24" font-weight="700" fill="#181818">370</text>
+<text x="85" y="102" text-anchor="middle" font-size="12" fill="#5C5C5C">em atraso</text>
+</svg>
+<div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px">
+<span style="display: flex; align-items: center; gap: 8px"><span style="width: 10px; height: 10px; border-radius: 2px; background: #9CC3EE"></span>1–2 dias · <strong>142</strong></span>
+<span style="display: flex; align-items: center; gap: 8px"><span style="width: 10px; height: 10px; border-radius: 2px; background: #4A8DD4"></span>3–5 dias · <strong>132</strong></span>
+<span style="display: flex; align-items: center; gap: 8px"><span style="width: 10px; height: 10px; border-radius: 2px; background: #0B5CAB"></span>6–10 dias · <strong>68</strong></span>
+<span style="display: flex; align-items: center; gap: 8px"><span style="width: 10px; height: 10px; border-radius: 2px; background: #B86200"></span>Mais de 10 dias · <strong>28</strong></span>
+</div>
+</div>
+<a href="relatorio.html" style="font-size: 12px; text-decoration: none; border-top: 1px solid #ECEBEA; padding-top: 8px; min-height: 24px; display: flex; align-items: center; margin-top: auto">Ver relatório (Vistorias em atraso)</a>
+</div>
+
+<div style="background: #FFFFFF; border: 1px solid #DDDBDA; border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 12px">
+<h2 style="margin: 0; font-size: 14px; font-weight: 700">Vistorias no prazo</h2>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 4px">
+<svg width="220" height="130" viewBox="0 0 200 118" role="img" aria-label="86% das vistorias no prazo; meta 90%">
+<path d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke="#ECEBEA" stroke-width="22"></path>
+<path d="M20 100 A80 80 0 0 1 172.4 65.9" fill="none" stroke="#0B5CAB" stroke-width="22"></path>
+<line x1="164.7" y1="79" x2="187.5" y2="71.6" stroke="#181818" stroke-width="3"></line>
+<text x="100" y="96" text-anchor="middle" font-size="28" font-weight="700" fill="#181818">86%</text>
+<text x="20" y="116" text-anchor="middle" font-size="11" fill="#5C5C5C">0</text>
+<text x="180" y="116" text-anchor="middle" font-size="11" fill="#5C5C5C">100</text>
+</svg>
+<span style="font-size: 13px; color: #8C4B02; font-weight: 600">Meta: 90% · abaixo da meta</span>
+</div>
+<a href="relatorio.html" style="font-size: 12px; text-decoration: none; border-top: 1px solid #ECEBEA; padding-top: 8px; min-height: 24px; display: flex; align-items: center; margin-top: auto">Ver relatório (Vistorias em aberto)</a>
+</div>
+
+</section>
+
+<section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr)); gap: 12px">
+
+<div style="background: #FFFFFF; border: 1px solid #DDDBDA; border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px">
+<h2 style="margin: 0; font-size: 14px; font-weight: 700">Em atraso por regulador (8 maiores)</h2>
+
+<div style="display: grid; grid-template-columns: 110px minmax(0, 1fr) 32px; gap: 10px; align-items: center; font-size: 13px">
+<span>L. Prado</span>
+<div style="height: 14px; background: #ECEBEA; border-radius: 2px; overflow: hidden"><div style="height: 14px; background: #0B5CAB; width: 100%"></div></div>
+<span style="font-weight: 600; text-align: right">22</span>
+</div>
+
+<div style="display: grid; grid-template-columns: 110px minmax(0, 1fr) 32px; gap: 10px; align-items: center; font-size: 13px">
+<span>C. Lemos</span>
+<div style="height: 14px; background: #ECEBEA; border-radius: 2px; overflow: hidden"><div style="height: 14px; background: #0B5CAB; width: 86%"></div></div>
+<span style="font-weight: 600; text-align: right">19</span>
+</div>
+
+<div style="display: grid; grid-template-columns: 110px minmax(0, 1fr) 32px; gap: 10px; align-items: center; font-size: 13px">
+<span>R. Antunes</span>
+<div style="height: 14px; background: #ECEBEA; border-radius: 2px; overflow: hidden"><div style="height: 14px; background: #0B5CAB; width: 77%"></div></div>
+<span style="font-weight: 600; text-align: right">17</span>
+</div>
+
+<div style="display: grid; grid-template-columns: 110px minmax(0, 1fr) 32px; gap: 10px; align-items: center; font-size: 13px">
+<span>M. Faria</span>
+<div style="height: 14px; background: #ECEBEA; border-radius: 2px; overflow: hidden"><div style="height: 14px; background: #0B5CAB; width: 68%"></div></div>
+<span style="font-weight: 600; text-align: right">15</span>
+</div>
+
+<div style="display: grid; grid-template-columns: 110px minmax(0, 1fr) 32px; gap: 10px; align-items: center; font-size: 13px">
+<span>D. Couto</span>
+<div style="height: 14px; background: #ECEBEA; border-radius: 2px; overflow: hidden"><div style="height: 14px; background: #0B5CAB; width: 64%"></div></div>
+<span style="font-weight: 600; text-align: right">14</span>
+</div>
+
+<div style="display: grid; grid-template-columns: 110px minmax(0, 1fr) 32px; gap: 10px; align-items: center; font-size: 13px">
+<span>G. Pires</span>
+<div style="height: 14px; background: #ECEBEA; border-radius: 2px; overflow: hidden"><div style="height: 14px; background: #0B5CAB; width: 55%"></div></div>
+<span style="font-weight: 600; text-align: right">12</span>
+</div>
+
+<div style="display: grid; grid-template-columns: 110px minmax(0, 1fr) 32px; gap: 10px; align-items: center; font-size: 13px">
+<span>T. Moura</span>
+<div style="height: 14px; background: #ECEBEA; border-radius: 2px; overflow: hidden"><div style="height: 14px; background: #0B5CAB; width: 50%"></div></div>
+<span style="font-weight: 600; text-align: right">11</span>
+</div>
+
+<div style="display: grid; grid-template-columns: 110px minmax(0, 1fr) 32px; gap: 10px; align-items: center; font-size: 13px">
+<span>J. Barros</span>
+<div style="height: 14px; background: #ECEBEA; border-radius: 2px; overflow: hidden"><div style="height: 14px; background: #0B5CAB; width: 45%"></div></div>
+<span style="font-weight: 600; text-align: right">10</span>
+</div>
+
+<a href="relatorio.html" style="font-size: 12px; text-decoration: none; border-top: 1px solid #ECEBEA; padding-top: 8px; min-height: 24px; display: flex; align-items: center">Ver relatório (Vistorias em atraso)</a>
+</div>
+
+<div style="background: #FFFFFF; border: 1px solid #DDDBDA; border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px">
+<h2 style="margin: 0; font-size: 14px; font-weight: 700">Mais atrasadas</h2>
+<table style="width: 100%; border-collapse: collapse; font-size: 13px">
+<thead>
+<tr style="text-align: left; color: #3E3E3C; border-bottom: 1px solid #DDDBDA">
+<th scope="col" style="padding: 8px 6px; font-weight: 600">Número do caso</th>
+<th scope="col" style="padding: 8px 6px; font-weight: 600">Regional</th>
+<th scope="col" style="padding: 8px 6px; font-weight: 600">Regulador</th>
+<th scope="col" style="padding: 8px 6px; font-weight: 600; text-align: right">Dias de atraso</th>
+</tr>
+</thead>
+<tbody>
+
+<tr style="border-bottom: 1px solid #ECEBEA">
+<td style="padding: 8px 6px"><a href="caso.html" style="text-decoration: none; font-weight: 600">2026-0047790</a></td>
+<td style="padding: 8px 6px">RJ</td>
+<td style="padding: 8px 6px">L. Prado</td>
+<td style="padding: 8px 6px; text-align: right; font-weight: 700; color: #8E030F">17</td>
+</tr>
+
+<tr style="border-bottom: 1px solid #ECEBEA">
+<td style="padding: 8px 6px"><a href="caso.html" style="text-decoration: none; font-weight: 600">2026-0046912</a></td>
+<td style="padding: 8px 6px">SP</td>
+<td style="padding: 8px 6px">R. Antunes</td>
+<td style="padding: 8px 6px; text-align: right; font-weight: 700; color: #8E030F">15</td>
+</tr>
+
+<tr style="border-bottom: 1px solid #ECEBEA">
+<td style="padding: 8px 6px"><a href="caso.html" style="text-decoration: none; font-weight: 600">2026-0047155</a></td>
+<td style="padding: 8px 6px">Sul</td>
+<td style="padding: 8px 6px">D. Couto</td>
+<td style="padding: 8px 6px; text-align: right; font-weight: 700; color: #8E030F">14</td>
+</tr>
+
+<tr style="border-bottom: 1px solid #ECEBEA">
+<td style="padding: 8px 6px"><a href="caso.html" style="text-decoration: none; font-weight: 600">2026-0047402</a></td>
+<td style="padding: 8px 6px">SP</td>
+<td style="padding: 8px 6px">M. Faria</td>
+<td style="padding: 8px 6px; text-align: right; font-weight: 700; color: #8E030F">13</td>
+</tr>
+
+<tr style="border-bottom: 1px solid #ECEBEA">
+<td style="padding: 8px 6px"><a href="caso.html" style="text-decoration: none; font-weight: 600">2026-0047688</a></td>
+<td style="padding: 8px 6px">RJ</td>
+<td style="padding: 8px 6px">C. Lemos</td>
+<td style="padding: 8px 6px; text-align: right; font-weight: 700; color: #8E030F">12</td>
+</tr>
+
+<tr style="border-bottom: 1px solid #ECEBEA">
+<td style="padding: 8px 6px"><a href="caso.html" style="text-decoration: none; font-weight: 600">2026-0047930</a></td>
+<td style="padding: 8px 6px">Nordeste</td>
+<td style="padding: 8px 6px">G. Pires</td>
+<td style="padding: 8px 6px; text-align: right; font-weight: 700; color: #8E030F">11</td>
+</tr>
+
+</tbody>
+</table>
+<a href="lista-casos.html" style="font-size: 12px; text-decoration: none; border-top: 1px solid #ECEBEA; padding-top: 8px; min-height: 24px; display: flex; align-items: center; margin-top: auto">Ver relatório (Vistorias em atraso)</a>
+</div>
+
+</section>
+
+</main>
+</div>
+</body>
+</html>
