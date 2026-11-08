@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PRD GSA Unificado</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#181818;--ink2:#3E3E3C;--muted:#5C5C5C;--line:#DDDBDA;--line2:#ECEBEA;--bg:#F3F3F3;--blue:#0B5CAB;--blue-l:#E5F0FB;--navy:#0B2545;--warn:#8C4B02;--warn-bg:#FEF1E1;--orange:#B86200;--ok:#1E6B35;--ok-bg:#E3F3E8;--purple:#5A2D91;--purple-bg:#EEE6FA;--bad:#8E030F;--bad-bg:#FDE7E5}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 Inter,system-ui,sans-serif}
+a{color:var(--blue)}
+.topbar{background:var(--navy);color:#F6F7F9;display:flex;gap:10px 16px;align-items:center;flex-wrap:wrap;padding:8px 16px;font-size:13px}
+.topbar a{color:#8FC1F2}.topbar .grow{flex:1}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+.hero{background:#fff;border-bottom:1px solid var(--line);padding:40px 0 32px}
+.hero .eyebrow{font-size:12px;letter-spacing:.8px;text-transform:uppercase;color:var(--blue);font-weight:700}
+.hero h1{font-size:40px;line-height:1.1;margin:8px 0 12px;letter-spacing:-.5px}
+.hero p.lead{font-size:18px;color:var(--ink2);max-width:780px;margin:0}
+.meta{display:flex;gap:8px 20px;flex-wrap:wrap;margin-top:18px;font-size:13px;color:var(--muted)}
+.meta b{color:var(--ink)}
+.toc{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}
+.toc a{font-size:13px;text-decoration:none;border:1px solid var(--line);border-radius:16px;padding:5px 12px;background:#fff}
+section.s{padding:36px 0 8px}
+section.s>.wrap>h2{font-size:24px;margin:0 0 6px;letter-spacing:-.3px}
+section.s>.wrap>p.intro{color:var(--ink2);margin:0 0 18px;max-width:800px}
+.num{display:inline-block;color:var(--blue);font-weight:700;margin-right:8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:14px}
+.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.card h3{margin:0;font-size:16px}
+.card p{margin:0;color:var(--ink2);font-size:14px}
+.big{font-size:30px;font-weight:700;letter-spacing:-.5px}
+.pill{display:inline-flex;font-size:11px;font-weight:700;padding:3px 8px;border-radius:10px;white-space:nowrap;align-self:flex-start}
+.nat{background:var(--ok-bg);color:var(--ok)}.cfg{background:var(--blue-l);color:var(--blue)}.lwc{background:var(--purple-bg);color:var(--purple)}.int{background:var(--warn-bg);color:var(--warn)}
+.prob{border-left:4px solid var(--orange)}
+.path{display:flex;gap:4px;overflow-x:auto;padding-bottom:4px}
+.path div{clip-path:polygon(0 0,calc(100% - 14px) 0,100% 50%,calc(100% - 14px) 100%,0 100%,14px 50%);padding:12px 22px 12px 26px;min-width:150px;flex:1 0 150px;background:var(--blue);color:#fff;font-weight:600;font-size:14px;text-align:center}
+.feeds{display:flex;gap:4px;overflow-x:auto;margin-top:6px}
+.feeds div{min-width:150px;flex:1 0 150px;font-size:12px;padding:8px 10px;border-radius:6px;text-align:center}
+.matrix{display:grid;grid-template-columns:repeat(4,minmax(220px,1fr));gap:12px;overflow-x:auto;padding-bottom:6px}
+.wave{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:8px}
+.wave h3{margin:0;font-size:15px}.wave .sub{font-size:12px;color:var(--muted);margin-top:-4px}
+.chip{display:flex;gap:8px;align-items:flex-start;text-decoration:none;color:var(--ink);border:1px solid var(--line2);border-radius:8px;padding:8px 10px;font-size:13px;border-left:4px solid}
+.chip:hover{background:var(--bg)}
+.chip b{white-space:nowrap}
+.chip.nat{border-left-color:var(--ok);background:#fff}.chip.cfg{border-left-color:var(--blue);background:#fff}.chip.lwc{border-left-color:var(--purple);background:#fff}.chip.int{border-left-color:var(--orange);background:#fff}
+.legend{display:flex;gap:8px 18px;flex-wrap:wrap;font-size:13px;margin-bottom:14px;align-items:center}
+.feat{background:#fff;border:1px solid var(--line);border-radius:10px;padding:20px;display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:16px 28px;scroll-margin-top:16px}
+.feat:target{outline:3px solid var(--blue);outline-offset:2px}
+.feat h3{margin:0;font-size:18px}
+.feat .why{color:var(--ink2);margin:0}
+.feat ul{margin:4px 0 0;padding-left:20px;font-size:14px}
+.feat ul li{margin:3px 0}
+.feat aside{border-left:1px solid var(--line2);padding-left:20px;display:flex;flex-direction:column;gap:10px;font-size:13px}
+.feat aside span{color:var(--muted);display:block;font-size:12px}
+.flist{display:flex;flex-direction:column;gap:14px}
+.k{font-size:12px;font-weight:700;color:var(--ink2);text-transform:uppercase;letter-spacing:.5px;margin-top:6px}
+table{width:100%;border-collapse:collapse;font-size:14px;background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+th{text-align:left;background:var(--bg);padding:10px 12px;font-weight:600;color:var(--ink2);white-space:nowrap}
+td{padding:10px 12px;border-top:1px solid var(--line2);vertical-align:top}
+.tw{overflow-x:auto}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(190px,100%),1fr));gap:10px;counter-reset:s}
+.step{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px;position:relative;display:flex;flex-direction:column;gap:4px}
+.step::before{counter-increment:s;content:counter(s);width:26px;height:26px;border-radius:50%;background:var(--blue);color:#fff;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;margin-bottom:4px}
+.step b{font-size:14px}.step span{font-size:13px;color:var(--ink2)}
+.formula{font-size:20px;font-weight:700;background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px;text-align:center}
+.formula i{font-style:normal;padding:2px 8px;border-radius:6px}
+footer{padding:40px 0 60px;color:var(--muted);font-size:13px}
+@media (max-width:760px){.feat{grid-template-columns:1fr}.feat aside{border-left:none;padding-left:0;border-top:1px solid var(--line2);padding-top:12px}.hero h1{font-size:30px}.wrap{padding:0 14px}}
+@media print{.topbar,.toc{display:none}body{background:#fff}.feat,.card{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="topbar">
+<strong>POC · PRD do GSA Unificado</strong>
+<span style="color:#C9D6E6">As features necessárias para o protótipo virar produto.</span>
+<span class="grow"></span>
+<a href="index.html">Abrir o protótipo ↗</a>
+<a href="/">Voltar às POCs</a>
+</div>
+
+<header class="hero"><div class="wrap">
+<div class="eyebrow">PRD visual · Rascunho para discussão</div>
+<h1>GSA Unificado: uma régua, uma jornada, uma mesa para destravar</h1>
+<p class="lead">Juntar a gestão do estoque de sinistro numa só experiência no Salesforce, para todos os papéis. A prioridade e as travas entre times ficam visíveis, cada exceção tem dono, e o que exige integração entra em ondas.</p>
+<div class="meta"><span><b>Área:</b> Produto · Sinistro Auto</span><span><b>Data:</b> 30/10/2026</span><span><b>Status:</b> para validar com diretoria, líderes de frente e TI</span><span><b>Protótipo:</b> <a href="index.html">GSA Unificado</a></span></div>
+<nav class="toc" aria-label="Seções"><a href="#problema">Problema</a><a href="#objetivos">Objetivos</a><a href="#personas">Personas</a><a href="#principios">Princípios</a><a href="#jornada">Jornada</a><a href="#mapa">Mapa de features</a><a href="#features">Features</a><a href="#score">Score</a><a href="#fluxo">Trava e escalação</a><a href="#dados">Dados mínimos</a><a href="#riscos">Riscos</a></nav>
+</div></header>
+
+<section class="s" id="problema"><div class="wrap">
+<h2><span class="num">1</span>Problema</h2>
+<p class="intro">O sinistro passa por cinco sistemas e cada time prioriza a própria fila. A espera entre áreas não aparece em lugar nenhum, e os conflitos só surgem quando o SLA já venceu.</p>
+<div class="grid">
+<div class="card prob"><h3>Prioridade diferente em cada tela</h3><p>Hoje convivem duas réguas: crítico, atenção e no prazo nos protótipos de carteira, e P1, P2 e P3 no console. O analista, o regulador e a oficina não olham para o mesmo "primeiro".</p></div>
+<div class="card prob"><h3>Duas jornadas</h3><p>Os protótipos usam etapas diferentes (Documentação e Entrega de um lado; Vistoria e Regulação do outro). A diretoria não consegue somar o estoque por etapa.</p></div>
+<div class="card prob"><h3>Trava sem dono</h3><p>Quando um caso espera outro time, ele some da conta de alguém e não entra na de ninguém. Escalar depende de e-mail e de reunião.</p></div>
+<div class="card prob"><h3>Quatro protótipos que não conversam</h3><p>Gamificação, versão operacional, gestão nativa e console mostram partes do problema. Nenhum mostra uma ação de um papel chegando a outro.</p></div>
+</div>
+</div></section>
+
+<section class="s" id="objetivos"><div class="wrap">
+<h2><span class="num">2</span>Objetivos e não objetivos</h2>
+<p class="intro">Os indicadores vêm das teses de valor. As metas só serão definidas depois da linha de base do piloto.</p>
+<div class="grid">
+<div class="card"><span class="pill cfg">Prazo</span><h3>P90 do aviso à liquidação, por natureza</h3><p>Diagnóstico: espera interna por etapa e aging dos casos abertos.</p></div>
+<div class="card"><span class="pill cfg">Capacidade</span><h3>Minutos de trabalho ativo por sinistro</h3><p>Menos busca e redigitação, com o caso e as travas na mesma tela.</p></div>
+<div class="card"><span class="pill cfg">Qualidade</span><h3>Retrabalho e reabertura</h3><p>Decisões registradas e revisão de qualidade antes de qualquer reconhecimento.</p></div>
+<div class="card"><span class="pill cfg">Experiência</span><h3>Contatos do cliente por sinistro</h3><p>Cliente crítico sobe na fila antes de virar reclamação formal.</p></div>
+</div>
+<div class="card" style="margin-top:14px"><h3>Não objetivos</h3><p>Reconstruir o orçamento, as oficinas ou as peças dentro do Salesforce. Integração bidirecional em tempo real na primeira onda. Criar um novo motor de SLA. Usar pontos de reconhecimento como medida de sucesso: o resultado da operação é que mede.</p></div>
+</div></section>
+
+<section class="s" id="personas"><div class="wrap">
+<h2><span class="num">3</span>Personas e a pergunta de cada uma</h2>
+<p class="intro">Todas usam o mesmo score e as mesmas travas, cada uma no seu recorte. Clique para abrir a visão no protótipo.</p>
+<div class="grid" id="personas-grid"></div>
+</div></section>
+
+<section class="s" id="principios"><div class="wrap">
+<h2><span class="num">4</span>Princípios de produto</h2>
+<div class="grid">
+<div class="card"><h3>Uma régua</h3><p>O score é calculado uma vez, no GSA, e ordena todas as filas. A tela sempre mostra por que um caso está na frente.</p></div>
+<div class="card"><h3>Uma jornada</h3><p>Seis etapas para toda a operação: Aviso, Análise, Vistoria, Regulação e orçamento, Reparo, Entrega.</p></div>
+<div class="card"><h3>Toda trava tem dono</h3><p>Quem espera registra de quem depende. O caso sai da sua produtividade e entra na fila do time dono.</p></div>
+<div class="card"><h3>Gestão por exceção</h3><p>A mesa central só vê o que nenhum time destrava sozinho, e cada decisão fica registrada no sinistro.</p></div>
+<div class="card"><h3>Nativo antes de código</h3><p>Painel, relatório, lista e página do caso primeiro. Componente novo só onde o nativo não resolve.</p></div>
+<div class="card"><h3>Dado parcial é sinalizado</h3><p>Sistemas ainda não integrados aparecem como "abre na origem", nunca como dado inventado.</p></div>
+</div>
+</div></section>
+
+<section class="s" id="jornada"><div class="wrap">
+<h2><span class="num">5</span>Jornada única e de onde vem cada dado</h2>
+<p class="intro">A linha de cima é a jornada que todos os papéis veem. A de baixo mostra a origem do dado em cada etapa e o tipo de entrega.</p>
+<div class="path"><div>Aviso</div><div>Análise</div><div>Vistoria</div><div>Regulação e orçamento</div><div>Reparo</div><div>Entrega</div></div>
+<div class="feeds">
+<div class="nat">Salesforce FSC · nativo</div><div class="nat">Salesforce FSC · nativo</div><div class="nat">Field Service · mesma org</div><div class="int">Sistema de orçamento · integração</div><div class="int">Oficinas e peças · integração</div><div class="nat">Salesforce FSC · nativo</div>
+</div>
+</div></section>
+
+<section class="s" id="mapa"><div class="wrap">
+<h2><span class="num">6</span>Mapa de features por onda</h2>
+<p class="intro">Cada onda entrega valor sozinha. A cor mostra o tipo de entrega, o que dá a dimensão do esforço de TI.</p>
+<div class="legend"><span class="pill nat">Nativo</span>painel, relatório, lista, página do caso<span class="pill cfg">Configuração</span>campos, fórmula, Flow, ação rápida<span class="pill lwc">LWC</span>componente novo<span class="pill int">Integração</span>dado de outro sistema</div>
+<div class="matrix" id="matrix"></div>
+</div></section>
+
+<section class="s" id="features"><div class="wrap">
+<h2><span class="num">7</span>Features</h2>
+<p class="intro">Cada feature traz o porquê, os critérios de aceite, as dependências e a métrica. A estimativa em story points vem do épico OPS quando já existe; nas demais, fica para o refinamento com o time.</p>
+<div class="flist" id="flist"></div>
+</div></section>
+
+<section class="s" id="score"><div class="wrap">
+<h2><span class="num">8</span>Especificação do score (F01)</h2>
+<div class="formula">Score = <i style="background:var(--blue-l);color:var(--blue)">SLA até 40</i> + <i style="background:var(--warn-bg);color:var(--warn)">Cliente até 35</i> + <i style="background:#E2EFEF;color:#2F5F5F">Valor até 25</i></div>
+<div class="tw" style="margin-top:14px"><table>
+<thead><tr><th>Eixo</th><th>Como pontua</th><th>Fonte</th></tr></thead>
+<tbody>
+<tr><td><b>SLA e aging</b></td><td>Percentual do prazo da etapa já consumido. Prazo vencido vale 40.</td><td>Datas da etapa</td></tr>
+<tr><td><b>Risco ao cliente</b></td><td>Sem sinal: 0. Reclamação ou NPS detrator: 17. Ouvidoria, Procon ou segundo contato: 35.</td><td>Casos e pesquisas no Salesforce</td></tr>
+<tr><td><b>Valor e severidade</b></td><td>Faixa de reserva, somada a perda total, terceiro ou vítima.</td><td>Reserva e aviso</td></tr>
+<tr><td><b>Faixas</b></td><td>P1 a partir de 70 · P2 de 40 a 69 · P3 abaixo de 40.</td><td>Cortes calibrados no piloto</td></tr>
+</tbody></table></div>
+</div></section>
+
+<section class="s" id="fluxo"><div class="wrap">
+<h2><span class="num">9</span>Fluxo de trava e escalação (F04, F05, F06)</h2>
+<p class="intro">É o fluxo que faz uma ação de um papel chegar a outro. O protótipo mostra o fluxo completo.</p>
+<div class="steps">
+<div class="step"><b>Registrar trava</b><span>O analista ou regulador indica o time dono e o motivo. O caso sai da sua produtividade.</span></div>
+<div class="step"><b>Fila do time dono</b><span>A trava aparece para o supervisor do time que precisa agir.</span></div>
+<div class="step"><b>Sobe para a mesa</b><span>Com 3 dias úteis, cliente crítico ou escalação manual, o caso entra na fila de exceções.</span></div>
+<div class="step"><b>Decisão registrada</b><span>A mesa decide quem age, move carteira ou autoriza fornecedor alternativo, e registra o motivo.</span></div>
+<div class="step"><b>Volta para a fila</b><span>A trava é encerrada e o caso volta ao dono, já na posição do score.</span></div>
+</div>
+</div></section>
+
+<section class="s" id="dados"><div class="wrap">
+<h2><span class="num">10</span>Contrato mínimo de dados por sistema</h2>
+<p class="intro">Status, não detalhe. Cada sistema envia poucos campos, e o detalhe abre na origem.</p>
+<div class="tw"><table>
+<thead><tr><th>Sistema</th><th>Campos mínimos</th><th>Frequência inicial</th><th>Entrega</th></tr></thead>
+<tbody>
+<tr><td><b>Salesforce FSC</b></td><td>Etapa, datas, dono, reserva, sinais de cliente</td><td>Nativo</td><td><span class="pill nat">Nativo</span></td></tr>
+<tr><td><b>Field Service</b></td><td>Compromisso, status, regulador, território</td><td>Nativo, mesma org</td><td><span class="pill nat">Nativo</span></td></tr>
+<tr><td><b>Sistema de orçamento</b></td><td>Número do sinistro, status, data do status, valor regulado, responsável</td><td>Lote a cada hora</td><td><span class="pill int">Integração</span></td></tr>
+<tr><td><b>Rede de oficinas</b></td><td>Oficina, status do reparo, fila, capacidade, retrabalho</td><td>Lote diário, depois a cada hora</td><td><span class="pill int">Integração</span></td></tr>
+<tr><td><b>Peças e fornecedores</b></td><td>Peça, fornecedor, estoque, previsão de entrega</td><td>Lote a cada hora nos integrados</td><td><span class="pill int">Integração</span></td></tr>
+</tbody></table></div>
+</div></section>
+
+<section class="s" id="riscos"><div class="wrap">
+<h2><span class="num">11</span>Riscos e decisões em aberto</h2>
+<div class="grid">
+<div class="card"><span class="pill int">Risco</span><h3>Score com dado parcial</h3><p>Até a onda 2, o SLA de orçamento usa a data do último status integrado. Mitigação: sinalizar "dado parcial" no caso.</p></div>
+<div class="card"><span class="pill int">Risco</span><h3>Mesa vira segunda fila</h3><p>Gatilhos muito sensíveis enchem a mesa. Mitigação: calibrar no piloto e revisar o volume de exceções todo mês.</p></div>
+<div class="card"><span class="pill int">Risco</span><h3>Reconhecimento incentiva volume</h3><p>Mitigação: reconhecimento desligado por padrão, pontos só depois da revisão de qualidade e entrada só após o piloto.</p></div>
+<div class="card"><span class="pill cfg">Decisão</span><h3>Pesos e cortes do score</h3><p>Validar 40/35/25 e os cortes P1, P2 e P3 com a diretoria e com a base histórica.</p></div>
+<div class="card"><span class="pill cfg">Decisão</span><h3>Formação da mesa central</h3><p>Quem compõe, horário e direitos de decisão (mover carteira, autorizar fornecedor).</p></div>
+<div class="card"><span class="pill cfg">Decisão</span><h3>Regional e etapa do piloto</h3><p>Sugestão: Vistoria e Análise numa regional, onde os dados já são nativos.</p></div>
+</div>
+</div></section>
+
+<footer><div class="wrap">PRD de discussão. Os números do protótipo são fictícios. As estimativas em story points vêm do épico OPS publicado na versão operacional; as demais serão feitas no refinamento.</div></footer>
+
+<script>
+(function(){
+var T={nat:'Nativo',cfg:'Configuração',lwc:'LWC',int:'Integração'};
+var F=[
+ {id:'F01',n:'Score único de prioridade',t:'cfg',o:1,p:'Todos',papel:'analista',why:'Uma só régua para ordenar todas as filas e explicar por que um caso está na frente.',ac:['Calcular SLA (até 40), cliente (até 35) e valor (até 25) no GSA e publicar o total e as partes.','Pesos em metadados, ajustáveis pelo negócio sem deploy.','Toda fila e o Sinistro 360 mostram a composição do score.'],dep:'Campos de prazo por etapa, sinais de cliente e faixa de reserva.',m:'Percentual de P1 tratados dentro do prazo.'},
+ {id:'F02',n:'Jornada única de etapas',t:'nat',o:1,p:'Todos',papel:'diretoria',why:'Somar o estoque por etapa e falar a mesma língua em todas as telas.',ac:['Seis etapas padronizadas no caminho do caso.','Mapeamento das etapas atuais para as novas, por natureza.','Relatórios e painéis usam a mesma lista de etapas.'],dep:'Acordo das etapas com as frentes.',m:'Estoque e aging por etapa disponíveis no painel.'},
+ {id:'F03',n:'Fila e próximo a tratar',t:'lwc',o:1,p:'Analista, regulador',papel:'analista',sp:'OPS-01 · 5 SP (home LWC) · OPS-02 · 3 SP (listas)',why:'O analista abre o GSA e sabe o que tratar agora, sem montar a fila de cabeça.',ac:['Home com o próximo caso sem trava e a fila ordenada pelo score.','Mostrar motivo, prazo e composição do score de cada caso.','Abrir o caso existente pela navegação nativa.'],dep:'F01, F04.',m:'Minutos até a primeira ação do dia; P1 tratados no dia.'},
+ {id:'F04',n:'Registrar trava com time dono',t:'cfg',o:1,p:'Analista, regulador, oficinas',papel:'analista',why:'Tornar visível quem segura o caso e tirar a espera da conta de quem não pode agir.',ac:['Ação rápida no caso com time dono e motivo obrigatórios.','O caso sai da fila do dono e aparece para o time responsável.','Contagem de dias da trava visível em listas e relatórios.'],dep:'Campos de trava e lista de times.',m:'Percentual do estoque travado e dias médios de trava por time.'},
+ {id:'F05',n:'Escalar para a mesa central',t:'cfg',o:1,p:'Analista, regulador, supervisor',papel:'analista',why:'Pedir ajuda sem depender de e-mail ou reunião, com prazo de resposta.',ac:['Ação rápida "Escalar" com o pedido descrito.','O caso entra na fila de exceções da mesa no mesmo instante.','O histórico do caso registra a escalação.'],dep:'F06.',m:'Tempo entre escalar e a decisão da mesa.'},
+ {id:'F06',n:'Mesa central: exceções e decisão',t:'lwc',o:1,p:'Mesa central',papel:'mesa',why:'Destravar o que nenhum time resolve sozinho e deixar a decisão registrada.',ac:['Fila de exceções: escalados, travados há 3 dias úteis ou mais, cliente crítico e capacidade acima de 100%.','Decisão com tipo e motivo obrigatórios, gravada no caso.','A decisão encerra a trava e devolve o caso ao dono.'],dep:'F04, F05. MVP possível com lista e relatório nativos antes do LWC.',m:'Exceções resolvidas no prazo; exceções reabertas.'},
+ {id:'F07',n:'Painéis de diretoria e liderança',t:'nat',o:1,p:'Diretoria, gerente, supervisor',papel:'diretoria',sp:'OPS-06 · 5 SP (dashboard nativo)',why:'Ver o estoque, o SLA e o risco por etapa sem planilha paralela.',ac:['Painel com estoque, fora do SLA e exceções por etapa e regional.','Cada componente abre o relatório de origem e, dele, o caso.','Envio por e-mail para os rituais diário e semanal.'],dep:'F01, F02.',m:'Uso nos rituais; fim das planilhas paralelas.'},
+ {id:'F08',n:'Carga do time e redistribuição',t:'lwc',o:2,p:'Supervisor, gerente',papel:'lideranca',why:'Rebalancear a carteira pela carga real, não pela percepção.',ac:['Carga por pessoa contra a capacidade planejada.','Sugestão de mover apenas P2 e P3, mantendo P1 com quem começou.','Mudança de dono em lote com registro.'],dep:'Capacidade planejada por pessoa (campo novo).',m:'Desvio de carga entre pessoas do time.'},
+ {id:'F09',n:'Vistoria no Sinistro 360',t:'nat',o:1,p:'Regulador, analista',papel:'regulador',why:'Agenda e status da vistoria no caso, sem trocar de tela.',ac:['Lista relacionada do Field Service na página do caso.','Agenda do regulador na mesma fila de orçamentos.','Status da vistoria alimenta o SLA da etapa.'],dep:'Field Service na mesma org.',m:'Vistorias em atraso sem movimento há 48h.'},
+ {id:'F10',n:'Status de regulação e orçamento',t:'int',o:2,p:'Regulador, gerente',papel:'regulador',why:'A etapa com maior percentual fora do SLA passa a entrar na régua e no painel.',ac:['Receber status, data do status, valor regulado e responsável.','Carga em lote a cada hora; detalhe abre na origem.','Caso sinalizado como "dado parcial" quando a carga atrasar.'],dep:'API ou arquivo do sistema de orçamento.',m:'Aging da etapa de regulação.'},
+ {id:'F11',n:'Oficinas: fila, capacidade e qualidade',t:'int',o:3,p:'Gestor de oficinas',papel:'parceiros',why:'Desviar a entrada antes de a oficina lotar e tratar qualidade com dado.',ac:['Fila e capacidade por oficina da carteira.','Retrabalho e reclamações nos últimos 30 dias.','Lista de oficinas com folga para desvio.'],dep:'Integração com a rede de oficinas.',m:'Permanência média em oficina; retrabalho.'},
+ {id:'F12',n:'Peças: estoque e fornecedor alternativo',t:'int',o:3,p:'Gestor de peças',papel:'parceiros',why:'Saber que peça segura o reparo e acionar alternativa cedo.',ac:['Reparos parados por peça e peças críticas recorrentes.','Estoque dos fornecedores integrados e consulta manual sinalizada.','Acionar fornecedor alternativo com registro no caso.'],dep:'Integração com gestão de peças e fornecedores.',m:'Dias de espera por peça.'},
+ {id:'F13',n:'Reconhecimento opcional',t:'lwc',o:4,p:'Analista, supervisor',papel:'analista',why:'Reforçar o comportamento certo (prioridade e qualidade) sem incentivar volume.',ac:['Desligado por padrão; ligado por equipe após o piloto.','Pontos só por tratar o primeiro da fila e dentro do prazo.','Pontos confirmados só após a revisão de qualidade.'],dep:'F03; resultado do piloto.',m:'Adesão e efeito sobre P1 no prazo, sem alta de retrabalho.'},
+ {id:'F14',n:'Linha do tempo unificada',t:'int',o:3,p:'Todos',papel:'analista',why:'Ver eventos de todos os sistemas num lugar e parar de buscar em cada tela.',ac:['Eventos do Salesforce e dos sistemas integrados no caso, em ordem.','Origem de cada evento identificada.','Decisões da mesa e travas incluídas.'],dep:'F10, F11, F12.',m:'Minutos de busca por caso.'},
+ {id:'F15',n:'Medição de valor',t:'nat',o:1,p:'Diretoria',papel:'diretoria',why:'Medir desde o piloto se a mudança converte em resultado.',ac:['Linha de base de P90, minutos ativos, retrabalho e contatos.','Comparação piloto contra controle.','Fontes e definições validadas antes de virar meta.'],dep:'Dados históricos e definição de controle.',m:'Os quatro indicadores das teses de valor.'}
+];
+var W=[['Onda 1','Dados nativos, régua, travas e mesa'],['Onda 2','Orçamento e carga do time'],['Onda 3','Oficinas, peças e linha do tempo'],['Onda 4','Reconhecimento, após o piloto']];
+function e(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+var m='';W.forEach(function(w,i){m+='<div class="wave"><h3>'+w[0]+'</h3><div class="sub">'+w[1]+'</div>';F.filter(function(f){return f.o===i+1;}).forEach(function(f){m+='<a class="chip '+f.t+'" href="#'+f.id+'"><b>'+f.id+'</b><span>'+e(f.n)+'</span></a>';});m+='</div>';});
+document.getElementById('matrix').innerHTML=m;
+var h='';F.forEach(function(f){h+='<article class="feat" id="'+f.id+'"><div><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:6px"><span class="pill '+f.t+'">'+T[f.t]+'</span><span class="pill" style="background:var(--bg);color:var(--ink2)">Onda '+f.o+'</span></div><h3>'+f.id+' · '+e(f.n)+'</h3><p class="why">'+e(f.why)+'</p><div class="k">Critérios de aceite</div><ul>'+f.ac.map(function(a){return '<li>'+e(a)+'</li>';}).join('')+'</ul></div><aside><div><span>Para quem</span>'+e(f.p)+'</div><div><span>Dependências</span>'+e(f.dep)+'</div><div><span>Métrica</span>'+e(f.m)+'</div><div><span>Estimativa</span>'+e(f.sp||'A estimar no refinamento')+'</div><a href="index.html?papel='+f.papel+'">Ver no protótipo ↗</a></aside></article>';});
+document.getElementById('flist').innerHTML=h;
+var P=[['diretoria','Diretoria','O estoque está saudável e onde está o risco?'],['mesa','Mesa central','O que só eu posso destravar hoje?'],['lideranca','Supervisor e gerente','Meu time dá conta hoje?'],['analista','Analista','O que eu trato agora?'],['regulador','Regulador','Qual vistoria e qual orçamento faço primeiro?'],['parceiros','Oficinas e peças','Minha rede está cheia, e o que segura o reparo?']];
+document.getElementById('personas-grid').innerHTML=P.map(function(p){return '<a class="card" style="text-decoration:none;color:inherit" href="index.html?papel='+p[0]+'"><h3>'+p[1]+'</h3><p>'+p[2]+'</p><span style="font-size:13px;color:var(--blue);font-weight:600">Abrir a visão ↗</span></a>';}).join('');
+if(location.hash){var t=document.querySelector(location.hash);if(t)t.scrollIntoView();}
+})();
+</script>
+</body>
+</html>

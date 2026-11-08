@@ -22,6 +22,7 @@ Painel do analista, carteira priorizada, detalhe do sinistro, registro de açõe
 
 ## Materiais
 
+- `MANUAL-IA-POC-GSA-UNIFICADO.md`: manual para uma IA configurar a POC no Salesforce, reutilizando a base Sinistro 360, com diagnóstico, implantação e critérios de aceite.
 - `ESCOPO-APLICACAO.md`: escopo e roteiro da experiência.
 - `referencia-gamificacao-sinistro-auto.md`: pesquisa fornecida como referência.
 - HTMLs na raiz: apresentação, blueprint e POC original.
