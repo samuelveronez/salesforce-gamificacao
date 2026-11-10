@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Salesforce com IA: como funciona</title>
+<style>
+:root{--bg:#f7f8fa;--card:#fff;--ink:#17202a;--mute:#5d6b7a;--line:#dfe3e8;--acc:#0b6bcb;--ok:#0a8f6a;--warn:#b45309;--bad:#b42318;--code:#eef1f5}
+@media (prefers-color-scheme:dark){:root{--bg:#10151b;--card:#18202a;--ink:#eef2f6;--mute:#9aa8b6;--line:#2a3542;--acc:#6db3ff;--ok:#4fd1a5;--warn:#f0b35a;--bad:#ff8a80;--code:#1f2a36}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+.wrap{max-width:1000px;margin:0 auto;padding:0 20px}
+header{padding:56px 0 30px}
+.tag{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--acc);font-weight:600}
+h1{font-size:clamp(28px,4.5vw,42px);line-height:1.12;margin:8px 0 12px;letter-spacing:-.02em}
+.lead{color:var(--mute);font-size:18px;max-width:760px}
+nav{position:sticky;top:0;background:var(--bg);border-bottom:1px solid var(--line);z-index:5}
+nav .wrap{display:flex;gap:6px;overflow-x:auto;padding:10px 20px}
+nav a{white-space:nowrap;text-decoration:none;color:var(--mute);font-size:14px;padding:4px 10px;border-radius:99px}
+nav a:hover{background:var(--card);color:var(--ink)}
+section{padding:40px 0;border-bottom:1px solid var(--line)}
+h2{font-size:25px;margin:0 0 6px}
+.sub{color:var(--mute);margin:0 0 22px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:stretch}
+.step{flex:1 1 140px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;font-size:14px;position:relative}
+.step b{display:block;color:var(--acc);font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+.step.h{border-color:var(--warn)}
+.step.h b{color:var(--warn)}
+code{background:var(--code);padding:1px 6px;border-radius:5px;font:13.5px ui-monospace,Consolas,monospace}
+pre{background:var(--code);padding:14px;border-radius:10px;overflow-x:auto;font:13.5px/1.55 ui-monospace,Consolas,monospace;margin:10px 0}
+table{width:100%;border-collapse:collapse;font-size:14.5px;background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--code);color:var(--mute);font-size:12.5px;text-transform:uppercase;letter-spacing:.05em}
+.ok{color:var(--ok);font-weight:600}.wr{color:var(--warn);font-weight:600}.bd{color:var(--bad);font-weight:600}
+ul{padding-left:20px}li{margin:4px 0}
+.box{border-left:4px solid var(--warn);background:var(--card);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0}
+.scroll{overflow-x:auto}
+footer{padding:30px 0 60px;color:var(--mute);font-size:14px}
+</style>
+</head>
+<body>
+<nav><div class="wrap">
+<a href="#o-que">O que é</a><a href="#fluxo">Fluxo</a><a href="#ferr">Ferramentas</a><a href="#proto">O que dá para prototipar</a><a href="#testes">Testes</a><a href="#seg">Segurança</a><a href="#limites">Limites</a><a href="#gov">Como formalizar</a>
+</div></nav>
+<div class="wrap">
+
+<header>
+  <span class="tag">Para o time de tecnologia</span>
+  <h1>Prototipar direto na Salesforce com IA: é viável, e dá para fazer com controle.</h1>
+  <p class="lead">Um assistente de IA conectado à org via Salesforce CLI gera e implanta metadados (objetos, campos, Flows, Apex, LWC), valida antes de aplicar e deixa tudo em Git. Este documento mostra como funcionou num estudo real, onde está o limite e como transformar isso num processo com governança.</p>
+</header>
+
+<section id="o-que">
+  <h2>O que foi feito como prova</h2>
+  <p class="sub">Numa Developer Edition de estudo (dados fictícios), em 2 dias, de zero</p>
+  <div class="grid">
+    <div class="card"><b>Modelo de dados</b><br>7 objetos custom, 196 arquivos de campo, relações com Case, Work Order, Account e Contact. Fórmulas, roll-ups por trigger.</div>
+    <div class="card"><b>Automação</b><br>6 Flows (record-triggered, agendado, screen), 28 classes Apex (12 de teste), 2 triggers, Entitlement + Milestones (SLA Cliente 30d / SUSEP 60d).</div>
+    <div class="card"><b>Interface</b><br>20 LWCs, 6 FlexiPages, Path de 7 etapas, app Console, 16 relatórios e 3 painéis por papel (Analista, Líder, Executivo).</div>
+    <div class="card"><b>Integração (simulada)</b><br>Ligações e tarefas da central como Case filho por upsert em ID externo, áudio na origem por deep link.</div>
+  </div>
+</section>
+
+<section id="fluxo">
+  <h2>O fluxo de trabalho</h2>
+  <p class="sub">A IA propõe e executa; a pessoa decide e aprova nos pontos marcados</p>
+  <div class="flow">
+    <div class="step h"><b>1 · Pessoa</b>Descreve a regra de negócio e o critério de pronto</div>
+    <div class="step"><b>2 · IA</b>Propõe modelo e trade-offs, escreve metadados/código no projeto SFDX</div>
+    <div class="step"><b>3 · CLI</b><code>deploy --dry-run</code> valida sem alterar a org</div>
+    <div class="step"><b>4 · CLI</b>Deploy real, testes Apex, verificação por SOQL</div>
+    <div class="step"><b>5 · IA</b>Testa o comportamento (cria registro, confere resultado)</div>
+    <div class="step h"><b>6 · Pessoa</b>Revisa na tela, aprova, commit no Git</div>
+  </div>
+  <pre># validar sem aplicar
+sf project deploy start -o sinistro360 --dry-run --source-dir force-app
+
+# aplicar e conferir
+sf project deploy start -o sinistro360 --source-dir force-app
+sf data query -o sinistro360 -q "SELECT Id, Status FROM Case LIMIT 5"
+
+# trazer o que alguém mudou pela tela de volta para o repositório
+sf project retrieve start -o sinistro360 -m PathAssistant</pre>
+</section>
+
+<section id="ferr">
+  <h2>Ferramentas</h2>
+  <div class="scroll"><table>
+    <tr><th>Peça</th><th>Papel</th></tr>
+    <tr><td>Assistente de IA (Claude Code)</td><td>Gera metadados, Apex, LWC e scripts; roda CLI; lê resultado e corrige</td></tr>
+    <tr><td>Salesforce CLI (<code>sf</code>)</td><td>Autenticação OAuth, deploy, retrieve, SOQL, carga em massa</td></tr>
+    <tr><td>Projeto SFDX + Git</td><td>Fonte da verdade; todo metadado versionado e revisável</td></tr>
+    <tr><td>Org de desenvolvimento</td><td>Onde se prototipa. Developer Edition no estudo; na empresa, Sandbox</td></tr>
+    <tr><td>Navegador</td><td>Verificação visual e passos que só existem na tela</td></tr>
+  </table></div>
+</section>
+
+<section id="proto">
+  <h2>O que dá para prototipar</h2>
+  <div class="scroll"><table>
+    <tr><th>Camada</th><th>Resultado no estudo</th><th>Observação</th></tr>
+    <tr><td>Objetos, campos, fórmulas, layouts</td><td class="ok">Muito bom</td><td>Rápido e consistente. Lembrar de FLS e layout, são separados.</td></tr>
+    <tr><td>Flows</td><td class="ok">Bom</td><td>Gera e testa; cuidado com Flows agendados, que não rodam sob demanda.</td></tr>
+    <tr><td>Apex e triggers</td><td class="ok">Bom</td><td>Exige revisão humana e testes; a IA escreve os testes junto.</td></tr>
+    <tr><td>LWC</td><td class="ok">Bom</td><td>Telas completas (carteira, oficinas, contatos). Visual precisa de olho humano.</td></tr>
+    <tr><td>Relatórios e painéis</td><td class="wr">Parcial</td><td>Funciona por metadado; ajustes finos de apresentação, pela tela.</td></tr>
+    <tr><td>Path, Milestones na página, ações no cabeçalho</td><td class="wr">Parcial</td><td>Parte só pela tela; depois retrieve para o repositório.</td></tr>
+    <tr><td>Integrações externas reais</td><td class="bd">Não validado</td><td>Só simulado. Exige credenciais nomeadas, Named Credentials, segurança dedicada.</td></tr>
+  </table></div>
+</section>
+
+<section id="testes">
+  <h2>Testes e geração de valor de sinistro</h2>
+  <ul>
+    <li><b>Teste Apex:</b> 12 classes de teste no projeto, geradas junto com o código. Meta a institucionalizar: cobertura medida no pipeline.</li>
+    <li><b>Dados de teste idempotentes:</b> scripts de seed (Apex) que recriam a massa sem duplicar, e carga de 30 sinistros por Bulk API.</li>
+    <li><b>Teste de comportamento:</b> a IA cria o registro, dispara o Flow e consulta o resultado por SOQL (ex.: Work Order concluída move o Case para Pagamento e conclui 4 marcos).</li>
+    <li><b>LWC:</b> Jest já configurado no projeto; ainda não explorado a fundo no estudo.</li>
+    <li><b>História e critério de aceite:</b> o mesmo contexto que gera o protótipo gera a história com critérios testáveis, e o protótipo serve de prova do critério.</li>
+  </ul>
+</section>
+
+<section id="seg">
+  <h2>Segurança</h2>
+  <div class="box"><b>Princípio:</b> a IA age com as mesmas permissões do usuário autenticado no CLI, e só em orgs que o time autorizar. Nada vai a produção sem o caminho normal de revisão e liberação.</div>
+  <div class="grid">
+    <div class="card"><b>Onde roda</b><br>Developer Edition ou Sandbox com dados fictícios ou mascarados. Produção fora do escopo do assistente.</div>
+    <div class="card"><b>Credenciais</b><br>Login OAuth pelo navegador (<code>sf org login web</code>); senhas e tokens nunca em documento nem em prompt. No estudo, a regra foi registrada no próprio diário.</div>
+    <div class="card"><b>Privilégio mínimo</b><br>Acesso por permission sets (11 no estudo), separando operação de gestão. Usuário de integração com escopo restrito.</div>
+    <div class="card"><b>Rastreabilidade</b><br>Tudo em Git: quem pediu, o que mudou, diff revisável. <code>--dry-run</code> antes de cada deploy.</div>
+    <div class="card"><b>Dados</b><br>Dados reais de segurado só com política aprovada (LGPD, mascaramento). Áudio e transcrição ficam no sistema de origem.</div>
+    <div class="card"><b>Revisão humana</b><br>Apex e fluxos passam por code review; análise estática (PMD/Code Analyzer) recomendada no pipeline.</div>
+  </div>
+  <p class="box">Ponto de atenção: o que o assistente <i>envia</i> como contexto a um serviço de IA precisa estar coberto pela política de dados da empresa. Alinhar com Segurança da Informação antes de qualquer uso fora de dados fictícios.</p>
+</section>
+
+<section id="limites">
+  <h2>Limites e armadilhas reais encontradas</h2>
+  <div class="scroll"><table>
+    <tr><th>O que aconteceu</th><th>Causa</th><th>Aprendizado</th></tr>
+    <tr><td>Campos novos não apareciam em consultas</td><td>Sem FLS em permission set; <code>describe</code> em cache</td><td>Sempre incluir campo no permission set e no layout</td></tr>
+    <tr><td>Usuário Platform não lia Case</td><td>Licença não inclui o objeto</td><td>Validar licença antes de desenhar o acesso</td></tr>
+    <tr><td>Record Type "sequestrou" o padrão</td><td>RT novo virou default de quem o via</td><td>Preferir campo marcador quando RT não é necessário</td></tr>
+    <tr><td>Path via metadado falhou</td><td>Exige RT interno <code>__MASTER__</code></td><td>Criar uma vez pela tela e depois retrieve</td></tr>
+    <tr><td>Processo de SLA não editável</td><td>Versão em uso é imutável</td><td>Versionar (_2, _3) e planejar migração</td></tr>
+    <tr><td>Flow agendado não testado</td><td>Org não permite disparo manual</td><td>Validar após a janela de execução</td></tr>
+    <tr><td>Assistente fez alteração indevida em teste</td><td>Mudou prioridade de 30 casos</td><td>Backup antes de teste destrutivo; restaurou-se do backup. Reforça o uso de sandbox.</td></tr>
+  </table></div>
+</section>
+
+<section id="gov">
+  <h2>Como formalizar</h2>
+  <p class="sub">Proposta para discussão com o time</p>
+  <ol>
+    <li><b>Escopo permitido:</b> prototipagem e geração de testes em Sandbox/Developer. Produção só via pipeline atual.</li>
+    <li><b>Repositório e PR:</b> todo artefato gerado por IA entra por pull request com revisão de pelo menos uma pessoa do time Salesforce.</li>
+    <li><b>Checklist de PR:</b> FLS e layout incluídos? Testes Apex presentes? Sem credenciais? Sem dados reais? Dry-run executado?</li>
+    <li><b>Dados:</b> somente fictícios ou mascarados; política de contexto enviado à IA aprovada por Segurança.</li>
+    <li><b>Padrões:</b> convenções de nome, estrutura do projeto, modelo de prompt reutilizável e um glossário de domínio (sinistro, SUSEP, etc.).</li>
+    <li><b>Piloto:</b> 1 história real de baixo risco, do protótipo ao deploy no fluxo normal, com medição de tempo e retrabalho.</li>
+  </ol>
+  <p class="box">Pergunta aberta para o time: hoje, quando algo muda no Claim ou no Field Service, existe mecanismo confiável que atualiza o contexto operacional do Case, ou cada objeto mantém sua visão? O protótipo ajuda a discutir isso com algo concreto.</p>
+</section>
+
+<footer>Estudo em org de desenvolvimento com dados fictícios. Contagens extraídas do repositório SFDX em 08/nov/2026. Os resultados descrevem este estudo, não garantem o mesmo desempenho no ambiente corporativo.</footer>
+</div>
+</body>
+</html>

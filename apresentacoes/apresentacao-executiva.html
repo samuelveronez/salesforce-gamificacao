@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Protótipos Salesforce acelerados por IA</title>
+<style>
+:root{--bg:#fbfaf8;--card:#fff;--ink:#1a1d21;--mute:#626a73;--line:#e3e0d9;--acc:#0b6bcb;--ok:#0a8f6a;--warn:#b45309;--code:#f2f0ea}
+@media (prefers-color-scheme:dark){:root{--bg:#121315;--card:#1b1c1f;--ink:#f1f1ee;--mute:#a2a5aa;--line:#303236;--acc:#6db3ff;--ok:#4fd1a5;--warn:#f0b35a;--code:#232427}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+.wrap{max-width:920px;margin:0 auto;padding:0 20px}
+header{padding:64px 0 36px}
+.tag{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--acc);font-weight:600}
+h1{font-size:clamp(30px,5vw,46px);line-height:1.1;margin:8px 0 14px;letter-spacing:-.02em}
+.lead{font-size:20px;color:var(--mute);max-width:740px}
+section{padding:38px 0;border-top:1px solid var(--line)}
+h2{font-size:26px;margin:0 0 8px}
+.sub{color:var(--mute);margin:0 0 20px}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px}
+.big{font-size:36px;font-weight:700;letter-spacing:-.02em;color:var(--acc);line-height:1.1}
+.card small{color:var(--mute)}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:640px){.cmp{grid-template-columns:1fr}}
+.cmp .card h3{margin:0 0 8px;font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:var(--mute)}
+.cmp .new h3{color:var(--ok)}
+ul{padding-left:20px}li{margin:5px 0}
+table{width:100%;border-collapse:collapse;font-size:15.5px;background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--code);color:var(--mute);font-size:12.5px;text-transform:uppercase;letter-spacing:.05em}
+.scroll{overflow-x:auto}
+.calc label{display:block;font-size:14px;color:var(--mute);margin-top:12px}
+.calc input[type=number]{width:100%;font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+.calc .row{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+.res{margin-top:16px;padding:14px;border-radius:10px;background:var(--code)}
+.res b{font-size:24px;color:var(--ok)}
+.box{border-left:4px solid var(--warn);background:var(--card);padding:12px 16px;border-radius:0 10px 10px 0;margin:16px 0}
+.ask{background:var(--card);border:2px solid var(--acc);border-radius:14px;padding:20px}
+footer{padding:30px 0 60px;color:var(--mute);font-size:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <span class="tag">Resumo executivo · Sinistro auto</span>
+  <h1>Da ideia ao protótipo funcionando na Salesforce em dias, não em sprints.</h1>
+  <p class="lead">Com IA conectada à plataforma, produto consegue chegar ao time técnico e ao negócio com telas, regras e testes já funcionando. Isso encurta discovery, reduz mal-entendido na história e acelera a decisão de investir.</p>
+</header>
+
+<section>
+  <h2>O que foi provado</h2>
+  <p class="sub">Estudo em ambiente de desenvolvimento com dados fictícios, em 2 dias, partindo do zero</p>
+  <div class="grid">
+    <div class="card"><div class="big">30</div>sinistros simulados navegáveis, do aviso ao encerramento</div>
+    <div class="card"><div class="big">3</div>painéis por papel: analista, líder e executivo</div>
+    <div class="card"><div class="big">20</div>telas/componentes sob medida (carteira, oficinas, contatos)</div>
+    <div class="card"><div class="big">6</div>automações testadas (abertura, vistoria, pendências, prazos)</div>
+    <div class="card"><div class="big">2</div>prazos regulatórios modelados: Cliente (30d) e SUSEP (60d), com alerta visual</div>
+    <div class="card"><div class="big">12</div>classes de teste automatizado geradas junto com o código</div>
+  </div>
+</section>
+
+<section>
+  <h2>O que muda no processo</h2>
+  <div class="cmp">
+    <div class="card"><h3>Hoje (referência)</h3>
+      <ul><li>Documento de requisito e história escritos sem ver a tela</li><li>Entendimento validado só depois do desenvolvimento</li><li>Feedback de negócio tardio, retrabalho</li><li>Teste manual, no fim</li></ul></div>
+    <div class="card new"><h3>Com protótipo acelerado por IA</h3>
+      <ul><li>Regra e tela funcionando antes da história final</li><li>Negócio vê, clica e ajusta cedo</li><li>História nasce com critério de aceite testável</li><li>Testes gerados junto; time técnico recebe base pronta para endurecer</li></ul></div>
+  </div>
+  <p class="box">Importante: o protótipo <b>não substitui</b> o desenvolvimento corporativo. Ele reduz incerteza antes dele. Código, segurança e liberação seguem pelo processo normal do time de tecnologia.</p>
+</section>
+
+<section>
+  <h2>Quanto isso pode valer</h2>
+  <p class="sub">Ainda não temos baseline medido da empresa. A calculadora abaixo usa premissas editáveis, e os valores iniciais são hipóteses para você substituir pelos números reais.</p>
+  <div class="card calc">
+    <div class="row">
+      <div><label>Histórias/protótipos por trimestre</label><input id="n" type="number" value="12" min="0"></div>
+      <div><label>Dias de discovery + refinamento por item (hoje)</label><input id="d" type="number" value="8" min="0"></div>
+      <div><label>Redução esperada (%) com protótipo</label><input id="p" type="number" value="25" min="0" max="100"></div>
+      <div><label>Custo médio por pessoa-dia (R$)</label><input id="c" type="number" value="1500" min="0"></div>
+      <div><label>Pessoas envolvidas por item</label><input id="q" type="number" value="4" min="0"></div>
+    </div>
+    <div class="res" id="out"></div>
+    <small style="color:var(--mute)">Todos os campos são hipóteses. Recomenda-se medir 2–3 itens do piloto para calibrar a redução real, antes de levar o número a decisão de investimento.</small>
+  </div>
+</section>
+
+<section>
+  <h2>Riscos e como são tratados</h2>
+  <div class="scroll"><table>
+    <tr><th>Risco</th><th>Mitigação</th></tr>
+    <tr><td>Dados de cliente expostos a ferramenta de IA</td><td>Uso só com dados fictícios/mascarados; política aprovada por Segurança da Informação e LGPD</td></tr>
+    <tr><td>Código gerado sem qualidade</td><td>Revisão por pull request, testes automatizados, análise estática, deploy só pelo pipeline oficial</td></tr>
+    <tr><td>Protótipo virar produção sem endurecimento</td><td>Regra de governança: protótipo é descartável ou refeito sob padrão do time técnico</td></tr>
+    <tr><td>Dependência de pessoas-chave</td><td>Tudo versionado em Git, documentado, prompts padronizados</td></tr>
+    <tr><td>Expectativa maior que o real</td><td>Resultados do estudo são de ambiente controlado; medir no piloto antes de escalar</td></tr>
+  </table></div>
+</section>
+
+<section>
+  <h2>Proposta de caminho</h2>
+  <div class="grid">
+    <div class="card"><div class="big">30 dias</div><b>Preparar</b><br>Sandbox dedicada, política de dados aprovada, padrões do time técnico.</div>
+    <div class="card"><div class="big">60 dias</div><b>Piloto</b><br>2–3 histórias reais de baixo risco, do protótipo à entrega normal, com tempos medidos.</div>
+    <div class="card"><div class="big">90 dias</div><b>Decidir</b><br>Relatório com ganhos medidos, riscos observados e recomendação de escala.</div>
+  </div>
+</section>
+
+<section>
+  <div class="ask">
+    <h2 style="margin-top:0">Decisões que pedimos</h2>
+    <ol>
+      <li>Autorizar piloto de 60 dias em Sandbox, com dados fictícios ou mascarados.</li>
+      <li>Designar um par no time Salesforce e um representante de Segurança da Informação.</li>
+      <li>Definir 2–3 candidatos de história para o piloto e a métrica de sucesso (tempo de discovery, retrabalho, satisfação do negócio).</li>
+    </ol>
+  </div>
+</section>
+
+<footer>Estudo realizado em org de desenvolvimento com dados fictícios, em nov/2026. Resultados descrevem o estudo; ganhos no ambiente da empresa devem ser medidos no piloto.</footer>
+</div>
+<script>
+(function(){
+  function f(n){return n.toLocaleString('pt-BR',{maximumFractionDigits:0})}
+  function calc(){
+    var n=+document.getElementById('n').value||0,d=+document.getElementById('d').value||0,
+        p=(+document.getElementById('p').value||0)/100,c=+document.getElementById('c').value||0,q=+document.getElementById('q').value||0;
+    var dias=n*d*p*q, rs=dias*c;
+    document.getElementById('out').innerHTML='Capacidade liberada por trimestre: <b>'+f(dias)+' pessoa-dias</b><br>Equivalente em custo: <b>R$ '+f(rs)+'</b> <span style="color:var(--mute)">(hipótese)</span>';
+  }
+  ['n','d','p','c','q'].forEach(function(i){document.getElementById(i).addEventListener('input',calc)});
+  calc();
+})();
+</script>
+</body>
+</html>
